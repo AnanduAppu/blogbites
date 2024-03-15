@@ -1,7 +1,22 @@
 import React from 'react'
 import imagelogo from '../assets/logoOnly.png'
-
+import { useNavigate } from 'react-router-dom'
+import Usercontex from '../Contex/CreateContex';
+import { useContext } from 'react';
 function OpenNavbar() {
+  const navigate = useNavigate()
+
+  const {showSignup, setShowSignup} = useContext(Usercontex);
+
+  const handleAboutpage=()=>{
+    setShowSignup(true)
+    navigate('about')
+  }
+
+  const handleContactpage = ()=>{
+    setShowSignup(true)
+    navigate('contact')
+  }
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
     <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -28,14 +43,18 @@ function OpenNavbar() {
             <a href="#" className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Home</a>
           </li>
           <li>
-            <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">About</a>
+            <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+            onClick={handleAboutpage}
+            >About</a>
           </li>
           <li>
-            <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Contact</a>
+            <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+            onClick={handleContactpage}
+            >Contact</a>
           </li>
           <hr className='border border-black bg-black'/>
           <li>
-            <button className='text-xl py-2 px-5 border border-black bg-blue-600 text-white hover:text-black hover:bg-blue-200 duration-300 rounded-sm'>Login</button>
+            <button className='text-xl py-2 px-5 border border-black bg-blue-600 text-white hover:text-black hover:bg-blue-200 duration-300 rounded-sm' onClick={()=>navigate('/Login')}>Login</button>
            </li>
         </ul>
       </div>
