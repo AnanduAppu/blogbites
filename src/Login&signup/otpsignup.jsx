@@ -4,9 +4,11 @@ import { jwtDecode } from "jwt-decode";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import UserContext from "../Contex/CreateContex";
+import { useNavigate } from "react-router-dom";
 
 
 function Otpsignup() {
+  const navigate = useNavigate()
 
   const [otp,setOtp] = useState('')
 
@@ -33,6 +35,7 @@ console.log(userDataFromSignup)
 
             if(response.data.success){
               toast.success("profile created successful")
+              navigate('/Login');
             }else{
               toast.error("profile not created ")
             }

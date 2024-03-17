@@ -1,6 +1,8 @@
-import React, { useState } from "react";
-
+import React, { useContext, useState } from "react";
+import axios from "axios";
+import UserContext from "../Contex/CreateContex";
 function Interests() {
+  const {userDataFromSignup} = useContext(UserContext)
   const [selectedInterests, setSelectedInterests] = useState([]);
   const [skipDisabled, setSkipDisabled] = useState(true);
 
@@ -40,15 +42,27 @@ function Interests() {
     }
 
     setSelectedInterests(updatedInterests);
-    console.log(selectedInterests) 
     setSkipDisabled(updatedInterests.length > 0);
   };
-
-
 
   const handleSkip = () => {
     setSelectedInterests([]);
     setSkipDisabled(true);
+  };
+
+  const handleSubmit = async () => {
+   const email =userDataFromSignup.email
+    try {
+      const response = await axios.post("http://localhost:3015/user/userinterst", {
+        selectedInterests,
+        email
+      });
+      // Handle success response
+      console.log(response.data);
+    } catch (error) {
+      // Handle error
+      console.error("Error submitting interests:", error);
+    }
   };
 
   return (
@@ -75,6 +89,15 @@ function Interests() {
         }`}
       >
         {skipDisabled ? "#select" : "#skip"}
+      </button>
+      <button
+        onClick={handleSubmit}
+        disabled={selectedInterests.length === 0}
+        className={`text-3xl font-semibold py-2 px-2 border border-black hover:border-blue-400 ${
+          selectedInterests.length === 0 ? "opacity-50 cursor-not-allowed" : ""
+        }`}
+      >
+        Submit Interests
       </button>
     </div>
   );
