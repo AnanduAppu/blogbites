@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import logoimg from "../assets/BlogbiteslogoVetical.png";
 import UserContext from "../Contex/CreateContex";
 import { jwtDecode } from "jwt-decode";
+import { toast } from "react-hot-toast";
+import axios from "axios";
 
 function ResetPass2() {
     const navigate = useNavigate();
@@ -13,6 +15,7 @@ function ResetPass2() {
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
   
+ 
     const handleOtpVerification = (e) => {
       e.preventDefault();
       const cookieToken = document.cookie.replace(/(?:(?:^|.*;\s*)OtpPass\s*\=\s*([^;]*).*$)|^.*$/, "$1");
@@ -26,14 +29,36 @@ function ResetPass2() {
         if (otptoken==otpinput) {
           document.cookie = `OtpPass=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;e
             setOtpVerified(true);
+        }else{
+          toast.error("invalid otp")
         }
     };
   
-    const handlePasswordReset = (e) => {
+    const handlePasswordReset =async (e) => {
       e.preventDefault();
-      // Your logic for resetting the password goes here
-      // After resetting the password, you may navigate the user to another page
-      navigate("/login"); // Example navigation
+      try {
+        if (newPassword===confirmPassword) {
+        
+          const response= axios.post('http://localhost:3015/user/setnewpassword',{userEmail:resetEmail,newPassword})
+
+          if ((await response).data.success) {
+            
+            toast.success("successfully reset password");
+            navigate('/Login');
+          }else{
+            toast.error("something happened")
+          }
+
+
+        }
+        
+        
+      }
+
+
+      catch (error) {
+        toast.error("we go this error",error)
+      }
     };
 
   return (
@@ -70,16 +95,18 @@ function ResetPass2() {
                 <label className="block text-gray-700">New Password</label>
                     <input
                     type="password"
+                    onChange={(e)=> setNewPassword(e.target.value)}
                     className="w-full px-4  py-3 rounded-lg  bg-gray-200 mt-2 border border-black focus:border-blue-500 focus:bg-white focus:outline-none"
                     />
                 <label className="block text-gray-700">Confirm Password</label>
                     <input
                     type="text"
+                    onChange={(e)=> setConfirmPassword(e.target.value)}
                     className="w-full px-4 py-3 rounded-lg  bg-gray-200 mt-2 border border-black focus:border-blue-500 focus:bg-white focus:outline-none"
                     />
 
                 <button
-                type="submit"
+                onClick={handlePasswordReset}
                 className="w-full block bg-blue-500 hover:bg-blue-400 focus:bg-blue-400 text-white font-semibold rounded-lg px-4 py-3 mt-6"
                 >
                 Confirm

@@ -1,7 +1,39 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
+import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import logoimg from "../assets/BlogbiteslogoVetical.png";
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from "jwt-decode"
 function Loginform() {
+
+  const [email,setEmail] = useState('');
+  const [password,setPassword] = useState('');
+
+  const hanldeSubmit = async(e)=>{
+    e.preventDefault();
+
+    if (!email || !password) {
+      toast.error("Please fill in both email and password fields");
+      return;
+    }
+
+    try {
+
+      const response = axios.post("http://localhost:3015/user/userlogin",{email,password},{withCredentials:true})
+      if ((await response).data.success) {
+            
+        toast.success("successfully loged");
+        
+      }else{
+        toast.error("something happened")
+      }
+    } catch (error) {
+      toast.error("we got this ",error)
+    }
+
+  }
+
   return (
     <div
     className="bg-white w-full md:max-w-md lg:max-w-full md:mx-auto md:mx-0 md:w-1/2 xl:w-1/3 h-screen px-6 lg:px-16 xl:px-12 flex items-center justify-center"
@@ -24,6 +56,7 @@ function Loginform() {
             type="email"
             name=""
             id=""
+            onChange={(e)=>setEmail(e.target.value)}
             placeholder="Enter Email Address"
             className="w-full px-4 py-3 rounded-lg  bg-gray-200 mt-2 border border-black focus:border-blue-500 focus:bg-white focus:outline-none"
             autoFocus
@@ -38,6 +71,7 @@ function Loginform() {
             type="password"
             name=""
             id=""
+            onChange={(e)=>setPassword(e.target.value)}
             placeholder="Enter Password"
             minLength="6"
             className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border border-black focus:border-blue-500 focus:bg-white focus:outline-none"
@@ -55,7 +89,7 @@ function Loginform() {
         </div>
 
         <button
-          type="submit"
+          onClick={hanldeSubmit}
           className="w-full block bg-blue-500 hover:bg-blue-400 focus:bg-blue-400 text-white font-semibold rounded-lg px-4 py-3 mt-6"
         >
           Log In
@@ -67,7 +101,7 @@ function Loginform() {
       <button
         type="button"
         className="w-full block bg-white hover:bg-gray-100 focus:bg-gray-100 text-gray-900 font-semibold rounded-lg px-4 py-3 border border-gray-300"
-      >
+       >
         <div className="flex items-center justify-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -104,6 +138,29 @@ function Loginform() {
           <span className="ml-4">Log in with Google</span>
         </div>
       </button>
+      <GoogleLogin 
+  onSuccess={credentialResponse => {
+    var value  = jwtDecode(credentialResponse.credential)
+    const Enteredemail=value.email
+    console.log(Enteredemail)
+   
+    axios.post("http://localhost:3015/user/authlogin",{Enteredemail},{withCredentials:true})
+      .then((res) => {
+        if (res.data.success) {
+          toast.success("login successfull")
+        } else {
+          toast.error("no account exist")
+          navigate("/open");
+        }
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  }}
+  onError={() => {
+    console.log('Login Failed');
+  }}
+/>
 
       <p className="mt-8">
         Need an account?{" "}

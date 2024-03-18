@@ -13,6 +13,7 @@ import AddPhoto from "./Login&signup/AddPhoto";
 import Loginform from "./Login&signup/loginform";
 import Resetpass1 from "./Login&signup/Resetpass1";
 import ResetPass2 from "./Login&signup/ResetPass2";
+import Asemble from "./Home/Asemble";
 
 
 function App() {
@@ -52,6 +53,8 @@ function App() {
             <Route path="/login/emailvarify" element={<Resetpass1/>} />
             <Route path="/login/emailvarify/otp" element={<ResetPass2/>} />
           </Route>
+
+          <Route path="/home" element={<Asemble/>}/>
         </Routes>
       </UserContext.Provider>
     </>

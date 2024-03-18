@@ -109,7 +109,7 @@ function SignupPage() {
       id="signup"
     >
       {/* Image Div */}
-      <div className="hidden lg:flex w-full ms-20 my-28">
+      <div className="hidden lg:flex w-full ms-20 my-28 ">
         <img
           alt="Image"
           className="object-cover rounded-xl w-full"
@@ -120,7 +120,7 @@ function SignupPage() {
       </div>
 
       {/* Form Div */}
-      <div className="order-2 flex w-full p-6 items-center lg:order-1 lg:min-h-[500px] lg:p-10 xl:min-h-[800px]">
+      <div className="order-2 flex w-full p-6 items-center lg:order-1 lg:min-h-[500px] lg:p-10 xl:min-h-[800px] mx-5">
         <div className="mx-auto space-y-6">
           <div className="space-y-2">
             <h1 className="text-3xl font-bold">Create an account</h1>

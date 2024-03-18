@@ -18,7 +18,8 @@ console.log(userDataFromSignup)
       setOtp(value)
   }
 
-  const submitOtp = async()=>{
+  const submitOtp = async(e)=>{
+    e.preventDefault();
     const cookieToken = document.cookie.replace(/(?:(?:^|.*;\s*)Otptoken\s*\=\s*([^;]*).*$)|^.*$/, "$1");
        
         if (!cookieToken) {
