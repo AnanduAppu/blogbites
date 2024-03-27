@@ -1,103 +1,72 @@
-import React from "react";
-import logoimg from "../assets/logoOnly.png";
-function Blognav() {
-  return (
-    <div>
-      <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700 lg:hidden">
-        <div className="px-3 py-3 lg:px-5 lg:pl-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center justify-start rtl:justify-end">
-              <a href="https://flowbite.com" className="flex ms-2 md:me-24">
-                <img src={logoimg} className="h-8 me-3" alt="FlowBite Logo" />
-                <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
-                  Blog <span className="text-blue-700">Bites</span>{" "}
-                </span>
-              </a>
-            </div>
-            <div className="flex items-center">
-              <div className="flex items-center ms-3">
-              <h1 className="mx-3">Your Name </h1>
-                <div>
-               
-                  <button
-                    type="button"
-                    className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                    aria-expanded="false"
-                    data-dropdown-toggle="dropdown-user"
-                  >
-                    <span className="sr-only">Open user menu</span>
-                    
-                    <img
-                      className="w-8 h-8 rounded-full"
-                      src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                      alt="user photo"
-                    />
-                  </button>
-                </div>
-                <div
-                  className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
-                  id="dropdown-user"
-                >
-                  <div className="px-4 py-3" role="none">
-                    <p
-                      className="text-sm text-gray-900 dark:text-white"
-                      role="none"
-                    >
-                      Neil Sims
-                    </p>
-                    <p
-                      className="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
-                      role="none"
-                    >
-                      neil.sims@flowbite.com
-                    </p>
-                  </div>
-                  <ul className="py-1" role="none">
-                    <li>
-                      <a
-                        href="#"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                        role="menuitem"
-                      >
-                        Dashboard
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                        role="menuitem"
-                      >
-                        Settings
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                        role="menuitem"
-                      >
-                        Earnings
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                        role="menuitem"
-                      >
-                        Sign out
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
-    </div>
-  );
-}
+import React, { useState } from 'react';
+import SearchIcon from '@mui/icons-material/Search';
+import logoimg from '../assets/logoOnly.png'
 
-export default Blognav;
+
+const BlogNavbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  return (
+    <nav className="bg-white border-gray-200 dark:bg-gray-900 ">
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <a href="https://flowbite.com/" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <img src={logoimg} className="h-8" alt="Flowbite Logo" />
+          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white max-sm:hidden">BLOG <span className='text-blue-500'>BITES</span></span>
+        </a>
+        
+        <div className="flex  items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+          {/* Search bar */}
+          <div className="relative flex items-center lg:mx-10">
+          
+            <input 
+              type="text"
+              className="block w-full shadow-lg shadow-blue-200 px-10 border-none rounded-3xl pl-11 pr-2 py-2 focus:outline-blue-200 bg-gray-50 text-sm text-gray-700 placeholder-gray-500"
+              placeholder="Search"
+            />
+              <button className="absolute left-3 top-2 text-sm text-gray-500">
+              <SearchIcon/>
+            </button>
+          </div>
+          
+          {/* User menu */}
+          <button 
+            type="button" 
+            className="flex text-sm bg-gray-800 shadow-lg rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" 
+            id="user-menu-button" 
+            aria-expanded={isMenuOpen ? "true" : "false"} 
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <span className="sr-only">Open user menu</span>
+            <img className="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo" />
+          </button>
+          
+          {/* Dropdown menu */}
+          {isMenuOpen && (
+            <div className="z-50 absolute right-0 mt-64 max-sm:mt-72 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
+              <div className="px-4 py-3">
+                <span className="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
+                <span className="block text-sm text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
+              </div>
+              <ul className="py-2" aria-labelledby="user-menu-button">
+                <li>
+                  <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
+                </li>
+                <li>
+                  <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>
+                </li>
+                <li>
+                  <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</a>
+                </li>
+                <li>
+                  <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+                </li>
+              </ul>
+            </div>
+          )}
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export default BlogNavbar;

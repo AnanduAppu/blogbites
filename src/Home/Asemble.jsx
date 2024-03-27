@@ -1,22 +1,28 @@
 import React from "react";
-import Blognav from "./Blognav";
+import Blognavbar from "./Blognav";
+import BlogRightSidebar from "./BlogRightSidebar";
+
 import Blogside from "./blogside";
 import Blogview from "./Blogview";
+import Carousel from "./Carousel";
 import Search_post from "./Search_post";
 
 function Asemble() {
   return (
     <>
-      <Blognav />
-      <Blogside />
+      <Blognavbar />
+
+      <Search_post />
+
+      <div className=" sm:mx-[5%] ">
       
-      
-      <div className="p-1 lg:mt-2 md:mt-16 max-sm:mt-16  sm:ml-64 ">
-     
-      <div className=" mx-2 h-[10%]  rounded bg-blue-50 dark:bg-gray-800 border border-y-slate-100 shadow-lg">
-            <Search_post/>
+        <div className="flex ">
+          <div className="w-[70%]"><Blogview /></div>
+          <div className="w-[30%]">
+              <BlogRightSidebar/>
+          </div>
+          
         </div>
-        <Blogview/>
       </div>
     </>
   );

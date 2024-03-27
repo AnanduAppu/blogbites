@@ -12,7 +12,8 @@ function Otpsignup() {
 
   const [otp,setOtp] = useState('')
 
-  const {userDataFromSignup} = useContext(UserContext)
+  const {userDataFromSignup,setShowSignup} = useContext(UserContext)
+
 console.log(userDataFromSignup)
   const handleinput = (value)=>{
       setOtp(value)
@@ -25,18 +26,21 @@ console.log(userDataFromSignup)
         if (!cookieToken) {
           toast.error("Token not found");
           return;
-        }
+        } 
         const otptoken = jwtDecode(cookieToken);
+
+          console.log(otptoken)
+       
        
         try {
 
           if (otptoken==otp) {
             document.cookie = `Otptoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-            const response = await axios.post("http://localhost:3015/user/usercreate",userDataFromSignup)
+            const response = await axios.post("http://localhost:3015/user/usercreate",userDataFromSignup,{withCredentials:true})
 
             if(response.data.success){
               toast.success("profile created successful")
-              navigate('/Login');
+              navigate('interest');
             }else{
               toast.error("profile not created ")
             }
@@ -66,6 +70,7 @@ console.log(userDataFromSignup)
           />
           <button className="flex items-center justify-center flex-none px-3 py-2 md:px-4 md:py-3 border-2 rounded-lg font-medium border-black bg-black text-white"
           onClick={submitOtp}
+         
           >
             Confirm
           </button>

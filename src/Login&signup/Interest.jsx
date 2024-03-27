@@ -1,10 +1,16 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import UserContext from "../Contex/CreateContex";
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import { toast } from "react-hot-toast";
+
 function Interests() {
-  const {userDataFromSignup} = useContext(UserContext)
+  const { userDataFromSignup } = useContext(UserContext);
   const [selectedInterests, setSelectedInterests] = useState([]);
   const [skipDisabled, setSkipDisabled] = useState(true);
+
+  const navigate = useNavigate();
 
   const Interests = [
     "#travel",
@@ -46,22 +52,61 @@ function Interests() {
   };
 
   const handleSkip = () => {
-    setSelectedInterests([]);
-    setSkipDisabled(true);
+    const cookieToken = document.cookie.replace(/(?:(?:^|.*;\s*)emailToken\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+       
+    if (!cookieToken) {
+      toast.error("Token not found");
+      return;
+    }else{
+      document.cookie = `Otptoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+      setSelectedInterests([]);
+      setSkipDisabled(true);
+      navigate("/Login");
+    }
+    
+  
   };
 
-  const handleSubmit = async () => {
-   const email =userDataFromSignup.email
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(selectedInterests)
+    const Useremail = userDataFromSignup.email
+   
+    
+    const cookieToken = document.cookie.replace(/(?:(?:^|.*;\s*)emailToken\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+       
+    if (!cookieToken) {
+      toast.error("Token not found");
+      return;
+    }
+  
+
+    console.log(cookieToken)
+    const otpEmail = jwtDecode(cookieToken);
+    console.log(otpEmail.mail)
+    
+    const email = Useremail?Useremail:otpEmail.mail
     try {
-      const response = await axios.post("http://localhost:3015/user/userinterst", {
-        selectedInterests,
-        email
-      });
-      // Handle success response
-      console.log(response.data);
+   
+  
+
+      const response = await axios.post(
+        "http://localhost:3015/user/userinterst",
+        {
+          selectedInterests,
+          email,
+        }
+      );
+     
+      if(response.data.success){
+        document.cookie = `emailToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+        toast.success("successfull")
+        navigate("/Login");
+      };
+      
     } catch (error) {
-      // Handle error
-      console.error("Error submitting interests:", error);
+      
+      toast.error("some error occured")
     }
   };
 
@@ -81,24 +126,30 @@ function Interests() {
           </li>
         ))}
       </ul>
-      <button
-        onClick={handleSkip}
-        disabled={!skipDisabled}
-        className={`text-3xl font-semibold py-2 px-2 border border-black hover:border-blue-400 ${
-          skipDisabled ? "opacity-50 cursor-not-allowed" : ""
-        }`}
-      >
-        {skipDisabled ? "#select" : "#skip"}
-      </button>
-      <button
-        onClick={handleSubmit}
-        disabled={selectedInterests.length === 0}
-        className={`text-3xl font-semibold py-2 px-2 border border-black hover:border-blue-400 ${
-          selectedInterests.length === 0 ? "opacity-50 cursor-not-allowed" : ""
-        }`}
-      >
-        Submit Interests
-      </button>
+      <div className="flex">
+        <button
+          onClick={handleSkip}
+          disabled={selectedInterests.length !== 0}
+          className={`text-3xl font-semibold py-2 px-2 hover:border-blue-400 ${
+            selectedInterests.length !== 0
+              ? "opacity-50 cursor-not-allowed"
+              : ""
+          }`}
+        >
+          #skip
+        </button>
+        <button
+          onClick={handleSubmit}
+          disabled={selectedInterests.length === 0}
+          className={`text-3xl font-semibold py-2 px-2  hover:border-blue-400 ${
+            selectedInterests.length === 0
+              ? "opacity-50 cursor-not-allowed"
+              : ""
+          }`}
+        >
+          #select
+        </button>
+      </div>
     </div>
   );
 }

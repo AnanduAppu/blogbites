@@ -41,10 +41,10 @@ function App() {
         <Routes>
           <Route path="/open" element={<OpenPage />}>
             <Route path="signup" element={<SignupPage />} />
-            <Route path="signup/otpverify" element={<Otpsignup />} />
             <Route path="about" element={<About />} />
             <Route path="contact" element={<Contact />} />
-            <Route path="interest" element={<Interests />} />
+            <Route path="signup/otpverify" element={<Otpsignup />} />
+            <Route path="signup/otpverify/interest" element={<Interests />} />
             <Route path="addpics" element={<AddPhoto />} />
           </Route>
 

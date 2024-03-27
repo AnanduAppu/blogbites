@@ -12,14 +12,14 @@ import UserContext from "../Contex/CreateContex";
 function SignupPage() {
   const navigate = useNavigate()
  const {setuserDataFromSignup} = useContext(UserContext)
-  const imageUrl = `url(${image})`;
+ 
 
   const [formData, setFormData] = useState({
     firstName: "",
     username: "",
     email: "",
     dob: "",
-    region: "North America",
+    region: "India",
     gender: "",
     password: "",
     confirmPassword: "",
@@ -126,8 +126,8 @@ function SignupPage() {
             <h1 className="text-3xl font-bold">Create an account</h1>
             <p className="text-gray-500 dark:text-gray-400">
               Already have an account?
-              <a href="#" className="underline">
-                Sign in
+              <a href="#" onClick={()=>navigate('/Login')} className="underline text-blue-600 hover:text-purple-500">
+                 {" "}Sign in
               </a>
             </p>
           </div>
