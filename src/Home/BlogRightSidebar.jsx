@@ -2,7 +2,7 @@ import React from 'react';
 
 function BlogRightSidebar() {
   return (
-    <div className='relative'>
+    <div className='relative '>
     <div className="flex flex-col space-y-8 sticky">
       {/* Trending News Section */}
       <div className="bg-white p-4 rounded-lg m-2 border-2 border-gray-400 shadow-lg shadow-blue-200 ">
@@ -47,32 +47,32 @@ function BlogRightSidebar() {
           </li>
           <li className="flex mx-1">
             <a href="category/react-js" className="p-2 px-3 border-purple-800 mb-4 rounded font-medium hover:bg-transparent hover:border-purple-800 border bg-purple-400/25 text-purple-800">
-              react js
+             AI
             </a>
           </li>
           <li className="flex mx-1">
             <a href="category/redux" className="p-2 px-3 border-purple-800 mb-4 rounded font-medium hover:bg-transparent hover:border-purple-800 border bg-purple-400/25 text-purple-800">
-              redux
+              Fashion
             </a>
           </li>
           <li className="flex mx-1">
             <a href="category/ui-design" className="p-2 px-3 border-purple-800 mb-4 rounded font-medium hover:bg-transparent hover:border-purple-800 border bg-purple-400/25 text-purple-800">
-              ui design
+              Travel
             </a>
           </li>
           <li className="flex mx-1">
             <a href="category/user-experience" className="p-2 px-3 border-purple-800 mb-4 rounded font-medium hover:bg-transparent hover:border-purple-800 border bg-purple-400/25 text-purple-800">
-              user experience
+              Food
             </a>
           </li>
           <li className="flex mx-1">
             <a href="category/productivity" className="p-2 px-3 border-purple-800 mb-4 rounded font-medium hover:bg-transparent hover:border-purple-800 border bg-purple-400/25 text-purple-800">
-              productivity
+              Business
             </a>
           </li>
           <li className="flex mx-1">
             <a href="category/game" className="p-2 px-3 border-purple-800 mb-4 rounded font-medium hover:bg-transparent hover:border-purple-800 border bg-purple-400/25 text-purple-800">
-              game
+              Game
             </a>
           </li>
         </ul>
@@ -80,7 +80,7 @@ function BlogRightSidebar() {
     </div>
 
       {/* Online Friend List Section */}
-      <div className="bg-white p-2 rounded-lg shadow-lg shadow-green-400 border-2 border-gray-400 m-2 ">
+      <div className="bg-white p-2 rounded-lg shadow-lg shadow-green-400 border-2 border-gray-400 m-2">
         <h2 className="text-lg font-semibold mb-4">Online Friends</h2>
         <ul className="space-y-2">
           <li className="flex items-center">

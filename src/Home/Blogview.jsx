@@ -21,21 +21,37 @@ function Blogview() {
           <div className="grow">
             <div className="p-4 flex flex-col h-full sm:p-6">
               <div className="mb-3">
-                <p className="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-md text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200">
+                <p className="inline-flex items-center gap-1.5 py-1.5  rounded-md text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200">
                   Business
                 </p>
               </div>
-              <h3 className="text-lg sm:text-2xl font-semibold text-gray-800 group-hover:text-blue-600 dark:text-gray-300 dark:group-hover:text-white">
+              {/* <h3 className="text-lg sm:text-2xl font-semibold text-gray-800 group-hover:text-blue-600 dark:text-gray-300 dark:group-hover:text-white">
                 Preline becomes an official Instagram Marketing Partner
               </h3>
               <p className="mt-2 text-gray-600 dark:text-gray-400">
                 Great news we're eager to share. Great news we're eager to
-                share. Great news we're eager to share. Great news we're
+                share. <span className="max-md:hidden">Great news we're eager to share. Great news we're</span> 
               </p>
-              <p className="mt-2 text-gray-600 dark:text-gray-400">
+              <p className="mt-2 text-gray-600 dark:text-gray-400 max-md:hidden">
                 Great news we're eager to share. Great news we're eager to
                 share. Great news we're eager to share.
-              </p>
+              </p> */}
+              <div>
+                <h1
+                  className="block mt-1 text-lg leading-tight font-medium text-black hover:underline"
+                >
+                  Incredible accommodation for your team
+                </h1>
+                <p className="mt-2 text-slate-500">
+                  Looking to take your team away on a retreat to enjoy awesome
+                  food and take in some sunshine? We have a list of places to do
+                  just that.Looking to take your team away on a retreat to enjoy awesome
+                  food and take in some sunshine? We have a list of places to do
+                  just that.Looking to take your team away on a retreat to enjoy awesome
+                  food and take in some sunshine? We have a list of places to do
+                  just that.
+                </p>
+              </div>
               <div className="mt-5 sm:mt-auto">
                 {/* Avatar */}
                 <div className=" flex justify-between mt-2">
@@ -78,18 +94,22 @@ function Blogview() {
                   Announcements
                 </p>
               </div>
-              <h3 className="text-lg sm:text-2xl font-semibold text-gray-800 group-hover:text-blue-600 dark:text-gray-300 dark:group-hover:text-white">
-                Announcing a free plan for small teams
-              </h3>
-              <p className="mt-2 text-gray-600 dark:text-gray-400">
-                At Wake, our mission has always been focused on bringing
-                openness. Great news we're eager to share. Great news we're
-                eager to share.
-              </p>
-              <p className="mt-2 mb-5 text-gray-600 dark:text-gray-400">
-                Great news we're eager to share. Great news we're eager to
-                share. Great news we're eager to share.
-              </p>
+              <div>
+                <h1
+                  className="block mt-1 text-lg leading-tight font-medium text-black hover:underline"
+                >
+                  Incredible accommodation for your team
+                </h1>
+                <p className="mt-2 text-slate-500">
+                  Looking to take your team away on a retreat to enjoy awesome
+                  food and take in some sunshine? We have a list of places to do
+                  just that.Looking to take your team away on a retreat to enjoy awesome
+                  food and take in some sunshine? We have a list of places to do
+                  just that.Looking to take your team away on a retreat to enjoy awesome
+                  food and take in some sunshine? We have a list of places to do
+                  just that.
+                </p>
+              </div>
 
               <div className="mt-5 sm:mt-auto ">
                 {/* Avatar */}

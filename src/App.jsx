@@ -14,6 +14,9 @@ import Loginform from "./Login&signup/loginform";
 import Resetpass1 from "./Login&signup/Resetpass1";
 import ResetPass2 from "./Login&signup/ResetPass2";
 import Asemble from "./Home/Asemble";
+import UserProfile from "./Profile/Userprofile";
+import Assemble from "./Profile/Assemble";
+
 
 
 function App() {
@@ -54,7 +57,10 @@ function App() {
             <Route path="/login/emailvarify/otp" element={<ResetPass2/>} />
           </Route>
 
+
           <Route path="/home" element={<Asemble/>}/>
+
+          <Route path="/profile" element={<Assemble/>}/>
         </Routes>
       </UserContext.Provider>
     </>
