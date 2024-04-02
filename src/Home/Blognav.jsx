@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import logoimg from '../assets/logoOnly.png'
+import Asemble from './Asemble';
+import { Link, Outlet } from 'react-router-dom';
 
 
 const BlogNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <nav className="bg-white border-gray-200 dark:bg-gray-900 ">
+    <>
+    <nav className="bg-white border border-gray-300 dark:bg-gray-900 mb-5">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="https://flowbite.com/" className="flex items-center space-x-3 rtl:space-x-reverse">
+        <Link to='/home' className="flex items-center space-x-3 rtl:space-x-reverse">
           <img src={logoimg} className="h-8" alt="Flowbite Logo" />
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white max-sm:hidden">BLOG <span className='text-blue-500'>BITES</span></span>
-        </a>
+        </Link>
         
         <div className="flex  items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
           {/* Search bar */}
@@ -66,6 +69,8 @@ const BlogNavbar = () => {
         </div>
       </div>
     </nav>
+    <Outlet/>
+    </>
   );
 };
 

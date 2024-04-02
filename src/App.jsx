@@ -16,6 +16,9 @@ import ResetPass2 from "./Login&signup/ResetPass2";
 import Asemble from "./Home/Asemble";
 import UserProfile from "./Profile/Userprofile";
 import Assemble from "./Profile/Assemble";
+import BlogNavbar from "./Home/Blognav";
+import Newtrending from "./Home/Newtrending";
+import BlogPage from "./Home/BlogPage";
 
 
 
@@ -58,7 +61,11 @@ function App() {
           </Route>
 
 
-          <Route path="/home" element={<Asemble/>}/>
+          <Route path="/home" element={<BlogNavbar/>}>
+          <Route index element={<Asemble/>} />
+          <Route path="/home/news" element={<Newtrending/>} />
+          <Route path="/home/blog" element={<BlogPage/>} />
+          </Route>
 
           <Route path="/profile" element={<Assemble/>}/>
         </Routes>

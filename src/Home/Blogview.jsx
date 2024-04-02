@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Blogview() {
   return (
@@ -6,9 +7,9 @@ function Blogview() {
       {/* Grid */}
       <div className=" grid lg:grid-cols-1 gap-5">
         {/* Card */}
-        <a
+        <Link to="/home/blog"
           className="group sm:flex rounded-xl bg-[#f9f9f5] dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 border shadow-lg border-slate-200 hover:border-purple-600 duration-500"
-          href="#"
+          
         >
           <div className="flex-shrink-0 relative rounded-xl overflow-hidden w-full h-[200px] sm:w-[250px] sm:h-[350px]">
             <img
@@ -25,17 +26,7 @@ function Blogview() {
                   Business
                 </p>
               </div>
-              {/* <h3 className="text-lg sm:text-2xl font-semibold text-gray-800 group-hover:text-blue-600 dark:text-gray-300 dark:group-hover:text-white">
-                Preline becomes an official Instagram Marketing Partner
-              </h3>
-              <p className="mt-2 text-gray-600 dark:text-gray-400">
-                Great news we're eager to share. Great news we're eager to
-                share. <span className="max-md:hidden">Great news we're eager to share. Great news we're</span> 
-              </p>
-              <p className="mt-2 text-gray-600 dark:text-gray-400 max-md:hidden">
-                Great news we're eager to share. Great news we're eager to
-                share. Great news we're eager to share.
-              </p> */}
+              
               <div>
                 <h1
                   className="block mt-1 text-lg leading-tight font-medium text-black hover:underline"
@@ -79,7 +70,7 @@ function Blogview() {
               </div>
             </div>
           </div>
-        </a>
+        </Link>
         {/* End Card */}
 
         {/* Card */}

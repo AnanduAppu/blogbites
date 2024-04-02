@@ -11,7 +11,7 @@ import Search_post from "./Search_post";
 function Asemble() {
   return (
     <>
-      <Blognavbar />
+     
 
       <Search_post />
       <Phonesize/>

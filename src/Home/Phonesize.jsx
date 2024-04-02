@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import imageChat from "../assets/chatbox.jpg"
 import imageNews from "../assets/news.jpg"
 
@@ -26,8 +27,7 @@ function Phonesize() {
                     Chat <span className="text-blue-500">box</span> 
                   </h3>
                 </a>
-                <a
-                  href="#"
+                <Link to="/home/news"
                   className="group relative flex flex-col overflow-hidden rounded-lg px-4 pb-4 pt-40"
                 >
                   <img
@@ -39,7 +39,7 @@ function Phonesize() {
                   <h3 className="z-10 text-2xl font-medium text-yellow-500 absolute top-0 left-0 p-4 md:text-3xl">
                     News
                   </h3>
-                </a>
+                </Link>
               </div>
             </div>
             <div className="col-span-2 sm:col-span-1 md:col-span-1 bg-sky-50 flex flex-col">
