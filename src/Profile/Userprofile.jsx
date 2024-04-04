@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import UserContext from "../Contex/CreateContex";
-import Search_post from "../Home/Search_post";
+
 
 function UserProfile() {
   const { userDataFromSignup } = useContext(UserContext);

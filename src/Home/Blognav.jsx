@@ -1,12 +1,29 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import logoimg from '../assets/logoOnly.png'
 import Asemble from './Asemble';
 import { Link, Outlet } from 'react-router-dom';
-
+import UserContext from "../Contex/CreateContex";
 
 const BlogNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { userDataFromSignup } = useContext(UserContext);
+
+  const handleClickOutside = (event) => {
+    if (isMenuOpen && !document.getElementById('user-dropdown').contains(event.target)) {
+      setIsMenuOpen(false);
+    }
+  };
+
+  useEffect(() => {
+  
+    document.addEventListener('mousedown', handleClickOutside);
+
+   
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMenuOpen]);
 
   return (
     <>
@@ -36,11 +53,11 @@ const BlogNavbar = () => {
             type="button" 
             className="flex text-sm bg-gray-800 shadow-lg rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" 
             id="user-menu-button" 
-            aria-expanded={isMenuOpen ? "true" : "false"} 
+      
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             <span className="sr-only">Open user menu</span>
-            <img className="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo" />
+            <img className="w-10 h-8 rounded-full" src={userDataFromSignup.profilePicture} alt="user photo" />
           </button>
           
           {/* Dropdown menu */}
