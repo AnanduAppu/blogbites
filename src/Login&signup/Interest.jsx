@@ -58,10 +58,11 @@ function Interests() {
       toast.error("Token not found");
       return;
     }else{
-      document.cookie = `Otptoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+      
       setSelectedInterests([]);
       setSkipDisabled(true);
-      navigate("/Login");
+     // navigate("/Login");
+     navigate('addpics');
     }
     
   
@@ -69,7 +70,7 @@ function Interests() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(selectedInterests)
+
     const Useremail = userDataFromSignup.email
    
     
@@ -99,9 +100,10 @@ function Interests() {
       );
      
       if(response.data.success){
-        document.cookie = `emailToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+       
         toast.success("successfull")
-        navigate("/Login");
+        //navigate("/Login");
+        navigate('addpics');
       };
       
     } catch (error) {

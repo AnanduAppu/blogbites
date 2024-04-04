@@ -5,10 +5,10 @@ import MyFriends from './Friends'
 import Myblogs from './Myblogs'
 import UserProfile from './Userprofile'
 
-function Assemble() {
+function ProfileAssemble() {
   return (
     <div>
-         <BlogNavbar />
+         
         <div className="h-full bg-gray-200 p-8 shadow-2xl">
             <UserProfile/>
             <Aboutpage/>
@@ -19,4 +19,4 @@ function Assemble() {
   )
 }
 
-export default Assemble
+export default ProfileAssemble

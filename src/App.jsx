@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import UserContext from "./Contex/CreateContex";
 import About from "./Login&signup/About";
@@ -15,19 +15,67 @@ import Resetpass1 from "./Login&signup/Resetpass1";
 import ResetPass2 from "./Login&signup/ResetPass2";
 import Asemble from "./Home/Asemble";
 import UserProfile from "./Profile/Userprofile";
-import Assemble from "./Profile/Assemble";
+import Assemble from "./Profile/ProfileAssemble";
 import BlogNavbar from "./Home/Blognav";
 import Newtrending from "./Home/Newtrending";
 import BlogPage from "./Home/BlogPage";
+import ProfileAssemble from "./Profile/ProfileAssemble";
+import { jwtDecode } from "jwt-decode";
+import { isEqual } from "lodash";
+import axios from "axios";
 
 
 
 function App() {
+  
   // this state controll open page templates
   const [showSignup, setShowSignup] = useState(true);
 
   //user state which take user details from sign up page
   const [userDataFromSignup, setuserDataFromSignup] = useState({});
+
+  useEffect(()=>{
+
+    const fetchData = async()=>{
+
+    
+      const cookieToken = document.cookie.replace(/(?:(?:^|.*;\s*)userToken\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+         
+      if (!cookieToken) {
+        toast.error("Token not found");
+        return;
+      }
+    
+  
+      console.log(cookieToken)
+      const otpEmail = jwtDecode(cookieToken);
+     const id = otpEmail.id
+      
+      try {
+        const response = await axios.post(
+          "http://localhost:3015/user/useraccess",
+          {
+            email:id,
+          },{withCredentials:true}
+        );
+
+        if (!response.data.successful) {
+          return toast.error(response.data.error, "error");
+        }
+        const value = response.data.Data;
+
+        if (!isEqual(userDataFromSignup, value)) {
+          setuserDataFromSignup(value);
+          
+          console.log(value);
+        }
+
+      } catch (error) {
+        console.log("error is find",error)
+      }
+    }
+    fetchData();
+  },[userDataFromSignup])
 
   //it takes email from resetpass1 page and send to resetpass2 page 
   const [resetEmail,setResetemail]=useState('')
@@ -51,7 +99,7 @@ function App() {
             <Route path="contact" element={<Contact />} />
             <Route path="signup/otpverify" element={<Otpsignup />} />
             <Route path="signup/otpverify/interest" element={<Interests />} />
-            <Route path="addpics" element={<AddPhoto />} />
+            <Route path="signup/otpverify/interest/addpics" element={<AddPhoto />} />
           </Route>
 
           <Route path="/login" element={<Loginpage />}>
@@ -65,9 +113,10 @@ function App() {
           <Route index element={<Asemble/>} />
           <Route path="/home/news" element={<Newtrending/>} />
           <Route path="/home/blog" element={<BlogPage/>} />
+          <Route path="/home/profile" element={<ProfileAssemble/>}/>
           </Route>
 
-          <Route path="/profile" element={<Assemble/>}/>
+          
         </Routes>
       </UserContext.Provider>
     </>

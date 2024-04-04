@@ -1,8 +1,9 @@
-import React from "react";
-
+import React, { useContext } from "react";
+import UserContext from "../Contex/CreateContex";
 function Aboutpage() {
+  const { userDataFromSignup } = useContext(UserContext);
   return (
-    <>
+    <div>
       <div className="my-4 flex flex-col space-y-4 2xl:flex-row 2xl:space-x-4 2xl:space-y-0">
         <div className="flex w-full flex-col 2xl:w-1/3">
           <div className="flex-1 rounded-lg bg-white p-8 shadow-xl">
@@ -10,24 +11,24 @@ function Aboutpage() {
             <ul className="mt-2 text-gray-700">
               <li className="flex border-y py-2">
                 <span className="w-24 font-bold">Full name:</span>
-                <span className="text-gray-700">Amanda S. Ross</span>
+                <span className="text-gray-700">{userDataFromSignup.firstName}</span>
               </li>
               <li className="flex border-b py-2">
                 <span className="w-24 font-bold">Birthday:</span>
-                <span className="text-gray-700">24 Jul, 1991</span>
+                <span className="text-gray-700">{userDataFromSignup.dob}</span>
               </li>
               <li className="flex border-b py-2">
                 <span className="w-24 font-bold">Joined:</span>
-                <span className="text-gray-700">10 Jan 2022 (25 days ago)</span>
+                <span className="text-gray-700">{userDataFromSignup.createdAt}</span>
               </li>
     
               <li className="flex border-b py-2">
                 <span className="w-24 font-bold">Email:</span>
-                <span className="text-gray-700">amandaross@example.com</span>
+                <span className="text-gray-700">{userDataFromSignup.email}</span>
               </li>
               <li className="flex border-b py-2">
                 <span className="w-24 font-bold">Location:</span>
-                <span className="text-gray-700">New York, US</span>
+                <span className="text-gray-700">{userDataFromSignup.region}</span>
               </li>
               <li className="flex border-b py-2">
                 <span className="w-24 font-bold">Languages:</span>
@@ -69,7 +70,7 @@ function Aboutpage() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
