@@ -11,6 +11,9 @@ function Loginform() {
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
 
+
+  
+
   const hanldeSubmit = async(e)=>{
     e.preventDefault();
 
@@ -129,11 +132,11 @@ width="500px"
   }}
 />
 
-      <p className="mt-8">
+      <p className="mt-8" >
         Need an account?{" "}
-        <a href="#" className="text-blue-500 hover:text-blue-700 font-semibold">
+        <Link to='/open' className="text-blue-500 hover:text-blue-700 font-semibold">
           Create an account
-        </a>
+        </Link>
       </p>
 
       <p className="text-sm text-gray-500 mt-12">

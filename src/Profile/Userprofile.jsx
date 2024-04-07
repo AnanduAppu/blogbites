@@ -1,6 +1,8 @@
 import React, { useContext, useState } from "react";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import UserContext from "../Contex/CreateContex";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
 
 function UserProfile() {
@@ -8,9 +10,99 @@ function UserProfile() {
   const [isOpen,setIsOpen] = useState(false)
   const [isHovered, setIsHovered] = useState(false);
 
+  const email = userDataFromSignup.email
   const togglePostCreation = () => {
     setIsOpen((prevState) => !prevState);
   };
+
+
+
+  //blog details taking 
+
+  const [headline, setHeadline] = useState('');
+  const [blog,setBlog] = useState('');
+  const [photo,setPhoto]= useState('')
+
+
+  const headlingChange = (e)=>{
+    setHeadline(e.target.value);
+    console.log(headline)
+  }
+  const BlogChange = (e)=>{
+    setBlog(e.target.value);
+    console.log(blog)
+  }
+
+
+  const cloudName = import.meta.env.VITE_CLOUDNARY_CLOUDNAME;
+  const apiKey = import.meta.env.VITE_CLOUDNARY_APIKEY;
+  const uploadPreset = "profileimage";
+
+  const handleBlogImage = async (e) => {
+    e.preventDefault();
+  
+    const file = e.target.files[0];
+  
+    if (!file) {
+      toast.error("No image selected");
+      return;
+    }
+  
+    const toastId = toast.loading("Updating image...");
+  
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', uploadPreset);
+      formData.append('api_key', apiKey);
+  
+      const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+        method: 'POST',
+        body: formData,
+      });
+  
+      const data = await response.json();
+  
+      if (data.error) {
+        throw new Error(data.error.message);
+      }
+  
+      
+      setPhoto( data.secure_url)
+
+  
+      toast.success("Success", { id: toastId });
+  
+  
+    } catch (error) {
+      console.error("Error uploading image:", error.message);
+      setUploading(false);
+      toast.error("Failed");
+    }
+  };
+
+
+
+const submitTheBlog = async (e)=>{
+  e.preventDefault();
+try {
+  const toastId = toast.loading("creating post...");
+  const responds = await axios.post('http://localhost:3015/user/blogcreate',{headline,blog,photo,email})
+
+  if(responds.Data.success){
+    toast.success("blog created", { id: toastId });
+    console.log(responds.data.data)
+  }
+  
+} catch (error) {
+  toast.error("blog creation failed", { id: toastId });
+}
+}
+
+
+
+
+
   return (
     <>
       <div className="rounded-lg bg-white pb-8 shadow-xl">
@@ -101,10 +193,12 @@ function UserProfile() {
       {isOpen?<div className="max-w-4xl space-y-4 p-4 mx-auto duration-500">
           <div className="flex flex-col space-y-4 border border-gray-500 rounded-lg p-2">
             <input type="text" 
+            onChange={(e)=>headlingChange(e)}
             className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex  w-full rounded-lg border p-4 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             placeholder="Headline ...."
             />
             <textarea
+             onChange={(e)=>BlogChange(e)}
               className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex min-h-[100px] w-full rounded-lg border p-4 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               placeholder="What's on your mind?"
             ></textarea>
@@ -126,6 +220,15 @@ function UserProfile() {
                   <path d="M7 20v-4"></path>
                   <path d="M12 20v-8"></path>
                 </svg>
+               <div>
+                <input
+                  type="file"
+                  id="imageInput"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e)=>handleBlogImage(e)}
+                />
+                <label  htmlFor="imageInput" >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="text-purple-500"
@@ -141,8 +244,12 @@ function UserProfile() {
                   <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path>
                   <circle cx="12" cy="13" r="3"></circle>
                 </svg>
+                </label>
+                </div>
               </div>
-              <button className="ring-offset-background focus-visible:ring-ring hover:bg-primary/90 inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-purple-500 px-4 py-2 text-sm font-medium text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
+              <button
+              onClick={(e)=>submitTheBlog(e)}
+              className="ring-offset-background focus-visible:ring-ring hover:bg-primary/90 inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-purple-500 px-4 py-2 text-sm font-medium text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
                 Post
               </button>
             </div>
