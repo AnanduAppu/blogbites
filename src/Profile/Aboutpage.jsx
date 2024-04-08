@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import UserContext from "../Contex/CreateContex";
+import EditIcon from "@mui/icons-material/Edit";
 function Aboutpage() {
   const { userDataFromSignup } = useContext(UserContext);
   return (
@@ -7,11 +8,16 @@ function Aboutpage() {
       <div className="my-4 flex flex-col space-y-4 2xl:flex-row 2xl:space-x-4 2xl:space-y-0">
         <div className="flex w-full flex-col 2xl:w-1/3">
           <div className="flex-1 rounded-lg bg-white p-8 shadow-xl">
-            <h4 className="text-xl font-bold text-gray-900">Personal Info</h4>
+            <h4 className="text-xl font-bold text-gray-900">Personal Info <a className="cursor-pointer ps-60 "><EditIcon/></a> </h4>
+          
             <ul className="mt-2 text-gray-700">
               <li className="flex border-y py-2">
                 <span className="w-24 font-bold">Full name:</span>
                 <span className="text-gray-700">{userDataFromSignup.firstName}</span>
+              </li>
+              <li className="flex border-b py-2">
+                <span className="w-24 font-bold">@username:</span>
+                <span className="text-gray-700">{userDataFromSignup.username}</span>
               </li>
               <li className="flex border-b py-2">
                 <span className="w-24 font-bold">Birthday:</span>
@@ -30,10 +36,7 @@ function Aboutpage() {
                 <span className="w-24 font-bold">Location:</span>
                 <span className="text-gray-700">{userDataFromSignup.region}</span>
               </li>
-              <li className="flex border-b py-2">
-                <span className="w-24 font-bold">Languages:</span>
-                <span className="text-gray-700">English, Spanish</span>
-              </li>
+         
             </ul>
           </div>
         </div>

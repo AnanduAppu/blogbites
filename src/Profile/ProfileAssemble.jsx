@@ -2,7 +2,7 @@ import React from 'react'
 import BlogNavbar from '../Home/Blognav'
 import Aboutpage from './Aboutpage'
 import MyFriends from './Friends'
-import Myblogs from './Myblogs'
+import Myblogs from './MyblogsActivities'
 import UserProfile from './Userprofile'
 
 function ProfileAssemble() {

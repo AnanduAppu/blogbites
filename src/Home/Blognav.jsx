@@ -1,11 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import logoimg from '../assets/logoOnly.png'
-import Asemble from './Asemble';
-import { Link, Outlet } from 'react-router-dom';
+
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import UserContext from "../Contex/CreateContex";
+import axios from 'axios';
+import { toast } from 'react-hot-toast';
 
 const BlogNavbar = () => {
+  const navigate = useNavigate()
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { userDataFromSignup } = useContext(UserContext);
 
@@ -24,6 +27,21 @@ const BlogNavbar = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isMenuOpen]);
+
+
+ const handleSignOut = async (e)=>{
+  e.preventDefault() 
+try {
+  const responds = await axios.delete("http://localhost:3015/user/logout",{withCredentials:true})
+  if(responds.data.success){
+    toast.success(responds.data.message)
+    navigate("/login")
+  }
+  
+} catch (error) {
+  console.log("the error is",error)
+}
+  }
 
   return (
     <>
@@ -78,7 +96,7 @@ const BlogNavbar = () => {
                   <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</a>
                 </li>
                 <li>
-                  <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+                  <a onClick={(e)=>handleSignOut(e)} href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
                 </li>
               </ul>
             </div>

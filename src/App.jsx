@@ -23,40 +23,40 @@ import ProfileAssemble from "./Profile/ProfileAssemble";
 import { jwtDecode } from "jwt-decode";
 import { isEqual } from "lodash";
 import axios from "axios";
-
-
+import HomeProtect from "./protectedRoute/HomeProtect";
+import MyblogsActivities from "./Profile/MyblogsActivities";
+import Myblogs from "./Profile/Myblogs";
 
 function App() {
-  
   // this state controll open page templates
   const [showSignup, setShowSignup] = useState(true);
 
   //user state which take user details from sign up page
   const [userDataFromSignup, setuserDataFromSignup] = useState({});
 
-  useEffect(()=>{
+  useEffect(() => {
+    const fetchData = async () => {
+      const cookieToken = document.cookie.replace(
+        /(?:(?:^|.*;\s*)userToken\s*\=\s*([^;]*).*$)|^.*$/,
+        "$1"
+      );
 
-    const fetchData = async()=>{
-
-    
-      const cookieToken = document.cookie.replace(/(?:(?:^|.*;\s*)userToken\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-         
       if (!cookieToken) {
         toast.error("Token not found");
         return;
       }
-    
-  
-      console.log(cookieToken)
+
+      console.log(cookieToken);
       const otpEmail = jwtDecode(cookieToken);
-     const id = otpEmail.id
-      
+      const id = otpEmail.id;
+
       try {
         const response = await axios.post(
           "http://localhost:3015/user/useraccess",
           {
-            email:id,
-          },{withCredentials:true}
+            email: id,
+          },
+          { withCredentials: true }
         );
 
         if (!response.data.successful) {
@@ -66,26 +66,50 @@ function App() {
 
         if (!isEqual(userDataFromSignup, value)) {
           setuserDataFromSignup(value);
-          
+
           console.log(value);
         }
-
       } catch (error) {
-        console.log("error is find",error)
+        console.log("error is find", error);
       }
-    }
+    };
     fetchData();
-  },[userDataFromSignup])
+  }, [userDataFromSignup]);
 
-  //it takes email from resetpass1 page and send to resetpass2 page 
-  const [resetEmail,setResetemail]=useState('')
+  //it takes email from resetpass1 page and send to resetpass2 page
+  const [resetEmail, setResetemail] = useState("");
+
+  // here we creating a useEffect function to retrieve blog datas at every time
+  const [bloglist, setBloglist] = useState([]);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const response = await axios.get("http://localhost:3015/user/bloglist");
+        const value = response.data.blogs;
+
+        if (!isEqual(bloglist, value)) {
+          setBloglist(value);
+
+          console.log("blog details are ", value);
+        }
+      } catch (error) {
+        console.log("we get an error in retriving blog datas", error);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
 
   const data = {
     showSignup,
     setShowSignup,
     userDataFromSignup,
     setuserDataFromSignup,
-    resetEmail,setResetemail
+    resetEmail,
+    setResetemail,
+    bloglist,
+    setBloglist,
   };
 
   return (
@@ -99,24 +123,29 @@ function App() {
             <Route path="contact" element={<Contact />} />
             <Route path="signup/otpverify" element={<Otpsignup />} />
             <Route path="signup/otpverify/interest" element={<Interests />} />
-            <Route path="signup/otpverify/interest/addpics" element={<AddPhoto />} />
+            <Route
+              path="signup/otpverify/interest/addpics"
+              element={<AddPhoto />}
+            />
           </Route>
 
           <Route path="/login" element={<Loginpage />}>
             <Route index element={<Loginform />} />
-            <Route path="/login/emailvarify" element={<Resetpass1/>} />
-            <Route path="/login/emailvarify/otp" element={<ResetPass2/>} />
+            <Route path="/login/emailvarify" element={<Resetpass1 />} />
+            <Route path="/login/emailvarify/otp" element={<ResetPass2 />} />
           </Route>
 
-
-          <Route path="/home" element={<BlogNavbar/>}>
-          <Route index element={<Asemble/>} />
-          <Route path="/home/news" element={<Newtrending/>} />
-          <Route path="/home/blog" element={<BlogPage/>} />
-          <Route path="/home/profile" element={<ProfileAssemble/>}/>
+          <Route
+            path="/home"
+            element={<HomeProtect element={<BlogNavbar />} />}
+          >
+            <Route index element={<Asemble />} />
+            <Route path="/home/news" element={<Newtrending />} />
+            <Route path="/home/blog/:blogid" element={<BlogPage />} />
+            <Route path="/home/profile" element={<ProfileAssemble />}>
+              <Route index element={<Myblogs />} />
+            </Route>
           </Route>
-
-          
         </Routes>
       </UserContext.Provider>
     </>
