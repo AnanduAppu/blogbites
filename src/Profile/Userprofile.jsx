@@ -116,7 +116,7 @@ function UserProfile() {
       var toastId = toast.loading("creating post...");
       const responds = await axios.post(
         "http://localhost:3015/user/blogcreate",
-        { headline, blog, photo, email,selectedTopic}
+        { headline, blog, photo, email, selectedTopic }
       );
 
       if (responds.data.success) {
@@ -125,6 +125,58 @@ function UserProfile() {
       }
     } catch (error) {
       toast.error("blog creation failed", { id: toastId });
+    }
+  };
+
+  //add profile image
+  const handleImageChange = async (e) => {
+    e.preventDefault();
+
+    const file = e.target.files[0];
+
+    if (!file) {
+      toast.error("No image selected");
+      return;
+    }
+
+    const toastId = toast.loading("Updating image...");
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", uploadPreset);
+      formData.append("api_key", apiKey);
+
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.error) {
+        throw new Error(data.error.message);
+      }
+
+      const backendResponse = await axios.post(
+        "http://localhost:3015/user/userimage",
+        {
+          imageUrl: data.secure_url,
+          email: email,
+        }
+      );
+
+      if (!backendResponse.data.success) {
+        toast.error(backendResponse.data.error, "error");
+        return;
+      }
+
+      toast.success("Success", { id: toastId });
+    } catch (error) {
+      console.log("we get an error",error)
     }
   };
 
@@ -154,12 +206,45 @@ function UserProfile() {
             />
             {isHovered && (
               <div className="absolute inset-0 flex items-center justify-center">
-                <button className="text-white text-lg font-bold">
-                  <AddAPhotoIcon />
-                </button>
+                <input
+                  type="file"
+                  id="imageInput"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => handleImageChange(e)}
+                />
+                <label
+                  htmlFor="imageInput"
+                  className="text-white text-lg font-bold cursor-pointer" // Added cursor-pointer
+                >
+                  <div className="bg-black bg-opacity-50 rounded-full p-2">
+                    {" "}
+                   
+                    <AddAPhotoIcon />
+                  </div>
+                </label>
               </div>
             )}
           </div>
+          <div className="absolute inset-0 flex items-center justify-center">
+                <input
+                  type="file"
+                  id="imageInput"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => handleImageChange(e)}
+                />
+                <label
+                  htmlFor="imageInput"
+                  className="text-white text-lg font-bold cursor-pointer" // Added cursor-pointer
+                >
+                  <div className="bg-black bg-opacity-50 rounded-full p-2">
+                    {" "}
+                   
+                    <AddAPhotoIcon />
+                  </div>
+                </label>
+              </div>
           <div className="mt-2 flex items-center space-x-2">
             <p className="text-2xl">{userDataFromSignup.username}</p>
             <span className="rounded-full bg-blue-500 p-1" title="Verified">
