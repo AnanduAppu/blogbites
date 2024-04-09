@@ -176,33 +176,111 @@ function UserProfile() {
 
       toast.success("Success", { id: toastId });
     } catch (error) {
-      console.log("we get an error",error)
+      console.log("we get an error", error);
     }
   };
+
+
+  //hnadle background image
+  const handleWalImageChange = async (e) => {
+    e.preventDefault();
+
+    const file = e.target.files[0];
+
+    if (!file) {
+      toast.error("No image selected");
+      return;
+    }
+
+    const toastId = toast.loading("Updating image...");
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", uploadPreset);
+      formData.append("api_key", apiKey);
+
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.error) {
+        throw new Error(data.error.message);
+      }
+
+      const backendResponse = await axios.put(
+        "http://localhost:3015/user//updateWalimg",
+        {
+          imageUrl: data.secure_url,
+          email: email,
+        }
+      );
+
+      if (!backendResponse.data.success) {
+        toast.error(backendResponse.data.error, "error");
+        return;
+      }
+
+      toast.success("Success", { id: toastId });
+    } catch (error) {
+      console.log("we get an error", error);
+    }
+  };
+
 
   return (
     <>
       <div className="rounded-lg bg-white pb-8 shadow-xl">
         <div className="absolute right-12 mt-4 rounded">
-          <button className="rounded border border-gray-400 bg-gray-100 bg-opacity-10 p-2 text-gray-300 hover:bg-opacity-20 hover:text-gray-300">
-            <AddAPhotoIcon />
-          </button>
-        </div>
-        <div className="h-[250px] w-full">
-          <img
-            src="https://vojislavd.com/ta-template-demo/assets/img/profile-background.jpg"
-            className="h-full w-full rounded-tl-lg rounded-tr-lg"
-            alt="profile background"
+          <input
+            type="file"
+            id="walimageInput"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) =>handleWalImageChange(e)}
           />
+          <label
+            htmlFor="walimageInput"
+            className="rounded border border-gray-400 bg-gray-100 bg-opacity-10 p-2 text-gray-300 hover:bg-opacity-20 hover:text-gray-300"
+            
+          >
+            <AddAPhotoIcon />
+          </label>
         </div>
+        {userDataFromSignup.backgroudWal ? (
+          <div className="h-[250px] w-full">
+            <img
+              src={userDataFromSignup.backgroudWal}
+              className="h-full w-full rounded-tl-lg rounded-tr-lg"
+              alt="profile background"
+            />
+          </div>
+        ) : (
+          <div className="h-[250px] w-full">
+            <img
+              src="https://vojislavd.com/ta-template-demo/assets/img/profile-background.jpg"
+              className="h-full w-full rounded-tl-lg rounded-tr-lg"
+              alt="profile background"
+            />
+          </div>
+        )}
+
         <div className="-mt-20 flex flex-col items-center">
-          <div className="relative">
+          <div
+            className="relative"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
             <img
               src={userDataFromSignup.profilePicture}
               className="w-52 rounded-full border-4 border-white"
               alt="profile"
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
             />
             {isHovered && (
               <div className="absolute inset-0 flex items-center justify-center">
@@ -219,32 +297,13 @@ function UserProfile() {
                 >
                   <div className="bg-black bg-opacity-50 rounded-full p-2">
                     {" "}
-                   
                     <AddAPhotoIcon />
                   </div>
                 </label>
               </div>
             )}
           </div>
-          <div className="absolute inset-0 flex items-center justify-center">
-                <input
-                  type="file"
-                  id="imageInput"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={(e) => handleImageChange(e)}
-                />
-                <label
-                  htmlFor="imageInput"
-                  className="text-white text-lg font-bold cursor-pointer" // Added cursor-pointer
-                >
-                  <div className="bg-black bg-opacity-50 rounded-full p-2">
-                    {" "}
-                   
-                    <AddAPhotoIcon />
-                  </div>
-                </label>
-              </div>
+
           <div className="mt-2 flex items-center space-x-2">
             <p className="text-2xl">{userDataFromSignup.username}</p>
             <span className="rounded-full bg-blue-500 p-1" title="Verified">

@@ -1,18 +1,47 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import UserContext from "../Contex/CreateContex";
 import EditIcon from "@mui/icons-material/Edit";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 function Aboutpage() {
   const { userDataFromSignup } = useContext(UserContext);
+  const userid = userDataFromSignup._id
   const [isOpen, setIsOpen] = useState(false);
   const togglePostCreation = () => {
     setIsOpen((prevState) => !prevState);
   };
 
-  const [fullName, setFullName] = useState(userDataFromSignup.firstName);
 
-  const handleSave = () => {
-    console.log("Saved Input Data:");
-    console.log("Full Name:", fullName);
+  const [countries, setCountries] = useState([]);
+
+  useEffect(() => {
+   
+    fetch('https://restcountries.com/v2/all')
+      .then(response => response.json())
+      .then(data => {
+        setCountries(data);
+      })
+      .catch(error => console.error('Error fetching countries:', error));
+  }, []);
+
+
+  const [fullName, setFullName] = useState(userDataFromSignup.firstName);
+  const [username, setUsername] = useState(userDataFromSignup.username);
+  const [birthday, setBirthday] = useState(userDataFromSignup.dob);
+  const [email, setEmail] = useState(userDataFromSignup.email);
+  const [location, setLocation] = useState(userDataFromSignup.region);
+
+  const handleSave = async (e) => {
+ try {
+  const response = await axios.put("http://localhost:3015/user/edituser",{fullName,username,birthday,email,location,userid})
+  if(response.data.success){
+    toast.success("edited success")
+  }
+
+
+ } catch (error) {
+  toast.error('an error occured',error)
+ }
  
   };
   return (
@@ -42,21 +71,18 @@ function Aboutpage() {
                   <span className="w-24 font-bold">@username:</span>
                   <input
                     className="text-gray-700"
-                    value={userDataFromSignup.username}
+                    value={username}
+                    onChange={(e) =>  setUsername(e.target.value)}
                   />
                 </li>
                 <li className="flex border-b py-2">
                   <span className="w-24 font-bold">Birthday:</span>
                   <input
+                    type="date"
                     className="text-gray-700"
-                    value={userDataFromSignup.dob}
-                  />
-                </li>
-                <li className="flex border-b py-2">
-                  <span className="w-24 font-bold">Joined:</span>
-                  <input
-                    className="text-gray-700"
-                    value={userDataFromSignup.createdAt}
+                    value={birthday}
+                    onChange={(e) => setBirthday(e.target.value)}
+                  
                   />
                 </li>
 
@@ -64,18 +90,28 @@ function Aboutpage() {
                   <span className="w-24 font-bold">Email:</span>
                   <input
                     className="text-gray-700"
-                    value={userDataFromSignup.email}
+                    value={email}
+                    onChange={(e) =>  setEmail(e.target.value)}
                   />
                 </li>
                 <li className="flex border-b py-2">
                   <span className="w-24 font-bold">Location:</span>
-                  <input
-                    className="text-gray-700"
-                    value={userDataFromSignup.region}
-                  />
+                  <select
+                  id="region"
+                  className="w-full h-12 border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-1 focus:ring-purple-500"
+                  onChange={(e) => setLocation(e.target.value)}
+                    value={location}
+                    required
+                >
+                   {countries.map(country => (
+                    <option key={country.code} value={country.name}>{country.name}</option>
+                  ))}
+                </select>
                 </li>
               </ul>
-              <button className="px-3 my-3 border border-black font-semibold text-white bg-blue-600 hover:bg-blue-800">Save</button>
+              <button className="px-3 my-3 border border-black font-semibold text-white bg-blue-600 hover:bg-blue-800"
+              onClick={(e)=> handleSave(e)}
+              >Save</button>
               </>
             ) : (
               <ul className="mt-2 text-gray-700">

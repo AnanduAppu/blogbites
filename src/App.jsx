@@ -33,6 +33,7 @@ function App() {
 
   //user state which take user details from sign up page
   const [userDataFromSignup, setuserDataFromSignup] = useState({});
+  const [myBlogs,setmyBlogs] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,39 +48,41 @@ function App() {
       }
 
       console.log(cookieToken);
-      const otpEmail = jwtDecode(cookieToken);
-      const id = otpEmail.id;
+      const cookieData = jwtDecode(cookieToken);
+      const id = cookieData.id;
 
       try {
-        const response = await axios.post(
-          "http://localhost:3015/user/useraccess",
-          {
-            email: id,
-          },
-          { withCredentials: true }
-        );
+        const [response1, response2] = await Promise.all([
+          axios.post("http://localhost:3015/user/useraccess", { email: id }, { withCredentials: true }),
+          axios.post("http://localhost:3015/user/userblogs", { email: id })
+        ]);
 
-        if (!response.data.successful) {
-          return toast.error(response.data.error, "error");
-        }
-        const value = response.data.Data;
+       
+      if (!response1.data.successful || !response2.data.successful) {
+        toast.error(response1.data.error || response2.data.error, "error");
+        return;
+      }
+      const userData = response1.data.Data;
+      const blogData = response2.data.blogdata;
 
-        if (!isEqual(userDataFromSignup, value)) {
-          setuserDataFromSignup(value);
-
-          console.log(value);
-        }
+      if (!isEqual(userDataFromSignup, userData) || !isEqual(myBlogs, blogData)) {
+        setuserDataFromSignup(userData);
+        setmyBlogs(blogData);
+        console.log(blogData)
+      }
       } catch (error) {
         console.log("error is find", error);
       }
     };
     fetchData();
-  }, [userDataFromSignup]);
+  }, [userDataFromSignup,myBlogs]);
 
   //it takes email from resetpass1 page and send to resetpass2 page
   const [resetEmail, setResetemail] = useState("");
 
-  // here we creating a useEffect function to retrieve blog datas at every time
+
+
+  // here we creating a useEffect function to retrieve all blog datas from server
   const [bloglist, setBloglist] = useState([]);
 
   useEffect(() => {
@@ -101,6 +104,9 @@ function App() {
     fetchBlogs();
   }, []);
 
+  
+
+
   const data = {
     showSignup,
     setShowSignup,
@@ -110,6 +116,7 @@ function App() {
     setResetemail,
     bloglist,
     setBloglist,
+    myBlogs, setmyBlogs
   };
 
   return (
