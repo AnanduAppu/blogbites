@@ -26,6 +26,7 @@ import axios from "axios";
 import HomeProtect from "./protectedRoute/HomeProtect";
 import MyblogsActivities from "./Profile/MyblogsActivities";
 import Myblogs from "./Profile/Myblogs";
+import LikedBlogs from "./Profile/LikedBlogs";
 
 function App() {
   // this state controll open page templates
@@ -33,7 +34,7 @@ function App() {
 
   //user state which take user details from sign up page
   const [userDataFromSignup, setuserDataFromSignup] = useState({});
-  const [myBlogs,setmyBlogs] = useState();
+  const [myBlogs,setmyBlogs] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,22 +60,25 @@ function App() {
 
        
       if (!response1.data.successful || !response2.data.successful) {
-        toast.error(response1.data.error || response2.data.error, "error");
+        console.log(response1.data.error , response2.data.error, "error");
         return;
       }
       const userData = response1.data.Data;
       const blogData = response2.data.blogdata;
-
+    console.log(blogData)
       if (!isEqual(userDataFromSignup, userData) || !isEqual(myBlogs, blogData)) {
         setuserDataFromSignup(userData);
         setmyBlogs(blogData);
-        console.log(blogData)
+        console.log("your blog datas are:",blogData)
+        
       }
+
       } catch (error) {
         console.log("error is find", error);
       }
     };
     fetchData();
+   
   }, [userDataFromSignup,myBlogs]);
 
   //it takes email from resetpass1 page and send to resetpass2 page
@@ -95,6 +99,7 @@ function App() {
           setBloglist(value);
 
           console.log("blog details are ", value);
+         
         }
       } catch (error) {
         console.log("we get an error in retriving blog datas", error);
@@ -102,7 +107,7 @@ function App() {
     };
 
     fetchBlogs();
-  }, []);
+  }, [bloglist]);
 
   
 
@@ -142,15 +147,13 @@ function App() {
             <Route path="/login/emailvarify/otp" element={<ResetPass2 />} />
           </Route>
 
-          <Route
-            path="/home"
-            element={<HomeProtect element={<BlogNavbar />} />}
-          >
+          <Route path="/" element={<HomeProtect element={<BlogNavbar />} />}>
             <Route index element={<Asemble />} />
-            <Route path="/home/news" element={<Newtrending />} />
-            <Route path="/home/blog/:blogid" element={<BlogPage />} />
-            <Route path="/home/profile" element={<ProfileAssemble />}>
-              <Route index element={<Myblogs />} />
+            <Route path="/news" element={<Newtrending />} />
+            <Route path="/blog/:blogid" element={<BlogPage />} />
+            <Route path="/profile" element={<ProfileAssemble />}>
+              <Route index element={<Myblogs/>} />
+              <Route path="/profile/likedblogs" element={<LikedBlogs/>} />
             </Route>
           </Route>
         </Routes>

@@ -8,9 +8,13 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
 const BlogNavbar = () => {
+
+  
   const navigate = useNavigate()
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { userDataFromSignup } = useContext(UserContext);
+  const { setuserDataFromSignup,setmyBlogs,userDataFromSignup } = useContext(UserContext);
+
+
 
   const handleClickOutside = (event) => {
     if (isMenuOpen && !document.getElementById('user-dropdown').contains(event.target)) {
@@ -35,6 +39,7 @@ try {
   const responds = await axios.delete("http://localhost:3015/user/logout",{withCredentials:true})
   if(responds.data.success){
     toast.success(responds.data.message)
+    window.location.reload()
     navigate("/login")
   }
   
@@ -47,7 +52,7 @@ try {
     <>
     <nav className="bg-white border border-gray-300 dark:bg-gray-900 mb-5">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <Link to='/home' className="flex items-center space-x-3 rtl:space-x-reverse">
+        <Link to='/' className="flex items-center space-x-3 rtl:space-x-reverse">
           <img src={logoimg} className="h-8" alt="Flowbite Logo" />
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white max-sm:hidden">BLOG <span className='text-blue-500'>BITES</span></span>
         </Link>
@@ -87,7 +92,7 @@ try {
               </div>
               <ul className="py-2" aria-labelledby="user-menu-button">
                 <li>
-                  <Link to="/home/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</Link>
+                  <Link to="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</Link>
                 </li>
                 <li>
                   <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>

@@ -27,7 +27,7 @@ function Phonesize() {
                     Chat <span className="text-blue-500">box</span> 
                   </h3>
                 </a>
-                <Link to="/home/news"
+                <Link to="/news"
                   className="group relative flex flex-col overflow-hidden rounded-lg px-4 pb-4 pt-40"
                 >
                   <img

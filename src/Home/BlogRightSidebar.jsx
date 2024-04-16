@@ -45,7 +45,7 @@ function BlogRightSidebar() {
                 </div>
               </a>
             ))}
-            <Link to="/home/news">view all</Link>
+            <Link to="/news">view all</Link>
           </div>
         </div>
 

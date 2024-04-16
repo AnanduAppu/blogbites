@@ -1,9 +1,51 @@
 import UserContext from "../Contex/CreateContex";
 import { Link } from "react-router-dom";
-import { Suspense, useContext } from "react";
+import { Suspense, useContext, useState } from "react";
+import axios from "axios";
+import { useEffect } from 'react';
+import io from 'socket.io-client';
+
 
 function Blogview() {
-  const { bloglist } = useContext(UserContext);
+  const [socket, setSocket] = useState(null);
+  const { bloglist, userDataFromSignup } = useContext(UserContext);
+
+  useEffect(() => {
+    const newSocket = io('http://localhost:3015');
+    
+    newSocket.on('connect', () => {
+      console.log('Connected to Socket.io server');
+    });
+
+    newSocket.on('disconnect', () => {
+      console.log('Disconnected from Socket.io server');
+    });
+
+    setSocket(newSocket);
+
+    return () => {
+      newSocket.disconnect();
+    };
+  }, []);
+
+  const likeandUnlike = async (e, blogid) => {
+    e.preventDefault();
+
+    const userId = userDataFromSignup._id;
+    console.log("userid is :-", userId + " and blogid is:-", blogid);
+
+    try {
+      const response = await axios.put('http://localhost:3015/user/like', { userId, blogid });
+
+      if (response.data.success) {
+        console.log("liked");
+        socket.emit('like', { userId, blogid });
+        return;
+      }
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
 
   return (
     <div className=" max-w-[85rem] py-10 sm:px-6 lg:px-2 lg:py-5 ">
@@ -14,7 +56,7 @@ function Blogview() {
           {bloglist.map((ele, ind) => {
             return (
               <Link
-                to={`/home/blog/${ele._id}`}
+                to={`/blog/${ele._id}`}
                 className="group sm:flex rounded-xl bg-[#f9f9f5] dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 border shadow-lg border-slate-200 hover:border-purple-600 duration-500"
                 key={ind}
               >
@@ -68,7 +110,7 @@ function Blogview() {
                           </div>
                         </div>
                         <div className="flex gap-9 pt-7">
-                          <p>Likes {ele.likes.length}</p>
+                          <button onClick={(e)=>likeandUnlike(e,ele._id)}>Likes {ele.likes.length}</button>
                           <p>Save</p>
                         </div>
                       </div>

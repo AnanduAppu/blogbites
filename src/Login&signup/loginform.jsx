@@ -24,11 +24,12 @@ function Loginform() {
 
     try {
 
-      const response = axios.post("http://localhost:3015/user/userlogin",{email,password},{withCredentials:true})
-      if ((await response).data.success) {
+      const response = await axios.post("http://localhost:3015/user/userlogin",{email,password},{withCredentials:true})
+      if (response.data.success) {
             
         toast.success("successfully loged");
-        navigate('/home')
+        navigate('/')
+        window.location.reload();
         
       }else{
         toast.error("something happened")

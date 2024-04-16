@@ -1,10 +1,10 @@
 import React from "react";
-import Blognavbar from "./Blognav";
+
 import BlogRightSidebar from "./BlogRightSidebar";
 
-import Blogside from "./blogside";
+
 import Blogview from "./Blogview";
-import Carousel from "./Carousel";
+
 import Phonesize from "./Phonesize";
 import Search_post from "./Search_post";
 
