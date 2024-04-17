@@ -27,11 +27,12 @@ import HomeProtect from "./protectedRoute/HomeProtect";
 import MyblogsActivities from "./Profile/MyblogsActivities";
 import Myblogs from "./Profile/Myblogs";
 import LikedBlogs from "./Profile/LikedBlogs";
+import OtherUserProfile from "./Home/OtherUserProfile";
 
 function App() {
   // this state controll open page templates
   const [showSignup, setShowSignup] = useState(true);
-
+ 
   //user state which take user details from sign up page
   const [userDataFromSignup, setuserDataFromSignup] = useState({});
   const [myBlogs,setmyBlogs] = useState([]);
@@ -88,7 +89,7 @@ function App() {
 
   // here we creating a useEffect function to retrieve all blog datas from server
   const [bloglist, setBloglist] = useState([]);
-
+  const [bloguser,setBlogUser] = useState({})
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
@@ -97,7 +98,7 @@ function App() {
 
         if (!isEqual(bloglist, value)) {
           setBloglist(value);
-
+          setBlogUser(value.author)
           console.log("blog details are ", value);
          
         }
@@ -111,6 +112,7 @@ function App() {
 
   
 
+ 
 
   const data = {
     showSignup,
@@ -121,7 +123,8 @@ function App() {
     setResetemail,
     bloglist,
     setBloglist,
-    myBlogs, setmyBlogs
+    myBlogs, setmyBlogs,
+    bloguser,setBlogUser
   };
 
   return (
@@ -151,11 +154,14 @@ function App() {
             <Route index element={<Asemble />} />
             <Route path="/news" element={<Newtrending />} />
             <Route path="/blog/:blogid" element={<BlogPage />} />
+            <Route path="/author/:userid" element={<OtherUserProfile />} />
             <Route path="/profile" element={<ProfileAssemble />}>
               <Route index element={<Myblogs/>} />
               <Route path="/profile/likedblogs" element={<LikedBlogs/>} />
             </Route>
           </Route>
+
+          
         </Routes>
       </UserContext.Provider>
     </>

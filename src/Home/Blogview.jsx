@@ -3,30 +3,34 @@ import { Link } from "react-router-dom";
 import { Suspense, useContext, useState } from "react";
 import axios from "axios";
 import { useEffect } from 'react';
-import io from 'socket.io-client';
+import { isEqual } from "lodash";
+
 
 
 function Blogview() {
-  const [socket, setSocket] = useState(null);
-  const { bloglist, userDataFromSignup } = useContext(UserContext);
+ 
+  const { bloglist,setBloglist, userDataFromSignup } = useContext(UserContext);
+  const [likeAction, setLikeAction] = useState(false);
 
   useEffect(() => {
-    const newSocket = io('http://localhost:3015');
-    
-    newSocket.on('connect', () => {
-      console.log('Connected to Socket.io server');
-    });
+    const fetchBlogs = async () => {
+      try {
+        const response = await axios.get("http://localhost:3015/user/bloglist");
+        const value = response.data.blogs;
 
-    newSocket.on('disconnect', () => {
-      console.log('Disconnected from Socket.io server');
-    });
-
-    setSocket(newSocket);
-
-    return () => {
-      newSocket.disconnect();
+        if (!isEqual(bloglist, value)) {
+          setBloglist(value);
+          console.log("blog details are ", value);
+        }
+      } catch (error) {
+        console.log("we get an error in retrieving blog datas", error);
+      }
     };
-  }, []);
+
+    fetchBlogs();
+  }, [bloglist, likeAction])
+
+
 
   const likeandUnlike = async (e, blogid) => {
     e.preventDefault();
@@ -39,7 +43,7 @@ function Blogview() {
 
       if (response.data.success) {
         console.log("liked");
-        socket.emit('like', { userId, blogid });
+        setLikeAction(!likeAction);
         return;
       }
     } catch (error) {
