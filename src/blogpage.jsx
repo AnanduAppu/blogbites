@@ -130,6 +130,61 @@ const blogprofile = () => {
           </div>
         </div>
       </section>
+
+
+
+{/* 
+      //edit the blog */}
+
+
+<div className="relative p-6 shadow bg-gray-200 bg-opacity-90">
+      <div className="max-w-4xl mx-auto border border-gray-400 rounded-lg">
+        <div className="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
+        <div className="flex justify-between">
+              <h1 className="my-4 text-xl font-semibold">
+                Update{" "}
+                <span className="text-blue-600 font-semibold"> Blog?</span>
+              </h1>
+              <button
+                className="my-4 text-xl hover:text-red-700 duration-500"
+                onClick={() => setIsModalOpen(false)}
+              >
+                close
+              </button>
+            </div>
+          <div className="flex justify-between">
+            <div className="my-10">
+              <input type="text" className="text-4xl border border-gray-300"
+              
+              value={headingEdit}
+              onChange={(e) => setHeadingEdit(e.target.value)}
+              />
+            </div>
+            <div>
+            {imageEdit && (
+                <img
+                  src={imageEdit}
+                  className="h-[100px] w-[200px] my-1"
+                  alt="Tailwind Play"
+                />
+              )}
+            </div>
+          </div>
+          <hr />
+          <textarea 
+            cols="119" 
+            rows="11" 
+            className="text-base leading-8 my-5 border border-black"
+            value={descriptionEdit}
+            onChange={(e) => setDescriptionEdit(e.target.value)}
+          ></textarea>
+        </div>
+        <button className="mb-5 px-2 py-2 border border-gray-700 bg-blue-400 font-semibold hover:bg-blue-700 hover:text-white duration-500">
+                  Update
+                </button>
+      </div>
+    </div>
+      )}
     </div>
   );
 };

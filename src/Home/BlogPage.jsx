@@ -5,17 +5,26 @@ import Comments from "./Comments";
 
 function BlogPage() {
   const {blogid} = useParams()
-  const {bloglist} = useContext(UserContext)
+  const {bloglist,userDataFromSignup} = useContext(UserContext)
   const navigate = useNavigate()
 
   const blogShow = bloglist.find((ele) => ele._id === blogid);
 
- const num= 50
+
 
   if (!blogShow) {
     return <div>Blog not found</div>;
   }
+  
+  const userId = userDataFromSignup._id;
 
+  const checkuser = ()=>{
+    if(blogShow.author._id==userId){
+      navigate(`/profile`)
+    }else{
+      navigate(`/author/${blogShow.author._id}`)
+    }
+  }
   return (
     <>
     <div className=" lg:px-40 md:px-20 max-md:px-10 max-sm:px-10">
@@ -72,7 +81,7 @@ function BlogPage() {
                 Mike writes about technology Yourself required no at thoughts
                 delicate landlord it be. Branched dashwood do is whatever it.
               </p>
-              <button onClick={()=> navigate(`/author/${blogShow.author._id}`)} className="px-2 py-1 text-gray-100 bg-green-700 flex w-full items-center justify-center rounded">
+              <button onClick={checkuser} className="px-2 py-1 text-gray-100 bg-green-700 flex w-full items-center justify-center rounded">
                   view Profile
                 <i className="bx bx-user-plus ml-2"></i>
               </button>

@@ -180,7 +180,6 @@ function UserProfile() {
     }
   };
 
-
   //hnadle background image
   const handleWalImageChange = async (e) => {
     e.preventDefault();
@@ -233,7 +232,6 @@ function UserProfile() {
     }
   };
 
-
   return (
     <>
       <div className="rounded-lg bg-white pb-8 shadow-xl">
@@ -243,12 +241,11 @@ function UserProfile() {
             id="walimageInput"
             accept="image/*"
             className="hidden"
-            onChange={(e) =>handleWalImageChange(e)}
+            onChange={(e) => handleWalImageChange(e)}
           />
           <label
             htmlFor="walimageInput"
             className="rounded border border-gray-400 bg-gray-100 bg-opacity-10 p-2 text-gray-300 hover:bg-opacity-20 hover:text-gray-300"
-            
           >
             <AddAPhotoIcon />
           </label>
@@ -325,6 +322,21 @@ function UserProfile() {
           </div>
           <p className="text-gray-700">{userDataFromSignup.interest}</p>
           <p className="text-sm text-gray-500">{userDataFromSignup.region}</p>
+          <div className="flex space-x-2 mt-2">
+            <div className="flex flex-col items-center rounded-xl bg-gray-100 px-4 py-2">
+              <p className="text-sm font-medium text-gray-500">Blogs</p>
+              <p className="text-3xl font-medium text-gray-600">13</p>
+            </div>
+            <div className="flex flex-col items-center rounded-xl bg-gray-100 px-4 py-2">
+              <p className="text-sm font-medium text-gray-500">Following</p>
+              <p className="text-3xl font-medium text-gray-600">7</p>
+            </div>
+            <div className="flex flex-col items-center rounded-xl bg-gray-100 px-4 py-2">
+              <p className="text-sm font-medium text-gray-500">Followers</p>
+              <p className="text-3xl font-medium text-gray-600">2.5k</p>
+            </div>
+            <div className=""></div>
+          </div>
         </div>
         <div className="mt-2 flex flex-1 flex-col items-center justify-end px-8 lg:items-end">
           <div className="mt-2 flex items-center space-x-4">

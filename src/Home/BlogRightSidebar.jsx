@@ -19,7 +19,7 @@ function BlogRightSidebar() {
   }, []);
 
   return (
-    <div className="relative ">
+    <div className="sticky ">
       <div className="flex flex-col space-y-8 sticky">
         {/* Trending News Section */}
         <div className="bg-white p-4 rounded-lg m-2 border-2 border-gray-400 shadow-lg shadow-blue-200 ">

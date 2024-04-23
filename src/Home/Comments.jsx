@@ -1,25 +1,53 @@
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import UserContext from "../Contex/CreateContex";
 
 function Comments({ blogid }) {
   const [comment, setComment] = useState("");
+  const [rendComment, setRendComment] = useState(false);
+  const [showComment, setShowComment] = useState([]);
   const { userDataFromSignup } = useContext(UserContext);
-  const userId = userDataFromSignup._id
+  const userId = userDataFromSignup._id;
 
+  //fetch all comments from backend
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const response = await axios.post(
+          "http://localhost:3015/user/showComment",
+          { blogid }
+        );
+        if (response.data.success) {
+          console.log(response.data.commentData)
+          setShowComment(response.data.commentData);
+        }
+      } catch (error) {
+        console.log("the error in comment fetching :-", error);
+        toast.error("Failed to fetch comments");
+      }
+    };
+  
+    fetchComments();
+  }, [blogid, rendComment]); 
+
+  //add comment
   const postComment = async (e) => {
     e.preventDefault();
-  
+
     try {
-      const response = await axios.post('http://localhost:3015/user/postcomment',{userId,blogid,comment})
-   
-      if(response.data.success){
-        toast.success(response.data. message)
-        setComment('')
+      const response = await axios.post(
+        "http://localhost:3015/user/postcomment",
+        { userId, blogid, comment }
+      );
+
+      if (response.data.success) {
+        toast.success(response.data.message);
+        setRendComment(!rendComment);
+        setComment("");
       }
     } catch (error) {
-      console.log("the error in comment is:- ",error)
+      console.log("the error in comment is:- ", error);
     }
   };
 
@@ -50,33 +78,18 @@ function Comments({ blogid }) {
       </form>
       <h2 className="text-lg font-bold my-4 underline">Comments</h2>
       <div className="flex flex-col space-y-4">
-        <div className="bg-white p-4 rounded-lg shadow-md">
-          <h3 className="text-lg font-bold">John Doe</h3>
-          <p className="text-gray-700 text-sm mb-2">Posted on April 17, 2023</p>
-          <p className="text-gray-700">
-            This is a sample comment. Lorem ipsum dolor sit amet, consectetur
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua.
-          </p>
-        </div>
-        <div className="bg-white p-4 rounded-lg shadow-md">
-          <h3 className="text-lg font-bold">Jane Smith</h3>
-          <p className="text-gray-700 text-sm mb-2">Posted on April 16, 2023</p>
-          <p className="text-gray-700">
-            I agree with John. Lorem ipsum dolor sit amet, consectetur
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua.
-          </p>
-        </div>
-        <div className="bg-white p-4 rounded-lg shadow-md">
-          <h3 className="text-lg font-bold">Bob Johnson</h3>
-          <p className="text-gray-700 text-sm mb-2">Posted on April 15, 2023</p>
-          <p className="text-gray-700">
-            I have a different opinion. Lorem ipsum dolor sit amet, consectetur
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua.
-          </p>
-        </div>
+        {showComment &&
+          showComment.map((ele,ind) => (
+            <div className="bg-white p-4 rounded-lg shadow-md" key={ind}>
+              <h3 className="text-lg font-bold">{ele.commentPerson.firstName}</h3>
+              <p className="text-gray-700 text-sm mb-2">
+                Posted on {new Date(ele.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })}
+              </p>
+              <p className="text-gray-700">
+             {ele.comment}
+              </p>
+            </div>
+          ))}
       </div>
     </div>
   );

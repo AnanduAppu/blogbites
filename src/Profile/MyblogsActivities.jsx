@@ -32,9 +32,11 @@ function MyblogsActivities() {
           <a href="#">See All</a>
         </div>
 
-       
+       <div className="w-[100%]">
         
         <Outlet/>
+
+        </div>
 
        
       </div>

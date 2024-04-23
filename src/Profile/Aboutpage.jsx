@@ -169,24 +169,7 @@ function Aboutpage() {
               laudantium eligendi commodi distinctio!
             </p>
           </div>
-          <div className="lg:mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            <div className="bg-blue-500 p-4 text-white text-center">
-              <div className="text-2xl font-bold">Followers</div>
-              <div className="text-lg">250</div>
-            </div>
-            <div className="bg-green-500 p-4 text-white text-center">
-              <div className="text-2xl font-bold">Followed</div>
-              <div className="text-lg">150</div>
-            </div>
-            <div className="bg-yellow-500 p-4 text-white text-center">
-              <div className="text-2xl font-bold">Likes</div>
-              <div className="text-lg">125</div>
-            </div>
-            <div className="bg-purple-500 p-4 text-white text-center">
-              <div className="text-2xl font-bold">Blogs</div>
-              <div className="text-lg">25</div>
-            </div>
-          </div>
+          
         </div>
       </div>
     </div>
