@@ -1,9 +1,13 @@
 import React, { useContext } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import UserContext from "../Contex/CreateContex";
 import Comments from "./Comments";
+import { fetchContent } from "../ReduxTool/CreateSlice";
 
 function BlogPage() {
+  
+  const dispatch = useDispatch()
   const {blogid} = useParams()
   const {bloglist,userDataFromSignup} = useContext(UserContext)
   const navigate = useNavigate()
@@ -20,8 +24,10 @@ function BlogPage() {
 
   const checkuser = ()=>{
     if(blogShow.author._id==userId){
+      
       navigate(`/profile`)
     }else{
+      dispatch(fetchContent(blogShow.author._id));
       navigate(`/author/${blogShow.author._id}`)
     }
   }

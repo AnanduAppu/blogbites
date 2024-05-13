@@ -12,13 +12,10 @@ function LikedBlogs() {
     
     const fetchLikedBlogs = async()=>{
       try {
-        const config = {
-          headers: {
-              'userid': userid
-          },
-          withCredentials: true
-      };
-        const response = await axios.get(`http://localhost:3015/user/likedblog`,config)
+
+        const response = await axios.get(`http://localhost:3015/user/likedblog`, {
+             params: {id: userid}
+          },)
 
         if(response.data.success){
           setLikeBlogs(response.data.Data)

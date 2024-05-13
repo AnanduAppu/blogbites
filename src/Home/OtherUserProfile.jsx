@@ -1,11 +1,30 @@
 import axios from "axios";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import UserContext from "../Contex/CreateContex";
+import { fetchContent } from "../ReduxTool/CreateSlice";
+
 function OtherUserProfile() {
   const { userid } = useParams();
   const { bloglist,userDataFromSignup } = useContext(UserContext);
+  const [follow , setFollowed]=useState()
+  const [updateChange,setUpdateChang]=useState(null)
+  const dispatch = useDispatch();
+
+  const  info = useSelector(state => state.infoData.info[0]);
+
+  useEffect(()=>{
+    if(!info){
+      dispatch(fetchContent(userid));
+    }else{
+      return
+    }
+   
+  },[updateChange])
+
+console.log(info)
 
   console.log("this is get from useparams:-", userid);
   const blogAuthor = bloglist.find((ele) => ele.author._id == userid)?.author;
@@ -20,6 +39,8 @@ function OtherUserProfile() {
       const responds = await axios.put('http://localhost:3015/user/followAndunfollow',{logeduserId,anotheruserId})
       if(responds.data.success){
         toast.success(responds.data.message)
+        setFollowed()
+        setUpdateChang(1)
       }
     } catch (error) {
       console.log("error when follow user",error)
@@ -28,178 +49,82 @@ function OtherUserProfile() {
   }
   return (
     <>
-      <head>
-        <link
-          rel="stylesheet"
-          href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css"
-        />
-        <link
-          rel="stylesheet"
-          href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
-        />
-      </head>
 
-      <main className="profile-page">
-        <section className="relative block h-500-px">
-          {blogAuthor.backgroudWal ? (
-            <div
-              className="absolute top-0 w-full h-full bg-center bg-cover"
-              style={{ backgroundImage: `url(${blogAuthor.backgroudWal})` }}
-            >
-              <span
-                id="blackOverlay"
-                className="w-full h-full absolute opacity-50 bg-black"
-              ></span>
-            </div>
-          ) : (
-            <div
-              className="absolute top-0 w-full h-full bg-center bg-cover"
-              style={{
-                backgroundImage:
-                  "url('https://vojislavd.com/ta-template-demo/assets/img/profile-background.jpg')",
-              }}
-            >
-              <span
-                id="blackOverlay"
-                className="w-full h-full absolute opacity-50 bg-black"
-              ></span>
-            </div>
-          )}
-          <div
-            className="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-70-px"
-            style={{ transform: "translateZ(0px)" }}
-          >
-            <svg
-              className="absolute bottom-0 overflow-hidden"
-              xmlns="http://www.w3.org/2000/svg"
-              preserveAspectRatio="none"
-              version="1.1"
-              viewBox="0 0 2560 100"
-              x="0"
-              y="0"
-            >
-              <polygon
-                className="text-blueGray-200 fill-current"
-                points="2560 0 2560 100 0 100"
-              ></polygon>
-            </svg>
-          </div>
-        </section>
-        <section className="relative py-16 bg-blueGray-200">
-          <div className="container mx-auto px-4">
-            <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64">
-              <div className="px-6">
-                <div className="flex flex-wrap justify-center">
-                  <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
-                    <div className="relative">
-                      <img
-                        alt="..."
-                        src={blogAuthor.profilePicture}
-                        className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"
-                      />
-                    </div>
-                  </div>
-                  <div className="w-full lg:w-4/12 md:text-right md:self-center px-4 lg:order-3 lg:text-right lg:self-center max-sm:flex  max-sm:justify-center">
-                    <div className="py-6  mt-32 sm:mt-0">
-                      <button
-                        className="bg-pink-500 active:bg-pink-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
-                        type="button"
-                        onClick={(e)=>followAndUnfollow(e)}
-                      >
-                        Follow
-                      </button>
-                    </div>
-                  </div>
-                  <div className="w-full lg:w-4/12 px-4 lg:order-1">
-                    <div className="flex justify-center py-4 lg:pt-4 pt-8">
-                      <div className="mr-4 p-3 text-center">
-                        <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                          22
-                        </span>
-                        <span className="text-sm text-blueGray-400">
-                          Friends
-                        </span>
-                      </div>
-                      <div className="mr-4 p-3 text-center">
-                        <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                          10
-                        </span>
-                        <span className="text-sm text-blueGray-400">
-                          Photos
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="text-center mt-12">
-                  <h3 className="text-4xl font-semibold leading-normal text-blueGray-700 mb-2">
-                    {blogAuthor.username}
-                  </h3>
-                  <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
-                    <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
-                    {blogAuthor.region}
-                  </div>
-                  <div className="mb-2 text-blueGray-600 mt-10">
-                    <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
-                    mail - {blogAuthor.email}
-                  </div>
-                  <div className="mb-2 text-blueGray-600">
-                    <i className="fas fa-university mr-2 text-lg text-blueGray-400"></i>
-                    createdAt -{" "}
-                    {new Date(blogAuthor.createdAt).toLocaleDateString(
-                      "en-GB",
-                      { day: "2-digit", month: "long", year: "numeric" }
-                    )}
-                  </div>
-                </div>
-                <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
-                  <div className="flex flex-wrap justify-center">
-                    <div className="w-full lg:w-9/12 px-4 flex justify-center gap-4">
-                      {blogAuthor.interest.map((ele, index) => (
-                        <p
-                          className="mb-4 text-lg leading-relaxed text-blueGray-700 "
-                          key={index}
-                        >
-                          {ele}
-                        </p>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <footer className="relative bg-blueGray-200 pt-8 pb-6 mt-8">
-            <div className="container mx-auto px-4">
-              <div className="flex flex-wrap items-center md:justify-between justify-center">
-                <div className="w-full md:w-6/12 px-4 mx-auto text-center">
-                  <div className="text-sm text-blueGray-500 font-semibold py-1">
-                    Made with BLOG BITES{" "}
-                    <a
-                      href="#"
-                      className="text-blueGray-500 hover:text-gray-800"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    ></a>{" "}
-                    by{" "}
-                    <a
-                      href="#"
-                      className="text-blueGray-500 hover:text-blueGray-800"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {" "}
-                      Creative
-                    </a>
-                    .
-                  </div>
-                </div>
-              </div>
-            </div>
-          </footer>
-        </section>
-      </main>
+<div className="mx-2">
+      {info && (
+  <div className="relative w-full h-[60vh] md:h-[50vh] lg:h-[50vh] ">
+    <img
+      alt="Background"
+      className="absolute inset-0 w-full h-[50vh] object-cover"
+      height="400"
+      src={info.backgroudWal ? info.backgroudWal : "https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg"}
+      style={{ aspectRatio: "1200/400", objectFit: "cover" }}
+      width="1200"
+    />
+    <div className="absolute inset-0 flex items-end justify-center">
+      <img
+        alt="Profile"
+        className="rounded-full border-4 border-white shadow-lg"
+        height="160"
+        src={info.profilePicture ? info.profilePicture : "https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg"}
+        style={{ aspectRatio: "160/160", objectFit: "cover" }}
+        width="160"
+      />
+    </div>
+  </div>
+)}
+{info && <div className="container mx-auto px-4">
+  <div className="text-center space-y-4">
+    <h1 className="text-3xl font-bold md:text-4xl lg:text-5xl">{info && info.username}</h1>
+    <p className="text-gray-500 dark:text-gray-400 text-lg md:text-xl">{info && info.region}</p>
+    <div className="flex justify-center gap-4">
+      
+      <button className="border bg-pink-500 active:bg-pink-600 border-gray-300 dark:border-gray-700 rounded-md px-4 py-2 flex items-center text-white font-bold"
+       onClick={(e)=>followAndUnfollow(e)}
+      >
+    
+        Follow
+      </button>
+      <button className="border border-gray-300 dark:border-gray-700 rounded-md px-4 py-2 flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" className="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 13l-7 7-7-7m14-8l-7 7-7-7"></path>
+        </svg>
+        Message
+      </button>
+    </div>
+    <div className="flex justify-center mt-4">
+  <div>
+    <p className="text-sm text-gray-600">Followers</p>
+    <p id="followers" className="text-lg font-semibold text-gray-800">{info.followed.length}</p>
+  </div>
+  <div className="ml-6">
+    <p className="text-sm text-gray-600">Following</p>
+    <p id="repositories" className="text-lg font-semibold text-gray-800">{info.you_followed.length}</p>
+  </div>
+</div>
+  </div>
+  <div className="mt-8 md:mt-8 lg:mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 lg:grid-cols-2">
+    <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-6 space-y-4">
+      <h3 className="text-lg font-semibold">About</h3>
+      <p className="text-gray-500 dark:text-gray-400">
+        John is a passionate software engineer with a strong background in full-stack web development. He has been working at Acme Inc. for the past 5 years, where he has contributed to the development of several award-winning web applications.
+      </p>
+    </div>
+
+    <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-6 space-y-4">
+      <h3 className="text-lg font-semibold">interests</h3>
+      <div className="flex flex-wrap gap-2">
+        {info && info.interest.map((ele, ind) => (
+          <span className="border border-gray-300 dark:border-gray-700 rounded-md px-2 py-1" key={ind}>{ele}</span>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>}
+</div>
+
+     
     </>
   );
 }

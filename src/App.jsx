@@ -14,8 +14,8 @@ import Loginform from "./Login&signup/loginform";
 import Resetpass1 from "./Login&signup/Resetpass1";
 import ResetPass2 from "./Login&signup/ResetPass2";
 import Asemble from "./Home/Asemble";
-import UserProfile from "./Profile/Userprofile";
-import Assemble from "./Profile/ProfileAssemble";
+import { Provider } from 'react-redux';
+import store from './ReduxTool/Store';
 import BlogNavbar from "./Home/Blognav";
 import Newtrending from "./Home/Newtrending";
 import BlogPage from "./Home/BlogPage";
@@ -130,6 +130,7 @@ function App() {
   return (
     <>
       <Toaster />
+      <Provider store={store}>
       <UserContext.Provider value={data}>
         <Routes>
           <Route path="/open" element={<OpenPage />}>
@@ -164,6 +165,7 @@ function App() {
           
         </Routes>
       </UserContext.Provider>
+      </Provider>
     </>
   );
 }

@@ -185,7 +185,88 @@ const blogprofile = () => {
       </div>
     </div>
       )}
+
+
+
+
+
+
+
+      <>
+      {/* blog profile page must use */}
+      <div class="relative w-full h-[60vh] md:h-[50vh] lg:h-[50vh]">
+  <img
+    alt="Background"
+    class="absolute inset-0 w-full h-[50vh] object-cover"
+    height="400"
+    src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg"
+    style="aspect-ratio: 1200/400; object-fit: cover;"
+    width="1200"
+  />
+  <div class="absolute inset-0 flex items-end justify-center">
+    <img
+      alt="Profile"
+      class="rounded-full border-4 border-white shadow-lg"
+      height="160"
+      src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg"
+      style="aspect-ratio: 160/160; object-fit: cover;"
+      width="160"
+    />
+    
+  </div>
+</div>
+<div class="container mx-auto px-4 ">
+  <div class="text-center space-y-4">
+    <h1 class="text-3xl font-bold md:text-4xl lg:text-5xl">John Doe</h1>
+    <p class="text-gray-500 dark:text-gray-400 text-lg md:text-xl">Software Engineer at Acme Inc.</p>
+    <div class="flex justify-center gap-4">
+      <button class="border border-gray-300 dark:border-gray-700 rounded-md px-4 py-2 flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+        Follow
+      </button>
+      <button class="border border-gray-300 dark:border-gray-700 rounded-md px-4 py-2 flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7m14-8l-7 7-7-7"></path>
+        </svg>
+        Message
+      </button>
     </div>
+  </div>
+  <div class="mt-8 md:mt-8 lg:mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 lg:grid-cols-2">
+    <div class="bg-gray-100 dark:bg-gray-800 rounded-lg p-6 space-y-4">
+      <h3 class="text-lg font-semibold">About</h3>
+      <p class="text-gray-500 dark:text-gray-400">
+        John is a passionate software engineer with a strong background in full-stack web development. He has been working at Acme Inc. for the past 5 years, where he has contributed to the development of several award-winning web applications.
+      </p>
+    </div>
+
+    <div class="bg-gray-100 dark:bg-gray-800 rounded-lg p-6 space-y-4">
+      <h3 class="text-lg font-semibold">interests</h3>
+      <div class="flex flex-wrap gap-2">
+        <span class="border border-gray-300 dark:border-gray-700 rounded-md px-2 py-1">JavaScript</span>
+        <span class="border border-gray-300 dark:border-gray-700 rounded-md px-2 py-1">React</span>
+        <span class="border border-gray-300 dark:border-gray-700 rounded-md px-2 py-1">Node.js</span>
+        <span class="border border-gray-300 dark:border-gray-700 rounded-md px-2 py-1">SQL</span>
+        <span class="border border-gray-300 dark:border-gray-700 rounded-md px-2 py-1">Git</span>
+        <span class="border border-gray-300 dark:border-gray-700 rounded-md px-2 py-1">Agile</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+      
+      
+      
+      
+      
+      </>
+    </div>
+
+
+
+
   );
 };
 
