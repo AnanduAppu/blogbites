@@ -16,50 +16,7 @@ function Search_post() {
           <span className="text-blue-600 font-semibold"> Bites</span>
         </p>
         <div className="max-w-4xl space-y-4 p-4 lg:mt-5">
-          <div className="flex flex-col space-y-4 border border-gray-500 rounded-lg p-2">
-            <textarea
-              className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex min-h-[80px] w-full rounded-lg border p-4 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              placeholder="What's on your mind?"
-            ></textarea>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="text-blue-500"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M2 20h.01"></path>
-                  <path d="M7 20v-4"></path>
-                  <path d="M12 20v-8"></path>
-                </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="text-purple-500"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path>
-                  <circle cx="12" cy="13" r="3"></circle>
-                </svg>
-              </div>
-              <button className="ring-offset-background focus-visible:ring-ring hover:bg-primary/90 inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-purple-500 px-4 py-2 text-sm font-medium text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
-                Post
-              </button>
-            </div>
-          </div>
+          
         </div>
       </div>
       <div className="flex w-full flex-col justify-center lg:-mt-12 lg:w-3/5 max-sm:hidden">

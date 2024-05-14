@@ -5,42 +5,62 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import UserContext from "../Contex/CreateContex";
 import { fetchContent } from "../ReduxTool/CreateSlice";
+import { isEqual } from "lodash";
 
 function OtherUserProfile() {
+  const dispatch = useDispatch();
   const { userid } = useParams();
   const { bloglist,userDataFromSignup } = useContext(UserContext);
-  const [follow , setFollowed]=useState()
-  const [updateChange,setUpdateChang]=useState(null)
-  const dispatch = useDispatch();
+  const [updateChange,setUpdateChange]=useState({})
+  const [follow ,setFollow]=useState(false)
+  let [info,setInfo]=useState({})
+  info = useSelector(state => state.infoData.info);
 
-  const  info = useSelector(state => state.infoData.info[0]);
 
-  useEffect(()=>{
-    if(!info){
-      dispatch(fetchContent(userid));
-    }else{
-      return
-    }
+
+  useEffect(() => {
+    // Fetch data only if info is null or updateChange is not equal to info
+    if (!info || !isEqual(updateChange, info)) {
    
-  },[updateChange])
+     
+      dispatch(fetchContent(userid));
+      
+   
+    }
+    if (info) {
+      const findFollow = info.followed.find((ele)=>ele._id===userDataFromSignup._id)
+      if(findFollow){
+        console.log("print")
+        setFollow(true)
+      }
+    }
 
-console.log(info)
+  }, [dispatch, updateChange]);
 
-  console.log("this is get from useparams:-", userid);
-  const blogAuthor = bloglist.find((ele) => ele.author._id == userid)?.author;
-  console.log("blog author is:- ", blogAuthor);
+
+ 
+
+
+
+  
+
+
+  // console.log("this is get from useparams:-", userid);
+  // const blogAuthor = bloglist.find((ele) => ele.author._id == userid)?.author;
+  // console.log("blog author is:- ", blogAuthor);
 
   const followAndUnfollow = async(e)=>{
     e.preventDefault()
     const logeduserId = userDataFromSignup._id
-    const anotheruserId=blogAuthor._id
+    const anotheruserId=info._id
 
     try {
       const responds = await axios.put('http://localhost:3015/user/followAndunfollow',{logeduserId,anotheruserId})
       if(responds.data.success){
+        dispatch(fetchContent(userid));
         toast.success(responds.data.message)
-        setFollowed()
-        setUpdateChang(1)
+    
+
       }
     } catch (error) {
       console.log("error when follow user",error)
@@ -83,6 +103,7 @@ console.log(info)
       <button className="border bg-pink-500 active:bg-pink-600 border-gray-300 dark:border-gray-700 rounded-md px-4 py-2 flex items-center text-white font-bold"
        onClick={(e)=>followAndUnfollow(e)}
       >
+        
     
         Follow
       </button>
