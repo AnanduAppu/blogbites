@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import Categories from "./Categories";
 
 function BlogRightSidebar() {
   const [news, setNews] = useState([]);
@@ -21,6 +21,9 @@ function BlogRightSidebar() {
   return (
     <div className="sticky ">
       <div className="flex flex-col space-y-8 sticky">
+        {/* Categories Section */}
+        <Categories/>
+
         {/* Trending News Section */}
         <div className="bg-white p-4 rounded-lg m-2 border-2 border-gray-400 shadow-lg shadow-blue-200 ">
           <h2 className="text-lg font-semibold mb-4">Trending News</h2>
@@ -46,71 +49,6 @@ function BlogRightSidebar() {
               </a>
             ))}
             <Link to="/news">view all</Link>
-          </div>
-        </div>
-
-        {/* Categories Section */}
-        <div className="bg-white rounded-lg shadow-md mx-2">
-          <div className="w-full rounded-lg border-2 border-gray-400 p-4 max-w-sm shadow-lg shadow-purple-300">
-            <h2 className="font-os text-lg font-bold">Categories</h2>
-            <ul className="flex items-start flex-wrap mt-4">
-              <li className="flex mx-1">
-                <a
-                  href="category/all"
-                  className="p-2 px-3 border-purple-800 mb-4 rounded font-medium hover:bg-transparent hover:border-purple-800 border bg-purple-400/25 text-purple-800"
-                >
-                  all
-                </a>
-              </li>
-              <li className="flex mx-1">
-                <a
-                  href="category/react-js"
-                  className="p-2 px-3 border-purple-800 mb-4 rounded font-medium hover:bg-transparent hover:border-purple-800 border bg-purple-400/25 text-purple-800"
-                >
-                  AI
-                </a>
-              </li>
-              <li className="flex mx-1">
-                <a
-                  href="category/redux"
-                  className="p-2 px-3 border-purple-800 mb-4 rounded font-medium hover:bg-transparent hover:border-purple-800 border bg-purple-400/25 text-purple-800"
-                >
-                  Fashion
-                </a>
-              </li>
-              <li className="flex mx-1">
-                <a
-                  href="category/ui-design"
-                  className="p-2 px-3 border-purple-800 mb-4 rounded font-medium hover:bg-transparent hover:border-purple-800 border bg-purple-400/25 text-purple-800"
-                >
-                  Travel
-                </a>
-              </li>
-              <li className="flex mx-1">
-                <a
-                  href="category/user-experience"
-                  className="p-2 px-3 border-purple-800 mb-4 rounded font-medium hover:bg-transparent hover:border-purple-800 border bg-purple-400/25 text-purple-800"
-                >
-                  Food
-                </a>
-              </li>
-              <li className="flex mx-1">
-                <a
-                  href="category/productivity"
-                  className="p-2 px-3 border-purple-800 mb-4 rounded font-medium hover:bg-transparent hover:border-purple-800 border bg-purple-400/25 text-purple-800"
-                >
-                  Business
-                </a>
-              </li>
-              <li className="flex mx-1">
-                <a
-                  href="category/game"
-                  className="p-2 px-3 border-purple-800 mb-4 rounded font-medium hover:bg-transparent hover:border-purple-800 border bg-purple-400/25 text-purple-800"
-                >
-                  Game
-                </a>
-              </li>
-            </ul>
           </div>
         </div>
 

@@ -158,7 +158,7 @@ function Myblogs() {
                 href="#"
                 className="py-1 text-xs font-regular text-gray-900 mr-1 flex flex-row items-center"
               >
-                <span className="ml-1">39 Comments</span>
+                <span className="ml-1">{ele.comments.length}comments </span>
               </span>
             </div>
           </div>

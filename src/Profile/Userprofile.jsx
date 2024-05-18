@@ -254,7 +254,7 @@ function UserProfile() {
           <div className="h-[250px] w-full">
             <img
               src={userDataFromSignup.backgroudWal}
-              className="h-full w-full rounded-tl-lg rounded-tr-lg"
+              className="h-[40vh] w-full rounded-tl-lg rounded-tr-lg  object-cover"
               alt="profile background"
             />
           </div>
@@ -276,8 +276,11 @@ function UserProfile() {
           >
             <img
               src={userDataFromSignup.profilePicture}
-              className="w-52 rounded-full border-4 border-white"
+              height="160"
+              width="160"
+              className="rounded-full border-4 border-white shadow-lg"
               alt="profile"
+              style={{ aspectRatio: "160/160", objectFit: "cover" }}
             />
             {isHovered && (
               <div className="absolute inset-0 flex items-center justify-center">

@@ -89,7 +89,9 @@ function App() {
 
   // here we creating a useEffect function to retrieve all blog datas from server
   const [bloglist, setBloglist] = useState([]);
+  const [bloglistfil, setBloglistfil] = useState([]);
   const [bloguser,setBlogUser] = useState({})
+  const [likeAction, setLikeAction] = useState(false);
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
@@ -108,7 +110,7 @@ function App() {
     };
 
     fetchBlogs();
-  }, [bloglist]);
+  }, [bloglist,likeAction]);
 
   
 
@@ -124,7 +126,9 @@ function App() {
     bloglist,
     setBloglist,
     myBlogs, setmyBlogs,
-    bloguser,setBlogUser
+    bloguser,setBlogUser,
+    likeAction, setLikeAction,
+    bloglistfil, setBloglistfil
   };
 
   return (
