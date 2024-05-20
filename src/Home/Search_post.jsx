@@ -1,8 +1,9 @@
 import React from "react";
+import './landcard.css'
 
 function Search_post() {
   return (
-    <div className="container mx-auto flex flex-col md:flex-row shadow-lg shadow-blue-100  mt-2">
+    <div className="container mx-auto flex flex-col md:flex-row shadow-lg shadow-blue-100  mt-2 bg-gradient-to-r from-teal-400 to-yellow-200">
       <div className="flex w-full flex-col p-8 lg:w-2/5">
         <p className="my-4 text-3xl leading-relaxed text-yellow-500 md:text-5xl md:leading-snug">
           Create Your thoughts ...
