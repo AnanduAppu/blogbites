@@ -4,45 +4,52 @@ import { Suspense, useContext, useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
 import { isEqual } from "lodash";
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import { useDispatch } from "react-redux";
 import { fetchContent } from "../ReduxTool/CreateSlice";
 
 function Blogview() {
   const {
-    bloglist,
-    setBloglist,
+   
     userDataFromSignup,
-    likeAction,
-    setLikeAction,
+   
     bloglistfil,
     setBloglistfil,
+    activeCategory,
+    setActiveCategory
   } = useContext(UserContext);
 
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  //const [likeAction, setLikeAction] = useState(false);
+  const [likeAction, setLikeAction] = useState(false);
 
   // setBloglistfil(bloglist)
 
-  // useEffect(() => {
-  //   const fetchBlogs = async () => {
-  //     try {
-  //       const response = await axios.get("http://localhost:3015/user/bloglist");
-  //       const value = response.data.blogs;
-  //       setBloglist(value)
-  //       // if (!isEqual(bloglist, value)) {
-  //       //   setBloglist(value);
-  //       //   console.log("blog details are ", value);
-  //       // }
-  //     } catch (error) {
-  //       console.log("we get an error in retrieving blog datas", error);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const response = await axios.get("http://localhost:3015/user/bloglist");
+        const value = response.data.blogs;
+          
+       console.log("blogvivew",value)
+        if(activeCategory === 'all'){
+          setBloglistfil(value);
+        }else{
+          const filval = value.filter((blog)=>blog.topic.toLowerCase()== activeCategory.toLowerCase())
+          setBloglistfil(filval);
+        }
+   
+      } catch (error) {
+        console.log("we get an error in retrieving blog datas", error);
+      }
+    };
 
-  //   fetchBlogs();
-  // }, [bloglist, likeAction])
+    fetchBlogs();
+  }, [likeAction,activeCategory,
+    setActiveCategory])
 
   const likeandUnlike = async (e, blogid) => {
     e.preventDefault();
@@ -90,7 +97,7 @@ function Blogview() {
                   key={ind}
                 >
                   {ele.image ? (
-                    <div className="flex-shrink-0 relative rounded-xl overflow-hidden w-full h-[200px] sm:w-[250px] sm:h-[350px]">
+                    <div className="flex-shrink-0 relative rounded-xl  shadow-lg shadow-gray-400 overflow-hidden w-full lg:h-80 sm:w-[250px] sm:h-[350px] border border-white ">
                       <img
                         className="size-full absolute top-0 start-0 object-cover"
                         src={ele.image}
@@ -113,8 +120,8 @@ function Blogview() {
                         <h1 className="block mt-1 text-lg leading-tight font-medium text-black hover:underline">
                           {ele.title}
                         </h1>
-                        <p className="mt-2 text-slate-500">
-                          {ele.description.split(" ").slice(0, 20).join(" ")}
+                        <p className="mt-2 text-slate-500 text-lg">
+                          {ele.description.split(" ").slice(0, 30).join(" ")}
                           {ele.description.split(" ").length > 20 ? "..." : ""}
                         </p>
                       </div>
@@ -146,11 +153,12 @@ function Blogview() {
                               ele.likes.find(
                                 (ele) => ele._id === userDataFromSignup._id
                               ) ? (
-                                <span className="text-blue-600">Liked</span>
-                              ) : (
-                                "Like"
+                                <span className="text-blue-600"><ThumbUpIcon/> Liked</span>
+                              ) : (<><ThumbUpOffAltIcon/> Like</>
+                               
                               )}{" "}
                               {ele.likes.length}
+                              
                             </button>
                             <p>Save</p>
                           </div>

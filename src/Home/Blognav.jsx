@@ -83,7 +83,7 @@ const BlogNavbar = () => {
 
   return (
     <>
-      <nav className="bg-white border border-gray-300 dark:bg-gray-900 mb-5">
+      <nav className="bg-white border border-gray-300 dark:bg-gray-900 ">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 ">
           <Link
             to="/"

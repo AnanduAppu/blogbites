@@ -52,7 +52,7 @@ function Comments({ blogid }) {
   };
 
   return (
-    <div className="bg-gray-100 p-6">
+    <div className="bg-gray-100 p-6 my-6">
       <form
         className="bg-white p-4 rounded-lg shadow-md"
         onSubmit={(e) => postComment(e)}

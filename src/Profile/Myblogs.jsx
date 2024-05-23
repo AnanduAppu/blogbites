@@ -96,7 +96,7 @@ function Myblogs() {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-      {myBlogs.map((ele, ind) => {
+      {myBlogs.length===0?<>loading...</>: myBlogs.map((ele, ind) => {
         return (
           <div
             key={ind}

@@ -7,13 +7,14 @@ import Blogview from "./Blogview";
 
 import Phonesize from "./Phonesize";
 import Search_post from "./Search_post";
+import Slider from "./Slider";
 
 function Asemble() {
   return (
     <>
      
 
-      <Search_post />
+      <Slider/>
       <Phonesize/>
       <div className=" sm:mx-[5%] ">
       

@@ -4,6 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import UserContext from "../Contex/CreateContex";
 import Comments from "./Comments";
 import { fetchContent } from "../ReduxTool/CreateSlice";
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 
 function BlogPage() {
   
@@ -37,9 +39,18 @@ function BlogPage() {
       <main className="mt-10">
         <div className="mb-4 md:mb-0 w-full mx-auto relative">
           <div className="px-4 lg:px-0">
+            <div className="flex justify-between items-center">
             <h2 className="text-4xl font-semibold text-gray-800 leading-tight">
               {blogShow.title}
             </h2>
+            <div className="flex items-center gap-4">
+              <span> <ThumbUpIcon/></span>
+            <span><BookmarkBorderIcon/></span>
+           
+            </div>
+           
+            </div>
+         
             <a
               href="#"
               className="py-2 text-green-700 inline-flex items-center justify-center mb-2"

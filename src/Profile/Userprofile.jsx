@@ -270,10 +270,10 @@ function UserProfile() {
 
         <div className="-mt-20 flex flex-col items-center">
           <div
-            className="relative"
+            className="relative max-sm:mt-20"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-          >
+            >
             <img
               src={userDataFromSignup.profilePicture}
               height="160"

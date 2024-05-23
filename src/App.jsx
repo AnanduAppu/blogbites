@@ -91,7 +91,9 @@ function App() {
   const [bloglist, setBloglist] = useState([]);
   const [bloglistfil, setBloglistfil] = useState([]);
   const [bloguser,setBlogUser] = useState({})
-  const [likeAction, setLikeAction] = useState(false);
+
+
+  const [activeCategory, setActiveCategory] = useState('all');
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
@@ -110,7 +112,7 @@ function App() {
     };
 
     fetchBlogs();
-  }, [bloglist,likeAction]);
+  }, [bloglist]);
 
   
 
@@ -127,8 +129,9 @@ function App() {
     setBloglist,
     myBlogs, setmyBlogs,
     bloguser,setBlogUser,
-    likeAction, setLikeAction,
-    bloglistfil, setBloglistfil
+ 
+    bloglistfil, setBloglistfil,
+    activeCategory, setActiveCategory
   };
 
   return (
@@ -162,7 +165,8 @@ function App() {
             <Route path="/author/:userid" element={<OtherUserProfile />} />
             <Route path="/profile" element={<ProfileAssemble />}>
               <Route index element={<Myblogs/>} />
-              <Route path="/profile/likedblogs" element={<LikedBlogs/>} />
+              <Route path="likedblogs" element={<LikedBlogs/>} />
+              <Route path="savedblogs" element={<LikedBlogs/>} />
             </Route>
           </Route>
 
