@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Categories from "./Categories";
 
+import noimgnews from '../assets/NoimgNews.jpg'
+
 function BlogRightSidebar() {
   const [news, setNews] = useState([]);
 
@@ -39,7 +41,7 @@ function BlogRightSidebar() {
                 className="flex items-center border border-gray-400 rounded-md mb-4 cursor-pointer"
               >
                 <img
-                  src={article.urlToImage}
+                  src={article.urlToImage?article.urlToImage:noimgnews}
                   alt="Trending News Image"
                   className="w-24 h-24 object-cover rounded-md mr-4"
                 />

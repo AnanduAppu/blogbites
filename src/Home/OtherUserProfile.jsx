@@ -140,7 +140,7 @@ function OtherUserProfile() {
                   </button>
                 </div>
                 <div className="ml-6">
-                <button  className="btn" onClick={() => showModal(info.you_followed,"Follower")}>
+                <button  className="btn" onClick={() => showModal(info.you_followed,"Following")}>
                   <p className="text-sm text-gray-600">Following</p>
                   <p
                     id="repositories"

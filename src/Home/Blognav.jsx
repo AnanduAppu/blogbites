@@ -131,7 +131,7 @@ const BlogNavbar = () => {
                 {isSearchOpen && (
                   <ul
                     tabIndex={0}
-                    className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box border border-gray-500 w-[100%]"
+                    className="dropdown-content z-10 menu p-2 shadow bg-base-100 rounded-box border border-gray-500 w-[100%] "
                   >
                     {results.length === 0 ? (
                       <>no result</>

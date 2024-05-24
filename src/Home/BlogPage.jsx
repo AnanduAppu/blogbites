@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import UserContext from "../Contex/CreateContex";
@@ -15,6 +15,10 @@ function BlogPage() {
   const navigate = useNavigate()
 
   const blogShow = bloglist.find((ele) => ele._id === blogid);
+
+//const [blogShow,setBlogshow]=useState()
+
+
 
 
 

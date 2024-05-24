@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { isEqual } from "lodash";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import { useDispatch } from "react-redux";
 import { fetchContent } from "../ReduxTool/CreateSlice";
 
@@ -97,7 +98,7 @@ function Blogview() {
                   key={ind}
                 >
                   {ele.image ? (
-                    <div className="flex-shrink-0 relative rounded-xl  shadow-lg shadow-gray-400 overflow-hidden w-full lg:h-80 sm:w-[250px] sm:h-[350px] border border-white ">
+                    <div className="flex-shrink-0 relative rounded-xl  shadow-lg shadow-gray-400 overflow-hidden w-full lg:h-80 max-sm:w-full max-sm:h-[350px] sm:w-[250px] sm:h-full border border-white ">
                       <img
                         className="size-full absolute top-0 start-0 object-cover"
                         src={ele.image}
@@ -153,8 +154,8 @@ function Blogview() {
                               ele.likes.find(
                                 (ele) => ele._id === userDataFromSignup._id
                               ) ? (
-                                <span className="text-blue-600"><ThumbUpIcon/> Liked</span>
-                              ) : (<><ThumbUpOffAltIcon/> Like</>
+                                <span className="text-blue-600 duration-700 "><ThumbUpAltIcon fontSize="medium"/> </span>
+                              ) : (<span className="duration-700 "><ThumbUpOffAltIcon  fontSize="medium" /> </span>
                                
                               )}{" "}
                               {ele.likes.length}

@@ -166,7 +166,7 @@ function App() {
             <Route path="/profile" element={<ProfileAssemble />}>
               <Route index element={<Myblogs/>} />
               <Route path="likedblogs" element={<LikedBlogs/>} />
-              <Route path="savedblogs" element={<LikedBlogs/>} />
+              
             </Route>
           </Route>
 

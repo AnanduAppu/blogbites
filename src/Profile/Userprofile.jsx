@@ -3,11 +3,15 @@ import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import UserContext from "../Contex/CreateContex";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import FollowFollowing from "../Home/FollowFollowing";
 
 function UserProfile() {
   const { userDataFromSignup } = useContext(UserContext);
   const [isOpen, setIsOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+
+
+  const [propValue, setPropValue] = useState({});
 
   const email = userDataFromSignup.email;
   const togglePostCreation = () => {
@@ -232,8 +236,15 @@ function UserProfile() {
     }
   };
 
+
+  const showModal = (data,field) => {
+
+    setPropValue({data,field}); // Set the parameter value
+    document.getElementById('my_modal_3').showModal(); // Show the modal
+  };
   return (
     <>
+    { Object.keys(userDataFromSignup).length==0?<>no data</>:
       <div className="rounded-lg bg-white pb-8 shadow-xl">
         <div className="absolute right-12 mt-4 rounded">
           <input
@@ -328,15 +339,21 @@ function UserProfile() {
           <div className="flex space-x-2 mt-2">
             <div className="flex flex-col items-center rounded-xl bg-gray-100 px-4 py-2">
               <p className="text-sm font-medium text-gray-500">Blogs</p>
-              <p className="text-3xl font-medium text-gray-600">13</p>
+              <p className="text-3xl font-medium text-gray-600">{userDataFromSignup.your_blogs.length}</p>
             </div>
-            <div className="flex flex-col items-center rounded-xl bg-gray-100 px-4 py-2">
+            
+            <div className=" flex flex-col items-center rounded-xl bg-gray-100 px-4 py-2 cursor-pointer"
+           onClick={() => showModal(userDataFromSignup.you_followed,"Following")}
+            >
               <p className="text-sm font-medium text-gray-500">Following</p>
-              <p className="text-3xl font-medium text-gray-600">7</p>
+              <p className="text-3xl font-medium text-gray-600">{userDataFromSignup.you_followed.length}</p>
             </div>
-            <div className="flex flex-col items-center rounded-xl bg-gray-100 px-4 py-2">
-              <p className="text-sm font-medium text-gray-500">Followers</p>
-              <p className="text-3xl font-medium text-gray-600">2.5k</p>
+           
+            <div className=" flex flex-col items-center rounded-xl bg-gray-100 px-4 py-2 cursor-pointer"
+            onClick={() => showModal(userDataFromSignup.followed,"Follower")}
+            >
+              <p className="text-sm font-medium text-gray-500">Follower</p>
+              <p className="text-3xl font-medium text-gray-600">{userDataFromSignup.followed.length}</p>
             </div>
             <div className=""></div>
           </div>
@@ -375,6 +392,7 @@ function UserProfile() {
           </div>
         </div>
       </div>
+}
       {isOpen ? (
         <div className="max-w-4xl space-y-4 p-4 mx-auto duration-500">
           <div className="flex flex-col space-y-4 border border-gray-500 rounded-lg p-2">
@@ -497,6 +515,8 @@ function UserProfile() {
           </div>
         </div>
       )}
+
+<FollowFollowing props={propValue} />
     </>
   );
 }
