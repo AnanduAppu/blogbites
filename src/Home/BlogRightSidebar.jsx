@@ -21,8 +21,8 @@ function BlogRightSidebar() {
   }, []);
 
   return (
-    <div className="sticky ">
-      <div className="flex flex-col space-y-8 sticky">
+    <div >
+      <div className="flex flex-col space-y-8">
         {/* Categories Section */}
         <Categories/>
 

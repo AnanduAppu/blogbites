@@ -71,6 +71,7 @@ html {
     padding-block: 100px;
     max-width: 525px;
     height: 100%;
+    z-index: 1;
 }
 
 /* content */

@@ -12,9 +12,7 @@ import { fetchContent } from "../ReduxTool/CreateSlice";
 
 function Blogview() {
   const {
-   
     userDataFromSignup,
-   
     bloglistfil,
     setBloglistfil,
     activeCategory,
@@ -52,6 +50,8 @@ function Blogview() {
   }, [likeAction,activeCategory,
     setActiveCategory])
 
+
+  
   const likeandUnlike = async (e, blogid) => {
     e.preventDefault();
 

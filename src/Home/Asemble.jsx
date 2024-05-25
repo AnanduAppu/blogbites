@@ -21,7 +21,10 @@ function Asemble() {
         <div className="flex ">
           <div className="w-[70%] max-md:w-[100%] max-sm:mx-5"><Blogview /></div>
           <div className="w-[30%] py-3.5 max-md:hidden relative">
-              <BlogRightSidebar />
+            <div className="sticky top-0" >
+            <BlogRightSidebar />
+            </div>
+            
           </div>
           
         </div>
