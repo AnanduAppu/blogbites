@@ -32,6 +32,7 @@ const BlogNavbar = () => {
         { y: '0%', duration: 2, ease: 'bounce',zIndex: 10} // Ending state
       );
     }
+    
     const tl = gsap.timeline();
     tl.fromTo(inputRef.current, 
       { width: '0%' }, 

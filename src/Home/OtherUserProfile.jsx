@@ -18,6 +18,8 @@ function OtherUserProfile() {
   let [info, setInfo] = useState({});
   info = useSelector((state) => state.infoData.info);
 
+  console.log(info)
+
   useEffect(() => {
     // Fetch data only if info is null or updateChange is not equal to info
     if (!info || !isEqual(updateChange, info)) {
@@ -181,7 +183,9 @@ function OtherUserProfile() {
           </div>
         )}
       </div>
-  <OtherUserBlogs/>
+
+
+{info && <OtherUserBlogs props={info.your_blogs}/>}
   <FollowFollowing props={propValue} />
     </>
   );

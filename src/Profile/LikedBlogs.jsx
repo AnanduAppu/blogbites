@@ -2,27 +2,35 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import UserContext from "../Contex/CreateContex";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 function LikedBlogs() {
+ 
+
   const { userDataFromSignup } = useContext(UserContext);
+ if(userDataFromSignup?._id){
+  console.log(userDataFromSignup)
+ }
+ const [userId,setUserId]=useState(userDataFromSignup?._id)
   const [likeBlogs, setLikeBlogs] = useState([]);
-  const userid = userDataFromSignup._id;
-  console.log(userid);
+
+
+
+  
 
   useEffect(() => {
     const fetchLikedBlogs = async () => {
-      if (!userid) {
-        return;
-      }
+ 
       try {
         const response = await axios.get(
           `http://localhost:3015/user/likedblog`,
-          { params: { q: userid } }
-        );
-
-        if (response.data.success) {
+          { params: { q:userId } }
+          );
+          
+          if (response.data.success) {
+          console.log("hi vhjwvhjd")
           setLikeBlogs(response.data.Data);
-          console.log(response.data.Data);
+          console.log("here is:- " , response.data.Data);
         } else {
           console.log("some error happen when retrieving data");
         }
@@ -32,35 +40,48 @@ function LikedBlogs() {
     };
 
     fetchLikedBlogs();
-  }, []);
+  }, [userId,userDataFromSignup]);
+
+
+
 
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-        {likeBlogs.length > 0 ?(
-          likeBlogs.map((ele,ind) => (
-            <div className="rounded overflow-hidden shadow-lg flex flex-col" key={ind}>
+        { userId? (
+          likeBlogs.map((ele, ind) => (
+            <div
+              className="rounded overflow-hidden shadow-lg flex flex-col"
+              key={ind}
+            >
               <a href="#"></a>
               <div className="relative">
                 <div className="w-[420px] h-[250px]">
                   <img
                     className="w-[420px] h-[250px]"
-                    src={ele.image?ele.image:'' }
+                    src={ele.image ? ele.image : ""}
                     alt="Sunset in the mountains"
                   />
                   <div className="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25"></div>
                 </div>
+                <a href="">
+                <div className="text-xs absolute top-0 right-0 bg-red-500 px-4 py-2 text-white mt-3 mr-3 hover:bg-white hover:text-red-600 transition duration-500 ease-in-out  rounded-md">
+                  <DeleteForeverIcon />
+               
+                </div>
+              </a>
               </div>
+          
               <div className="px-6 py-4 mb-auto">
                 <a
                   href="#"
                   className="font-medium text-lg  hover:text-indigo-600 transition duration-500 ease-in-out inline-block mb-2"
                 >
-                 {ele.title}
+                  {ele.title}
                 </a>
                 <p className="text-gray-500 text-sm">
-                {ele.description.split(" ").slice(0, 20).join(" ")}
-                {ele.description.split(" ").length > 20 ? "..." : ""}
+                  {ele.description.split(" ").slice(0, 20).join(" ")}
+                  {ele.description.split(" ").length > 20 ? "..." : ""}
                 </p>
               </div>
               <div className="px-6 py-3 flex flex-row items-center justify-between bg-gray-100">
@@ -107,9 +128,9 @@ function LikedBlogs() {
               </div>
             </div>
           ))
-        ): (
+        ) : (
           <div className="text-black">Loading...</div>
-        )  }
+        )}
       </div>
     </>
   );

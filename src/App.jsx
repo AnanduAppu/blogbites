@@ -91,7 +91,8 @@ function App() {
   const [bloglist, setBloglist] = useState([]);
   const [bloglistfil, setBloglistfil] = useState([]);
   const [bloguser,setBlogUser] = useState({})
-
+  const [likeAction, setLikeAction] = useState(false);
+  const [saveAction, setSaveAction] = useState(false);
 
   const [activeCategory, setActiveCategory] = useState('all');
   useEffect(() => {
@@ -112,7 +113,7 @@ function App() {
     };
 
     fetchBlogs();
-  }, [bloglist]);
+  }, [bloglist,likeAction, setLikeAction,saveAction,setSaveAction]);
 
   
 
@@ -129,9 +130,10 @@ function App() {
     setBloglist,
     myBlogs, setmyBlogs,
     bloguser,setBlogUser,
- 
+    likeAction, setLikeAction,
     bloglistfil, setBloglistfil,
-    activeCategory, setActiveCategory
+    activeCategory, setActiveCategory,
+    saveAction, setSaveAction
   };
 
   return (
@@ -165,7 +167,7 @@ function App() {
             <Route path="/author/:userid" element={<OtherUserProfile />} />
             <Route path="/profile" element={<ProfileAssemble />}>
               <Route index element={<Myblogs/>} />
-              <Route path="likedblogs" element={<LikedBlogs/>} />
+              <Route path="likedblogs" element={<LikedBlogs props={userDataFromSignup} />} />
               
             </Route>
           </Route>

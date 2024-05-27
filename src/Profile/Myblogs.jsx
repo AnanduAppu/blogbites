@@ -140,10 +140,12 @@ function Myblogs() {
                 href="#"
                 className="font-medium text-lg hover:text-indigo-600 transition duration-500 ease-in-out inline-block mb-2"
               >
-                {ele.title}
+               
+                {ele.title.split(" ").slice(0,4).join(" ")}
+                {ele.title.split(" ").length > 2 ? "..." : ""}
               </a>
               <p className="text-gray-500 text-sm">
-                {ele.description.split(" ").slice(0, 20).join(" ")}
+                {ele.description.split(" ").slice(0, 10).join(" ")}
                 {ele.description.split(" ").length > 20 ? "..." : ""}
               </p>
             </div>

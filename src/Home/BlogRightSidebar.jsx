@@ -27,6 +27,7 @@ function BlogRightSidebar() {
         <Categories/>
 
         {/* Trending News Section */}
+       
         <div className="bg-white p-4 rounded-lg m-2 border-2 border-gray-400 shadow-lg shadow-blue-200 ">
           <h2 className="text-lg font-semibold mb-4">Trending News</h2>
           <div className="grid grid-cols-1 gap-4">
@@ -55,7 +56,7 @@ function BlogRightSidebar() {
         </div>
 
         {/* Online Friend List Section */}
-        <div className="bg-white p-2 rounded-lg shadow-lg shadow-green-200 border-2 border-gray-400 m-2">
+        <div className="bg-white p-2 rounded-lg shadow-lg shadow-green-200 border-2 border-gray-400 m-2 ">
           <h2 className="text-lg font-semibold mb-4">Online Friends</h2>
           <ul className="space-y-2">
             <li className="flex items-center">
@@ -84,6 +85,7 @@ function BlogRightSidebar() {
             </li>
             {/* Add more online friends here */}
           </ul>
+       
         </div>
       </div>
     </div>

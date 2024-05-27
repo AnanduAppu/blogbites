@@ -4,21 +4,67 @@ import { useNavigate, useParams } from "react-router-dom";
 import UserContext from "../Contex/CreateContex";
 import Comments from "./Comments";
 import { fetchContent } from "../ReduxTool/CreateSlice";
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import axios from "axios";
+
 
 function BlogPage() {
   
   const dispatch = useDispatch()
   const {blogid} = useParams()
-  const {bloglist,userDataFromSignup} = useContext(UserContext)
+  const {bloglist,userDataFromSignup,likeAction, setLikeAction,saveAction, setSaveAction} = useContext(UserContext)
   const navigate = useNavigate()
 
   const blogShow = bloglist.find((ele) => ele._id === blogid);
 
 //const [blogShow,setBlogshow]=useState()
+console.log(userDataFromSignup)
+
+const saveAndUnsave = async(e,blogid)=>{
+  e.preventDefault();
+
+  const userId = userDataFromSignup._id;
+  try {
+    const response = await axios.put("http://localhost:3015/user/saveBlog", {
+      userId,
+      blogid,
+    });
+
+    if (response.data.success) {
+     
+      setSaveAction(!saveAction);
+      return;
+    }
+  } catch (error) {
+    console.log("Error:", error);
+  }
+
+}
+
+const likeandUnlike = async (e, blogid) => {
+  e.preventDefault();
+
+  const userId = userDataFromSignup._id;
 
 
+  try {
+    const response = await axios.put("http://localhost:3015/user/like", {
+      userId,
+      blogid,
+    });
+
+    if (response.data.success) {
+      console.log("liked");
+      setLikeAction(!likeAction);
+      return;
+    }
+  } catch (error) {
+    console.log("Error:", error);
+  }
+};
 
 
 
@@ -48,8 +94,35 @@ function BlogPage() {
               {blogShow.title}
             </h2>
             <div className="flex items-center gap-4">
-              <span> <ThumbUpIcon/></span>
-            <span><BookmarkBorderIcon/></span>
+            <button onClick={(e) => likeandUnlike(e, blogShow._id)}>
+                              {blogShow.likes &&
+                              userDataFromSignup._id &&
+                              blogShow.likes.find(
+                                (ele) => ele._id === userDataFromSignup._id
+                              ) ? (
+                                <span className="text-blue-600 duration-700 "><ThumbUpAltIcon fontSize="medium"/> </span>
+                              ) : (<span className="duration-700 "><ThumbUpOffAltIcon  fontSize="medium" /> </span>
+                               
+                              )}{" "}
+                              {blogShow.likes.length}
+                              
+             </button>
+             <button onClick={(e) => saveAndUnsave(e, blogShow._id)}>
+                              {
+                              userDataFromSignup._id &&
+                              userDataFromSignup.saved_blogs.find(
+                                (ele) => ele == blogid
+                              ) ? (
+                                <span className="text-blue-600 duration-700 "><BookmarkIcon fontSize="medium"/> </span>
+                              ) : (<span className="duration-700 "><BookmarkBorderIcon fontSize="medium" /> </span>
+                               
+                              )}{" "}
+                            
+                              
+             </button>
+
+
+           
            
             </div>
            
