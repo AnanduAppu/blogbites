@@ -1,11 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import img1 from "../assets/slides/0.svg";
 import img2 from "../assets/slides/img1.png";
 import img3 from "../assets/slides/img2.png";
+import { gsap } from 'gsap';
+
+
 import "./slide.css";
 
 const Slider = () => {
   const [imageIndex, setImageIndex] = useState(0);
+
+const slideDiv = useRef()
+
+useEffect(()=>{
+  //const tl = gsap.timeline();
+  gsap.fromTo(slideDiv.current, 
+    { opacity: 0 }, 
+    { opacity: 1, duration: 3, ease: 'power2.inOut' }
+  );
+},[])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -58,7 +71,7 @@ const Slider = () => {
   };
 
   return (
-    <div className="bod">
+    <div className="bod  " ref={slideDiv}>
       <section className="slider-main my-1">
         <div className="containers">
           <div className="logo">
