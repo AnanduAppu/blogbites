@@ -62,7 +62,7 @@ const Slider = () => {
       <section className="slider-main my-1">
         <div className="containers">
           <div className="logo">
-            <h1 className="heading-style-2">WELCOME BLOGGY</h1>
+            <h1 className="heading-style-2 ">WELCOME  <span className="text-blue-600 border border-l-8 shadow-lg shadow-gray-600 border-black p-1"> BLOGGY</span></h1>
           </div>
           <div className="slider-content-wrap">
             <div className="slider-content">
@@ -76,7 +76,7 @@ const Slider = () => {
             </div>
           </div>
         </div>
-        <div className="slider-images">
+        <div className="slider-images max-sm:hidden ">
           <img
             className="slider-image slImg"
             src={img1}
@@ -93,7 +93,7 @@ const Slider = () => {
             alt="headphone image"
           />
         </div>
-        <div id="backgrounds" className="bgprops">
+        <div id="backgrounds" className="bgprops ">
           <div
             className="background"
             style={{

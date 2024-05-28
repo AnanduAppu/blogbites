@@ -3,8 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Suspense, useContext, useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
-import { isEqual } from "lodash";
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import { useDispatch } from "react-redux";

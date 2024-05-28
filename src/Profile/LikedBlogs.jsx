@@ -3,44 +3,38 @@ import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import UserContext from "../Contex/CreateContex";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import noimage from "../assets/noImg.png";
+import { Link } from "react-router-dom";
 
 function LikedBlogs() {
  
 
-  const { userDataFromSignup } = useContext(UserContext);
- if(userDataFromSignup?._id){
-  console.log(userDataFromSignup)
- }
- const [userId,setUserId]=useState(userDataFromSignup?._id)
-  const [likeBlogs, setLikeBlogs] = useState([]);
+  const { likeBlogs, setLikeBlogs } = useContext(UserContext);
 
 
-
-  
-
-  useEffect(() => {
-    const fetchLikedBlogs = async () => {
+  // useEffect(() => {
+  //   const fetchLikedBlogs = async () => {
  
-      try {
-        const response = await axios.get(
-          `http://localhost:3015/user/likedblog`,
-          { params: { q:userId } }
-          );
+  //     try {
+  //       const response = await axios.get(
+  //         `http://localhost:3015/user/likedblog`,
+  //         { params: { q:userId } }
+  //         );
           
-          if (response.data.success) {
-          console.log("hi vhjwvhjd")
-          setLikeBlogs(response.data.Data);
-          console.log("here is:- " , response.data.Data);
-        } else {
-          console.log("some error happen when retrieving data");
-        }
-      } catch (error) {
-        console.log("we got an error in liked blog", error);
-      }
-    };
+  //         if (response.data.success) {
+  //         console.log("hi vhjwvhjd")
+  //         setLikeBlogs(response.data.Data);
+  //         console.log("here is:- " , response.data.Data);
+  //       } else {
+  //         console.log("some error happen when retrieving data");
+  //       }
+  //     } catch (error) {
+  //       console.log("we got an error in liked blog", error);
+  //     }
+  //   };
 
-    fetchLikedBlogs();
-  }, [userId,userDataFromSignup]);
+  //   fetchLikedBlogs();
+  // }, [userId,userDataFromSignup]);
 
 
 
@@ -48,18 +42,19 @@ function LikedBlogs() {
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-        { userId? (
+        { likeBlogs.length>0? (
           likeBlogs.map((ele, ind) => (
-            <div
-              className="rounded overflow-hidden shadow-lg flex flex-col"
+            <Link
+            to={`/blog/${ele._id}`}
+              className="rounded overflow-hidden shadow-lg flex flex-col cursor-pointer"
               key={ind}
             >
               <a href="#"></a>
               <div className="relative">
                 <div className="w-[420px] h-[250px]">
                   <img
-                    className="w-[420px] h-[250px]"
-                    src={ele.image ? ele.image : ""}
+                    className="w-[420px] h-[250px] object-fill"
+                    src={ele.image ? ele.image : noimage}
                     alt="Sunset in the mountains"
                   />
                   <div className="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25"></div>
@@ -126,7 +121,7 @@ function LikedBlogs() {
                   <span className="ml-1">{ele.comments.length}comments</span>
                 </span>
               </div>
-            </div>
+            </Link>
           ))
         ) : (
           <div className="text-black">Loading...</div>

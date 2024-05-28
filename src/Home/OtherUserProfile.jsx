@@ -58,7 +58,7 @@ function OtherUserProfile() {
   };
   return (
     <>
-      <div className="mx-2">
+      <div className="mx-2 my-2">
         {info && (
           <div className="relative w-full h-[60vh] md:h-[50vh] lg:h-[50vh] ">
             <img

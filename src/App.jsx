@@ -36,6 +36,9 @@ function App() {
   //user state which take user details from sign up page
   const [userDataFromSignup, setuserDataFromSignup] = useState({});
   const [myBlogs,setmyBlogs] = useState([]);
+  const [saveAction, setSaveAction] = useState(false);
+  const [editAction, setEditAction] = useState(false);
+  const [likeBlogs, setLikeBlogs] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,7 +48,7 @@ function App() {
       );
 
       if (!cookieToken) {
-        toast.error("Token not found");
+        
         return;
       }
 
@@ -54,23 +57,26 @@ function App() {
       const id = cookieData.id;
 
       try {
-        const [response1, response2] = await Promise.all([
+        const [response1, response2, response3] = await Promise.all([
           axios.post("http://localhost:3015/user/useraccess", { email: id }, { withCredentials: true }),
-          axios.post("http://localhost:3015/user/userblogs", { email: id })
+          axios.post("http://localhost:3015/user/userblogs", { email: id }),
+          axios.get("http://localhost:3015/user/likedblog", { params: { q: id } })
         ]);
 
        
-      if (!response1.data.successful || !response2.data.successful) {
+      if (!response1.data.successful || !response2.data.successful || !response3.data.success) {
         console.log(response1.data.error , response2.data.error, "error");
         return;
       }
       const userData = response1.data.Data;
       const blogData = response2.data.blogdata;
+      const blogLiked = response3.data.Data;
     console.log(blogData)
-      if (!isEqual(userDataFromSignup, userData) || !isEqual(myBlogs, blogData)) {
+      if (!isEqual(userDataFromSignup, userData) || !isEqual(myBlogs, blogData) || !isEqual(likeBlogs,blogLiked)  ) {
         setuserDataFromSignup(userData);
         setmyBlogs(blogData);
-        console.log("your blog datas are:",blogData)
+        setLikeBlogs(blogLiked)
+     
         
       }
 
@@ -80,7 +86,7 @@ function App() {
     };
     fetchData();
    
-  }, [userDataFromSignup,myBlogs]);
+  }, [userDataFromSignup,myBlogs,saveAction,editAction]);
 
   //it takes email from resetpass1 page and send to resetpass2 page
   const [resetEmail, setResetemail] = useState("");
@@ -92,10 +98,12 @@ function App() {
   const [bloglistfil, setBloglistfil] = useState([]);
   const [bloguser,setBlogUser] = useState({})
   const [likeAction, setLikeAction] = useState(false);
-  const [saveAction, setSaveAction] = useState(false);
+
 
   const [activeCategory, setActiveCategory] = useState('all');
   useEffect(() => {
+
+    console.log("we are here ")
     const fetchBlogs = async () => {
       try {
         const response = await axios.get("http://localhost:3015/user/bloglist");
@@ -113,7 +121,7 @@ function App() {
     };
 
     fetchBlogs();
-  }, [bloglist,likeAction, setLikeAction,saveAction,setSaveAction]);
+  }, [bloglist,likeAction, saveAction]);
 
   
 
@@ -133,7 +141,9 @@ function App() {
     likeAction, setLikeAction,
     bloglistfil, setBloglistfil,
     activeCategory, setActiveCategory,
-    saveAction, setSaveAction
+    saveAction, setSaveAction,
+    editAction, setEditAction,
+    likeBlogs, setLikeBlogs
   };
 
   return (

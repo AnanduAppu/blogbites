@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import React from 'react';
+import noimage from "../assets/noImg.png";
 
 
 const OtherUserBlogs = ({props}) => {
@@ -25,8 +26,8 @@ console.log(props)
           <div className="relative">
             <a>
               <img
-                className="w-full"
-                src={blogs.image}
+                className="w-full object-contain"
+                src={blogs.image?blogs.image:noimage}
                 alt="Sunset in the mountains"
               />
               <div className="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25"></div>

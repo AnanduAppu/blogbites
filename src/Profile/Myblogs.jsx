@@ -2,12 +2,13 @@ import React, { useContext, useState } from "react";
 import UserContext from "../Contex/CreateContex";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
-import noimage from "../assets/BlogbiteslogoVetical.png";
+import noimage from "../assets/noImg.png";
 import { toast } from "react-hot-toast";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function Myblogs() {
-  const { userDataFromSignup, myBlogs } = useContext(UserContext);
+  const { userDataFromSignup, myBlogs,editAction, setEditAction } = useContext(UserContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const email = userDataFromSignup.email;
@@ -72,6 +73,7 @@ function Myblogs() {
 
 
   const onEditUpdate = async(e)=>{
+ 
     e.preventDefault()
     try {
       console.log(headingEdit)
@@ -84,6 +86,7 @@ function Myblogs() {
         blogid})
 
       if(response.data.success){
+        setEditAction(!editAction)
         toast.success(response.data.message)
       }else{
         toast.error("not updated")
@@ -98,34 +101,29 @@ function Myblogs() {
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
       {myBlogs.length===0?<>loading...</>: myBlogs.map((ele, ind) => {
         return (
-          <div
+          <Link
+          to={`/blog/${ele._id}`}
             key={ind}
-            className="overflow-hidden shadow-lg flex flex-col rounded-xl"
+            className="overflow-hidden shadow-lg flex flex-col rounded-xl cursor-pointer"
           >
             <div className="relative">
-              {ele.image ? (
+        
                 <div className="w-[420px] h-[250px]">
                   <img
-                    className="w-[420px] h-[250px]"
-                    src={ele.image}
+                    className="w-[420px] h-[250px] object-fill"
+                    src={ele.image?ele.image:noimage}
                     alt="Sunset in the mountains"
                   />
                   <div className="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25"></div>
                 </div>
-              ) : (
-                <div className="w-[420px] h-[250px]">
-                  <img
-                    className="w-[420px] h-[250px]"
-                    src={noimage}
-                    alt="Sunset in the mountains"
-                  />
-                  <div className="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25"></div>
-                </div>
-              )}
+        
 
               <a href="#!">
                 <button
-                  onClick={(e) => handleEdit(e, ele)}
+                   onClick={(e) => {
+                    e.stopPropagation();
+                    handleEdit(e, ele);
+                  }}
                   className="text-xs absolute top-0 right-0 bg-indigo-600 px-4 py-2 text-white mt-3 mr-3 hover:bg-white hover:text-indigo-600 transition duration-500 ease-in-out rounded-md"
                 >
                   <EditIcon />
@@ -163,76 +161,77 @@ function Myblogs() {
                 <span className="ml-1">{ele.comments.length}comments </span>
               </span>
             </div>
-          </div>
+          </Link>
         );
       })}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 py-2">
-      <div className="relative px-2 bg-white rounded-lg border-gray-400">
-      <div className="max-w-4xl mx-auto border  ">
-        <div className="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
-        <div className="flex justify-between">
-              <h1 className="my-4 mx-1 text-xl font-semibold">
-                Update{" "}
-                <span className="text-blue-600 font-semibold"> Blog?</span>
-              </h1>
-              <button
-                className="my-4 text-xl hover:text-red-700 duration-500 mx-1"
-                onClick={() => setIsModalOpen(false)}
-              >
-                close
-              </button>
-            </div>
-          <div className="flex justify-between">
-            <div className="my-10">
-            
-              <textarea name="" id="" cols="40" rows="2" className="border border-black text-2xl p-2"
-              value={headingEdit}
-              onChange={(e) => setHeadingEdit(e.target.value)}
-              >
-
-              </textarea>
-            </div>
-            <div>
-            {imageEdit && (
-                <img
-                  src={imageEdit}
-                  className="h-[100px] w-[200px] my-1"
-                  alt="Tailwind Play"
-                />
-              )}
-              <>
-                <input
-                  type="file"
-                  id="imageInput"
-                  accept="image/*"
-                  className="opacity-0 absolute inset-0 z-[-1]"
-                  onChange={(e) => handleblogImg(e)}
-                />
-                <label
-                  htmlFor="imageInput"
-                  className="text-black text-lg font-bold cursor-pointer border border-gray-800 p-0.5 mt-2"
-                >
-                  img+
-                </label>
-              </>
-            </div>
-          </div>
-          <hr />
-          <textarea 
-            cols="119" 
-            rows="11" 
-            className="text-base leading-8 my-5 p-2 border border-black"
-            value={descriptionEdit}
-            onChange={(e) => setDescriptionEdit(e.target.value)}
-          ></textarea>
-        </div>
-        <button onClick={(e)=>onEditUpdate(e)} className="mb-5 px-2 py-2 border border-gray-700 bg-blue-400 font-semibold hover:bg-blue-700 hover:text-white duration-500">
-                  Update
-                </button>
-      </div>
-    </div>
-        </div>
+ <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 py-2 px-4">
+ <div className="relative bg-white rounded-lg border-gray-400 w-full max-w-4xl mx-auto max-h-full overflow-y-auto">
+   <div className="border">
+     <div className="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal p-4">
+       <div className="flex justify-between items-center">
+         <h1 className="text-xl font-semibold">
+           Update{" "}
+           <span className="text-blue-600 font-semibold">Blog?</span>
+         </h1>
+         <button
+           className="text-xl hover:text-red-700 duration-500"
+           onClick={() => setIsModalOpen(false)}
+         >
+           close
+         </button>
+       </div>
+       <div className="flex flex-col lg:flex-row justify-between items-center mt-4 lg:mt-10 space-y-4 lg:space-y-0 lg:space-x-4">
+         <textarea
+           name=""
+           id=""
+           cols="40"
+           rows="2"
+           className="border border-black text-lg lg:text-2xl p-2 w-full lg:w-auto"
+           value={headingEdit}
+           onChange={(e) => setHeadingEdit(e.target.value)}
+         />
+         <div className="flex flex-col items-center lg:items-start">
+           {imageEdit && (
+             <img
+               src={imageEdit}
+               className="h-[180px] w-full lg:w-[400px] object-cover rounded-md mb-2 lg:mb-0"
+               alt="Tailwind Play"
+             />
+           )}
+           <input
+             type="file"
+             id="imageInput"
+             accept="image/*"
+             className="opacity-0 absolute inset-0 z-[-1]"
+             onChange={(e) => handleblogImg(e)}
+           />
+           <label
+             htmlFor="imageInput"
+             className="text-black text-lg font-bold cursor-pointer border border-purple-800 p-0.5 bg-green-200 rounded-md hover:bg-green-400 duration-500"
+           >
+             img+
+           </label>
+         </div>
+       </div>
+       <hr className="my-4" />
+       <textarea
+         cols="30"
+         rows="11"
+         className="text-base leading-8 p-2 border border-black w-full"
+         value={descriptionEdit}
+         onChange={(e) => setDescriptionEdit(e.target.value)}
+       />
+       <button
+         onClick={(e) => onEditUpdate(e)}
+         className="rounded-md mt-4 px-4 py-2 border border-gray-700 bg-blue-400 font-semibold hover:bg-blue-700 hover:text-white duration-500 self-center lg:self-end"
+       >
+         Update
+       </button>
+     </div>
+   </div>
+ </div>
+</div>
       )}
 
       

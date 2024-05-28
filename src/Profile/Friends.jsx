@@ -56,8 +56,7 @@ function MyFriends() {
               UI/UX Design at Upwork
             </p>
           </a>
-          {/* Repeat the above pattern for each connection */}
-          {/* Add additional <a> elements as needed */}
+      
         </div>
       </div>
     </div>
