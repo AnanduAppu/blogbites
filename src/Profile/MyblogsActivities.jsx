@@ -2,11 +2,11 @@ import React, { useState,useRef } from "react";
 import {NavLink, Outlet } from "react-router-dom";
 
 
-
+let A = 20
 
 function MyblogsActivities() {
 
-
+console.log(A)
 
 
   return (
@@ -44,9 +44,7 @@ function MyblogsActivities() {
           >
             Saved Blogs
           </NavLink>
-          <a href="#" className="text-gray-600 font-semibold inline-block">
-            See All
-          </a>
+       
         </div>
 
         <div className="w-[100%]">

@@ -41,19 +41,19 @@ function LikedBlogs() {
 
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         { likeBlogs.length>0? (
           likeBlogs.map((ele, ind) => (
             <Link
             to={`/blog/${ele._id}`}
-              className="rounded overflow-hidden shadow-lg flex flex-col cursor-pointer"
+              className="rounded overflow-hidden shadow-lg flex flex-col w-[420px] cursor-pointer"
               key={ind}
             >
               <a href="#"></a>
               <div className="relative">
-                <div className="w-[420px] h-[250px]">
+                <div className=" h-[250px] object-cover">
                   <img
-                    className="w-[420px] h-[250px] object-fill"
+                    className="w-full h-[250px]"
                     src={ele.image ? ele.image : noimage}
                     alt="Sunset in the mountains"
                   />

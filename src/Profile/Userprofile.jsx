@@ -25,6 +25,7 @@ function UserProfile() {
   const [headline, setHeadline] = useState("");
   const [blog, setBlog] = useState("");
   const [photo, setPhoto] = useState("");
+  const [photoMul, setPhotoMul] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const topics = [

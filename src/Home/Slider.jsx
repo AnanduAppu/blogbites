@@ -75,7 +75,7 @@ useEffect(()=>{
       <section className="slider-main my-1">
         <div className="containers">
           <div className="logo">
-            <h1 className="heading-style-2 ">WELCOME  <span className="text-blue-600 border border-l-8 shadow-lg shadow-gray-600 border-black p-1"> BLOGGY</span></h1>
+            <h1 className="heading-style-2 ">WELCOME  <span className="text-blue-600 border border-x-2 shadow-lg shadow-gray-600  p-1"> BLOGGY</span></h1>
           </div>
           <div className="slider-content-wrap">
             <div className="slider-content">
