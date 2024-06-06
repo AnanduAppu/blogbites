@@ -96,11 +96,11 @@ function Blogview() {
                   className="group sm:flex rounded-xl bg-[#f9f9f5] dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 border shadow-lg border-slate-200 hover:border-purple-600 duration-500"
                   key={ind}
                 >
-                  {ele.image ? (
+                  {ele.image.length>0 ? (
                     <div className="flex-shrink-0 relative rounded-xl  shadow-lg shadow-gray-400 overflow-hidden w-full lg:h-80 max-sm:w-full max-sm:h-[350px] sm:w-[250px] sm:h-full border border-white ">
                       <img
                         className="size-full absolute top-0 start-0 object-cover"
-                        src={ele.image}
+                        src={ele.image[0]}
                         alt="Image Description"
                       />
                     </div>

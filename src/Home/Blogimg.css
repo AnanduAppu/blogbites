@@ -1,0 +1,46 @@
+.c-accordion {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    display: flex;
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
+  .c-accordion__item {
+    --cover: var(--cover-placeholder);
+    background: var(--cover);
+    background-position: center center;
+    background-size: cover;
+    background-color: var(--cover-placeholder);
+    background-blend-mode: linear-gradient(180deg, rgba(15, 15, 15, 0) 0%, #111111 100%);
+    position: relative;
+    flex-grow: 1;
+    height: 100%;
+    width: 100px;
+    min-width: 2.05rem;
+    transition: all 0.8s ease-in-out;
+  }
+  .c-accordion__item:hover, .c-accordion__item:focus-within, .c-accordion__item:target {
+    _flex-grow: 2;
+    width: 100%;
+
+    background-color: transparent;
+  }
+
+  .c-accordion__item:hover {
+    cursor: pointer;
+  }
+  .c-accordion__action {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(5, 5, 5, 0.75);
+    background: linear-gradient(180deg, rgba(5, 5, 5, 0) 0%, #303030 100%);
+    text-decoration: none;
+  }
+

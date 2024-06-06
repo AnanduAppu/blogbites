@@ -54,7 +54,7 @@ function LikedBlogs() {
                 <div className=" h-[250px] object-cover">
                   <img
                     className="w-full h-[250px]"
-                    src={ele.image ? ele.image : noimage}
+                    src={ele.image.length>0 ? ele.image[0] : noimage}
                     alt="Sunset in the mountains"
                   />
                   <div className="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25"></div>

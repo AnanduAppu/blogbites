@@ -24,8 +24,8 @@ function UserProfile() {
 
   const [headline, setHeadline] = useState("");
   const [blog, setBlog] = useState("");
-  const [photo, setPhoto] = useState("");
-  const [photoMul, setPhotoMul] = useState([]);
+  const [photo, setPhoto] = useState([]);
+
   const [selectedTopic, setSelectedTopic] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const topics = [
@@ -73,44 +73,93 @@ function UserProfile() {
   const apiKey = import.meta.env.VITE_CLOUDNARY_APIKEY;
   const uploadPreset = "profileimage";
 
+  // const handleBlogImage = async (e) => {
+  //   e.preventDefault();
+
+  //   const file = e.target.files[0];
+
+  //   if (!file) {
+  //     toast.error("No image selected");
+  //     return;
+  //   }
+
+  //   const toastId = toast.loading("Updating image...");
+
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append("file", file);
+  //     formData.append("upload_preset", uploadPreset);
+  //     formData.append("api_key", apiKey);
+
+  //     const response = await fetch(
+  //       `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+  //       {
+  //         method: "POST",
+  //         body: formData,
+  //       }
+  //     );
+
+  //     const data = await response.json();
+
+  //     if (data.error) {
+  //       throw new Error(data.error.message);
+  //     }
+
+  //     setPhoto(data.secure_url);
+
+  //     toast.success("Success", { id: toastId });
+  //   } catch (error) {
+  //     console.error("Error uploading image:", error.message);
+  //     setUploading(false);
+  //     toast.error("Failed");
+  //   }
+  // };
+
+
   const handleBlogImage = async (e) => {
     e.preventDefault();
 
-    const file = e.target.files[0];
+    const files = e.target.files;
 
-    if (!file) {
-      toast.error("No image selected");
+    if (files.length + photo.length > 5) {
+      toast.error("You can only upload up to 5 photos");
       return;
     }
 
-    const toastId = toast.loading("Updating image...");
+    const toastId = toast.loading("Updating images...");
 
     try {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", uploadPreset);
-      formData.append("api_key", apiKey);
+      const uploadedPhotos = [];
 
-      const response = await fetch(
-        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-        {
-          method: "POST",
-          body: formData,
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", uploadPreset);
+        formData.append("api_key", apiKey);
+
+        const response = await fetch(
+          `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        const data = await response.json();
+
+        if (data.error) {
+          throw new Error(data.error.message);
         }
-      );
 
-      const data = await response.json();
-
-      if (data.error) {
-        throw new Error(data.error.message);
+        uploadedPhotos.push(data.secure_url);
       }
 
-      setPhoto(data.secure_url);
+      setPhoto((prevPhotos) => [...prevPhotos, ...uploadedPhotos]);
 
       toast.success("Success", { id: toastId });
     } catch (error) {
       console.error("Error uploading image:", error.message);
-      setUploading(false);
       toast.error("Failed");
     }
   };
@@ -298,6 +347,7 @@ function UserProfile() {
               <div className="absolute inset-0 flex items-center justify-center">
                 <input
                   type="file"
+                  
                   id="imageInput"
                   accept="image/*"
                   className="hidden"
@@ -429,6 +479,7 @@ function UserProfile() {
                 <div>
                   <input
                     type="file"
+                    multiple
                     id="imageInput"
                     accept="image/*"
                     className="hidden"
