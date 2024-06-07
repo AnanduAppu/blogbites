@@ -13,8 +13,8 @@ function Phonesize() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
             <div className="col-span-2 sm:col-span-1 md:col-span-2 bg-stone-50">
               <div className="grid gap-4 grid-cols-2 md:grid-cols-2 sm:grid-cols-2 lg:grid-cols-2">
-                <a
-                  href="#"
+                <Link 
+                to='/chatBox'
                   className="group relative flex flex-col overflow-hidden rounded-lg px-4 pb-4 pt-40"
                 >
                   <img
@@ -26,7 +26,7 @@ function Phonesize() {
                   <h3 className="z-10 text-2xl font-medium text-black absolute top-0 left-0 p-4 md:text-3xl ">
                     Chat <span className="text-blue-500">box</span> 
                   </h3>
-                </a>
+                </Link>
                 <Link to="/news"
                   className="group relative flex flex-col overflow-hidden rounded-lg px-4 pb-4 pt-40"
                 >

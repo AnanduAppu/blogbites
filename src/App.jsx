@@ -24,10 +24,10 @@ import { jwtDecode } from "jwt-decode";
 import { isEqual } from "lodash";
 import axios from "axios";
 import HomeProtect from "./protectedRoute/HomeProtect";
-import MyblogsActivities from "./Profile/MyblogsActivities";
 import Myblogs from "./Profile/Myblogs";
 import LikedBlogs from "./Profile/LikedBlogs";
 import OtherUserProfile from "./Home/OtherUserProfile";
+import ChatAssemble from "./ChatBox/ChatAssemble";
 
 function App() {
   // this state controll open page templates
@@ -107,7 +107,7 @@ function App() {
     console.log("we are here ")
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get("http://localhost:3015/user/bloglist");
+        const response = await axios.get("http://localhost:3015/user/bloglist",{ params: { id: activeCategory } });
         const value = response.data.blogs;
 
         if (!isEqual(bloglist, value)) {
@@ -122,7 +122,7 @@ function App() {
     };
 
     fetchBlogs();
-  }, [bloglist,likeAction, saveAction]);
+  }, [bloglist,likeAction, saveAction,activeCategory]);
 
   
 
@@ -173,6 +173,7 @@ function App() {
 
           <Route path="/" element={<HomeProtect element={<BlogNavbar />} />}>
             <Route index element={<Asemble />} />
+            <Route path="/chatBox" element={ <ChatAssemble/>} />
             <Route path="/news" element={<Newtrending />} />
             <Route path="/blog/:blogid" element={<BlogPage />} />
             <Route path="/author/:userid" element={<OtherUserProfile />} />
@@ -183,7 +184,7 @@ function App() {
             </Route>
           </Route>
 
-          
+        
         </Routes>
       </UserContext.Provider>
       </Provider>

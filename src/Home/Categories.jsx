@@ -6,22 +6,13 @@ function Categories() {
 
    const {activeCategory, setActiveCategory}=useContext(UserContext)  
 
-   //const [activeCategory, setActiveCategory] = useState('all');
 
-  //  if(activeCategory ==='all'){
-  //   setBloglistfil(bloglist)
-  //  }
 
 
 const FilterCategories = (e, category) => {
   e.preventDefault();
   setActiveCategory(category);
-  // const filteredBlogs = category === 'all'
-  //   ? bloglist
-  //   : bloglist.filter(blogs => blogs.topic.toLowerCase() === category.toLowerCase());
 
-  // console.log("this is :", filteredBlogs);
-  // setBloglistfil(filteredBlogs);
 };
 
 

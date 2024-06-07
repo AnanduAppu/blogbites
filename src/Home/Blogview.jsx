@@ -12,42 +12,46 @@ import { fetchContent } from "../ReduxTool/CreateSlice";
 function Blogview() {
   const {
     userDataFromSignup,
-    bloglistfil,
+    bloglist,
     setBloglistfil,
     activeCategory,
-    setActiveCategory
+    setActiveCategory,
+    likeAction,
+    setLikeAction,
+    saveAction,
+    setSaveAction,
   } = useContext(UserContext);
 
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const [likeAction, setLikeAction] = useState(false);
 
-  // setBloglistfil(bloglist)
 
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const response = await axios.get("http://localhost:3015/user/bloglist");
-        const value = response.data.blogs;
+ 
+
+  // useEffect(() => {
+  //   const fetchBlogs = async () => {
+  //     try {
+  //       const response = await axios.get("http://localhost:3015/user/bloglist");
+  //       const value = response.data.blogs;
           
-       console.log("blogvivew",value)
-        if(activeCategory === 'all'){
-          setBloglistfil(value);
-        }else{
-          const filval = value.filter((blog)=>blog.topic.toLowerCase()== activeCategory.toLowerCase())
-          setBloglistfil(filval);
-        }
+  //      console.log("blogvivew",value)
+  //       if(activeCategory === 'all'){
+  //         setBloglistfil(value);
+  //       }else{
+  //         const filval = value.filter((blog)=>blog.topic.toLowerCase()== activeCategory.toLowerCase())
+  //         setBloglistfil(filval);
+  //       }
    
-      } catch (error) {
-        console.log("we get an error in retrieving blog datas", error);
-      }
-    };
+  //     } catch (error) {
+  //       console.log("we get an error in retrieving blog datas", error);
+  //     }
+  //   };
 
-    fetchBlogs();
-  }, [likeAction,activeCategory,
-    setActiveCategory])
+  //   fetchBlogs();
+  // }, [likeAction,activeCategory,
+  //   setActiveCategory])
 
 
   
@@ -86,10 +90,10 @@ function Blogview() {
       <div className=" grid lg:grid-cols-1 gap-5">
         {/* Card */}
         <Suspense fallback={<loading />}>
-          {bloglistfil.length == 0 ? (
+          {bloglist.length == 0 ? (
             <>no data</>
           ) : (
-            bloglistfil.map((ele, ind) => {
+            bloglist.map((ele, ind) => {
               return (
                 <Link
                   to={`/blog/${ele._id}`}

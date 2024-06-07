@@ -33,8 +33,8 @@ function BlogImages({ props }) {
         ))}
       </ul>
       <dialog id="my_modal_4" className="modal">
-      <div className={`modal-box ${isHorizontal ? "w-11/12 max-w-5xl":''} ` }>
-      <img src={selectImg} alt=""  />
+      <div className={`modal-box ${isHorizontal ? "w-11/12 max-w-5xl":''} object-cover overflow-hidden` }>
+      <img src={selectImg} alt="" />
       </div>
       <form method="dialog" className="modal-backdrop">
         <button>close</button>
