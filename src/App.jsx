@@ -124,7 +124,6 @@ function App() {
     fetchBlogs();
   }, [bloglist,likeAction, saveAction,activeCategory]);
 
-  
 
  
 
@@ -144,7 +143,8 @@ function App() {
     activeCategory, setActiveCategory,
     saveAction, setSaveAction,
     editAction, setEditAction,
-    likeBlogs, setLikeBlogs
+    likeBlogs, setLikeBlogs,
+ 
   };
 
   return (

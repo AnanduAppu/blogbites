@@ -1,25 +1,24 @@
 import UserContext from "../Contex/CreateContex";
 import { Link, useNavigate } from "react-router-dom";
-import { Suspense, useContext, useState } from "react";
+import { Suspense, useContext, useState,useRef } from "react";
 import axios from "axios";
-import { useEffect } from "react";
+
 
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import { useDispatch } from "react-redux";
 import { fetchContent } from "../ReduxTool/CreateSlice";
 
+
 function Blogview() {
   const {
     userDataFromSignup,
     bloglist,
-    setBloglistfil,
-    activeCategory,
-    setActiveCategory,
     likeAction,
     setLikeAction,
     saveAction,
     setSaveAction,
+ 
   } = useContext(UserContext);
 
 
@@ -28,33 +27,6 @@ function Blogview() {
 
 
 
- 
-
-  // useEffect(() => {
-  //   const fetchBlogs = async () => {
-  //     try {
-  //       const response = await axios.get("http://localhost:3015/user/bloglist");
-  //       const value = response.data.blogs;
-          
-  //      console.log("blogvivew",value)
-  //       if(activeCategory === 'all'){
-  //         setBloglistfil(value);
-  //       }else{
-  //         const filval = value.filter((blog)=>blog.topic.toLowerCase()== activeCategory.toLowerCase())
-  //         setBloglistfil(filval);
-  //       }
-   
-  //     } catch (error) {
-  //       console.log("we get an error in retrieving blog datas", error);
-  //     }
-  //   };
-
-  //   fetchBlogs();
-  // }, [likeAction,activeCategory,
-  //   setActiveCategory])
-
-
-  
   const likeandUnlike = async (e, blogid) => {
     e.preventDefault();
 
@@ -96,6 +68,7 @@ function Blogview() {
             bloglist.map((ele, ind) => {
               return (
                 <Link
+                
                   to={`/blog/${ele._id}`}
                   className="group sm:flex rounded-xl bg-[#f9f9f5] dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 border shadow-lg border-slate-200 hover:border-purple-600 duration-500"
                   key={ind}
