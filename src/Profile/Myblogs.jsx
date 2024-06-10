@@ -25,6 +25,7 @@ function Myblogs() {
   const [headingEdit, setHeadingEdit] = useState("");
   const [descriptionEdit, setDescriptionEdit] = useState("");
   const [blogid, setBlogid] = useState("");
+  const [userId, setUserId] = useState(userDataFromSignup._id);
   const modalRef = useRef(null);
   const handleEdit = (e, blog) => {
     setImageEdit(blog.image);
@@ -114,6 +115,43 @@ function Myblogs() {
     }
   };
 
+  const dialogRef = useRef(null);
+  const  OpenDeleteModel= (e,id)=>{
+   e.preventDefault();
+   setBlogid(id)
+   console.log(id)
+  document.getElementById('my_modal_delete').showModal()
+
+  }
+
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    console.log("this is what", blogid, userId); // Debugging line to check state
+    try {
+      const response = await axios.delete("http://localhost:3015/user/deleteBlog", {
+        data: { blogid, userId } // Ensuring data is passed correctly
+      });
+      if (response.data.success) {
+        toast.success("Deleted successfully");
+        dialogRef.current.close();
+        setEditAction(!editAction); // To refresh the blogs list after deletion
+      }
+    } catch (error) {
+      console.log("Error deleting blog", error);
+    }
+  };
+
+
+
+  const CloseDeleteModel = () => {
+    if (dialogRef.current) {
+      dialogRef.current.close();
+      setBlogid('')
+    }
+  };
+
+
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
@@ -161,9 +199,16 @@ function Myblogs() {
                     >
                       <EditIcon />
                     </button>
-                    <div className="text-xs absolute top-12 right-0 bg-red-500 px-4 py-2 text-white mt-3 mr-3 hover:bg-white hover:text-red-600 transition duration-500 ease-in-out  rounded-md">
+                  
+                    <button
+                    onClick={(e) => {
+                            e.stopPropagation();
+                            OpenDeleteModel(e, ele._id);
+                    }}
+                    
+                    className="btn text-xs absolute top-12 right-0 bg-red-500 px-4 py-2 text-white mt-3 mr-3 hover:bg-white hover:text-red-600 transition duration-500 ease-in-out  rounded-md">
                       <DeleteForeverIcon />
-                    </div>
+                    </button>
                   </a>
                 </div>
                 <div className="px-6 py-4 mb-auto bg-blue-50">
@@ -288,6 +333,48 @@ function Myblogs() {
       </div>
     </dialog>
       </div>
+
+     
+<dialog id="my_modal_delete" className="modal"  ref={dialogRef}>
+  <div className="modal-box">
+    <form method="dialog">
+      {/* if there is a button in form, it will close the modal */}
+      <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+    </form>
+    <div className="relative p-4 w-full max-w-md max-h-full">
+     
+
+        <div className="p-4 md:p-5 text-center">
+          <svg className="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+            />
+          </svg>
+          <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this blog?</h3>
+          <button
+          
+            className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
+            onClick={handleDelete}                  
+          >
+            Yes, I'm sure
+          </button>
+     
+          <button
+            className="btn py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+            onClick={CloseDeleteModel}                  
+          >
+            No, cancel
+          </button>
+      
+        </div>
+    
+    </div>
+  </div>
+</dialog>
       
       {myBlogs.length > 6 ? (
   <div className="flex justify-center mt-5">
