@@ -126,15 +126,15 @@ function Myblogs() {
 
   const handleDelete = async (e) => {
     e.preventDefault();
-    console.log("this is what", blogid, userId); // Debugging line to check state
+    console.log("this is what", blogid, userId); 
     try {
       const response = await axios.delete("http://localhost:3015/user/deleteBlog", {
-        data: { blogid, userId } // Ensuring data is passed correctly
+        data: { blogid, userId }
       });
       if (response.data.success) {
         toast.success("Deleted successfully");
         dialogRef.current.close();
-        setEditAction(!editAction); // To refresh the blogs list after deletion
+        setEditAction(!editAction); 
       }
     } catch (error) {
       console.log("Error deleting blog", error);
@@ -176,6 +176,7 @@ function Myblogs() {
           currentTasks.map((ele, ind) => {
             return (
               <Link
+                to={`/blog/${ele._id}`}
                 key={ind}
                 className="overflow-hidden shadow-lg flex flex-col rounded-xl w-[420px] cursor-pointer  "
               >

@@ -11,7 +11,7 @@ function UserProfile() {
   const [isHovered, setIsHovered] = useState(false);
 
 
-  const [propValue, setPropValue] = useState({});
+  const [propValue, setPropValue] = useState({data:[]});
 
   const email = userDataFromSignup.email;
   const togglePostCreation = () => {
@@ -73,47 +73,6 @@ function UserProfile() {
   const apiKey = import.meta.env.VITE_CLOUDNARY_APIKEY;
   const uploadPreset = "profileimage";
 
-  // const handleBlogImage = async (e) => {
-  //   e.preventDefault();
-
-  //   const file = e.target.files[0];
-
-  //   if (!file) {
-  //     toast.error("No image selected");
-  //     return;
-  //   }
-
-  //   const toastId = toast.loading("Updating image...");
-
-  //   try {
-  //     const formData = new FormData();
-  //     formData.append("file", file);
-  //     formData.append("upload_preset", uploadPreset);
-  //     formData.append("api_key", apiKey);
-
-  //     const response = await fetch(
-  //       `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-  //       {
-  //         method: "POST",
-  //         body: formData,
-  //       }
-  //     );
-
-  //     const data = await response.json();
-
-  //     if (data.error) {
-  //       throw new Error(data.error.message);
-  //     }
-
-  //     setPhoto(data.secure_url);
-
-  //     toast.success("Success", { id: toastId });
-  //   } catch (error) {
-  //     console.error("Error uploading image:", error.message);
-  //     setUploading(false);
-  //     toast.error("Failed");
-  //   }
-  // };
 
 
   const handleBlogImage = async (e) => {
@@ -385,7 +344,7 @@ function UserProfile() {
               </svg>
             </span>
           </div>
-          <p className="text-gray-700">{userDataFromSignup.interest}</p>
+      
           <p className="text-sm text-gray-500">{userDataFromSignup.region}</p>
           <div className="flex space-x-2 mt-2">
             <div className="flex flex-col items-center rounded-xl bg-gray-100 px-4 py-2">
@@ -501,8 +460,11 @@ function UserProfile() {
                       <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path>
                       <circle cx="12" cy="13" r="3"></circle>
                     </svg>
+                    
                   </label>
+                 
                 </div>
+                <span>fsdfas</span>
                 <button
                   onClick={handleOpenModal}
                   className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -567,8 +529,8 @@ function UserProfile() {
           </div>
         </div>
       )}
-
 <FollowFollowing props={propValue} />
+
     </>
   );
 }

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import BlogRightSidebar from "./BlogRightSidebar";
 import Blogview from "./Blogview";
-import Imgslide from "./Imgslide";
 import Phonesize from "./Phonesize";
 import Slider from "./Slider";
 

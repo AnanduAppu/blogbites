@@ -137,7 +137,7 @@ function Blogview() {
                               {ele.likes.length}
                               
                             </button>
-                            <p>Save</p>
+                        
                           </div>
                         </div>
                         {/* End Avatar */}

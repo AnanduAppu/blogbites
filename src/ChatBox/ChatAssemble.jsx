@@ -6,8 +6,8 @@ function ChatAssemble() {
   return (
     <div>
         <FriendsListing/>
-      <div className="h-[100vh] p-4 sm:ml-64">
-        <div className="h-full rounded-lg border-2 border-dashed border-gray-200 p-4 dark:border-gray-700">
+      <div className="h-[88vh] sm:ml-64">
+        <div className="h-full rounded-lg border-2 border-dashed border-gray-200 p-1.5 dark:border-gray-700">
             <ChatComponent/>
         </div>
       </div>

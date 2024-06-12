@@ -71,7 +71,7 @@ useEffect(()=>{
   };
 
   return (
-    <div className="bod  " ref={slideDiv}>
+    <div className="bod rounded-lg" ref={slideDiv}>
       <section className="slider-main my-1">
         <div className="containers">
           <div className="logo">

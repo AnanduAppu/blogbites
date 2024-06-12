@@ -6,42 +6,39 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import noimage from "../assets/noImg.png";
 import { Link } from "react-router-dom";
 
-function LikedBlogs() {
+function SavedBlogs() {
  
 
-  const { likeBlogs, userDataFromSignup,likeAction, setLikeAction } = useContext(UserContext);
+  const { userDataFromSignup,savedBlogs, saveAction, setSaveAction } = useContext(UserContext);
 
 
-
-  const likeandUnlike = async (e, blogid) => {
+  const saveAndUnsave = async (e, blogid) => {
     e.preventDefault();
 
     const userId = userDataFromSignup._id;
-    console.log("userid is :-", userId + " and blogid is:-", blogid);
-
     try {
-      const response = await axios.put("http://localhost:3015/user/like", {
+      const response = await axios.put("http://localhost:3015/user/saveBlog", {
         userId,
         blogid,
       });
 
       if (response.data.success) {
-        console.log("liked");
-        setLikeAction(!likeAction);
+        setSaveAction(!saveAction);
         return;
       }
     } catch (error) {
       console.log("Error:", error);
     }
   };
+ 
 
 
 
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        { likeBlogs.length>0? (
-          likeBlogs.map((ele, ind) => (
+        { savedBlogs.length>0? (
+          savedBlogs.map((ele, ind) => (
             <Link
             to={`/blog/${ele._id}`}
               className="rounded overflow-hidden shadow-lg flex flex-col w-[420px] cursor-pointer"
@@ -59,7 +56,7 @@ function LikedBlogs() {
                 </div>
                 <a href="">
                 <button className="text-xs absolute top-0 right-0 bg-red-500 px-4 py-2 text-white mt-3 mr-3 hover:bg-white hover:text-red-600 transition duration-500 ease-in-out  rounded-md"
-                onClick={(e)=>likeandUnlike(e,ele._id)}
+                onClick={(e)=>saveAndUnsave(e,ele._id)}
                 >
                   <DeleteForeverIcon />
                
@@ -131,4 +128,4 @@ function LikedBlogs() {
   );
 }
 
-export default LikedBlogs;
+export default SavedBlogs

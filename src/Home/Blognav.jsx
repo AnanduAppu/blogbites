@@ -15,7 +15,7 @@ const BlogNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setSearchOpen] = useState(false);
   const [results, setResults] = useState([]);
-  const { setuserDataFromSignup, setmyBlogs, userDataFromSignup }=useContext(UserContext);
+  const { userDataFromSignup }=useContext(UserContext);
 
 
 
@@ -23,6 +23,37 @@ const BlogNavbar = () => {
   const inputRef = useRef(null);
   const buttonRef = useRef(null);
   const proButtonRef = useRef(null);
+  const navRef = useRef(null);
+
+  const [isSticky, setIsSticky] = useState(false);
+  const animationPlayedRef = useRef(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 600) { // Adjust the value to your desired scroll position
+        if (navRef.current && !animationPlayedRef.current) {
+          setIsSticky(true);
+          gsap.fromTo(navRef.current, 
+            { y: '-100%', duration: 1.5 }, // Starting state
+            { y: '0%', duration: 1.5, ease: 'bounce', zIndex: 10 } // Ending state
+          );
+          animationPlayedRef.current = true; // Mark the animation as played
+        }
+        
+       
+      } else {
+        setIsSticky(false);
+        animationPlayedRef.current = false;
+      
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
 
   useEffect(() => {
     // Ensure the element is mounted before running the animation
@@ -113,7 +144,7 @@ const BlogNavbar = () => {
 
   return (
     <>
-      <nav className="bg-white border border-gray-300 dark:bg-gray-900 "   >
+      <nav ref={navRef} className={`bg-white border border-gray-300 relative z-50 dark:bg-gray-900 ${isSticky ? "sticky top-0  bg-gray-600 bg-opacity-30 backdrop-blur-md " : ""}`}>
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 ">
           <Link
             to="/"
@@ -226,10 +257,10 @@ const BlogNavbar = () => {
               >
                 <div className="px-4 py-3">
                   <span className="block text-sm text-gray-900 dark:text-white">
-                    Bonnie Green
+                   {userDataFromSignup.username}
                   </span>
                   <span className="block text-sm text-gray-500 truncate dark:text-gray-400">
-                    name@flowbite.com
+                  {userDataFromSignup.email}
                   </span>
                 </div>
                 <ul className="py-2" aria-labelledby="user-menu-button">

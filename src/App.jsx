@@ -28,6 +28,7 @@ import Myblogs from "./Profile/Myblogs";
 import LikedBlogs from "./Profile/LikedBlogs";
 import OtherUserProfile from "./Home/OtherUserProfile";
 import ChatAssemble from "./ChatBox/ChatAssemble";
+import SavedBlogs from "./Profile/SavedBlogs";
 
 function App() {
   // this state controll open page templates
@@ -39,9 +40,12 @@ function App() {
   const [saveAction, setSaveAction] = useState(false);
   const [editAction, setEditAction] = useState(false);
   const [likeBlogs, setLikeBlogs] = useState([]);
+  const [savedBlogs, setSavedBlogs] = useState([]);
   const [likeAction, setLikeAction] = useState(false);
+  const [cookiedata,setCookiedata]=useState('')
 
   useEffect(() => {
+    
     const fetchData = async () => {
       const cookieToken = document.cookie.replace(
         /(?:(?:^|.*;\s*)userToken\s*\=\s*([^;]*).*$)|^.*$/,
@@ -56,6 +60,7 @@ function App() {
       console.log(cookieToken);
       const cookieData = jwtDecode(cookieToken);
       const id = cookieData.id;
+      setCookiedata(id)
 
       try {
         const [response1, response2, response3] = await Promise.all([
@@ -71,14 +76,15 @@ function App() {
       }
       const userData = response1.data.Data;
       const blogData = response2.data.blogdata;
-      const blogLiked = response3.data.Data;
+      const blogLiked = response3.data.LData;
+      const blogSaved = response3.data.SData;
     console.log(blogData)
       if (!isEqual(userDataFromSignup, userData) || !isEqual(myBlogs, blogData) || !isEqual(likeBlogs,blogLiked)  ) {
         setuserDataFromSignup(userData);
         setmyBlogs(blogData);
         setLikeBlogs(blogLiked)
-     
-        
+        setSavedBlogs(blogSaved)
+    
       }
 
       } catch (error) {
@@ -144,6 +150,7 @@ function App() {
     saveAction, setSaveAction,
     editAction, setEditAction,
     likeBlogs, setLikeBlogs,
+    savedBlogs, setSavedBlogs
  
   };
 
@@ -180,6 +187,7 @@ function App() {
             <Route path="/profile" element={<ProfileAssemble />}>
               <Route index element={<Myblogs/>} />
               <Route path="likedblogs" element={<LikedBlogs props={userDataFromSignup} />} />
+              <Route path="savedblogs" element={<SavedBlogs  props={userDataFromSignup} />} />
               
             </Route>
           </Route>

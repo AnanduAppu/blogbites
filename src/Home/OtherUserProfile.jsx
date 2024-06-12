@@ -14,7 +14,7 @@ function OtherUserProfile() {
   const { userid } = useParams();
   const { bloglist, userDataFromSignup } = useContext(UserContext);
   const [updateChange, setUpdateChange] = useState({});
-  const [propValue, setPropValue] = useState({});
+  const [propValue, setPropValue] = useState({data:[]});
   let [info, setInfo] = useState({});
   info = useSelector((state) => state.infoData.info);
 

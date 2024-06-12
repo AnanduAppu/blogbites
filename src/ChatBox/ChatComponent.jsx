@@ -5,7 +5,7 @@ const ChatComponent = () => {
     <div className="flex h-full flex-col">
       <div className="flex-1 overflow-y-scroll bg-gray-200">
         <div className="px-4 py-2">
-          <div className="mb-2 flex items-center">
+          <div className="mb-2 flex items-center bg-white p-2 rounded-sm">
             <img className="mr-2 h-8 w-8 rounded-full" src="https://picsum.photos/50/50" alt="User Avatar" />
             <div className="font-medium">John Doe</div>
           </div>
