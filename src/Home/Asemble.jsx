@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import BlogRightSidebar from "./BlogRightSidebar";
 import Blogview from "./Blogview";
 import Phonesize from "./Phonesize";
-import Slider from "./Slider";
+import Slider from "./Slider1";
 
 function Asemble() {
 
