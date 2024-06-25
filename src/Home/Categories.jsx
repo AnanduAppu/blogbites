@@ -19,8 +19,8 @@ const FilterCategories = (e, category) => {
 
   return (
     <div>
-        <div className="bg-white rounded-lg shadow-md mx-2">
-          <div className="w-full rounded-lg border-2 border-gray-400 p-4 max-w-sm shadow-lg shadow-purple-300">
+        <div className="bg-yellow-50 border border-gray-400 rounded-xl shadow-2xl shadow-gray-500 mx-2 ">
+          <div className="w-full rounded-lg   p-4 max-w-sm ">
             <h2 className="font-os text-lg font-bold">Categories</h2>
             <ul className="flex items-start flex-wrap mt-4">
             {['all', 'ai', 'technology', 'health', 'education', 'history', 'business'].map(category => (

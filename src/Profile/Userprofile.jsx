@@ -80,8 +80,8 @@ function UserProfile() {
 
     const files = e.target.files;
 
-    if (files.length + photo.length > 5) {
-      toast.error("You can only upload up to 5 photos");
+    if (files.length + photo.length > 6) {
+      toast.error("You can only upload up to 6 photos");
       return;
     }
 

@@ -7,9 +7,11 @@ import { toast } from "react-hot-toast";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
+import Visibility from "@mui/icons-material/Visibility";
+import { VisibilityOff } from "@mui/icons-material";
+
 function Myblogs() {
-  const { userDataFromSignup, myBlogs, editAction, setEditAction } =
-    useContext(UserContext);
+  const { userDataFromSignup, myBlogs, editAction, setEditAction,isVisible,setVisible } =useContext(UserContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const email = userDataFromSignup.email;
@@ -25,7 +27,7 @@ function Myblogs() {
   const [headingEdit, setHeadingEdit] = useState("");
   const [descriptionEdit, setDescriptionEdit] = useState("");
   const [blogid, setBlogid] = useState("");
-  const [userId, setUserId] = useState(userDataFromSignup._id);
+  const userId = userDataFromSignup._id
   const modalRef = useRef(null);
   const handleEdit = (e, blog) => {
     setImageEdit(blog.image);
@@ -44,6 +46,11 @@ function Myblogs() {
 
   const handleblogImg = async (e) => {
     e.preventDefault();
+if (imageEdit.length===6) {
+
+  toast.error("cant add image morethan 6")
+  return
+}
 
     const files = e.target.files;
     if (files.length === 0) {
@@ -126,7 +133,7 @@ function Myblogs() {
 
   const handleDelete = async (e) => {
     e.preventDefault();
-    console.log("this is what", blogid, userId); 
+   
     try {
       const response = await axios.delete("http://localhost:3015/user/deleteBlog", {
         data: { blogid, userId }
@@ -150,7 +157,33 @@ function Myblogs() {
     }
   };
 
+const pubicOrPrivate = async(e,blogid,isPublic)=>{
+  e.preventDefault();
 
+try {
+  const response = await axios.post("http://localhost:3015/user/publicOrPrivate", {
+    userId,
+    blogid,
+    isPublic
+  });
+
+  if (response.data.success) {
+    if (response.data.visbility) {
+      toast.success("now it is public")
+      setVisible(true)
+    }else{
+      toast.error("now it is private")
+      setVisible(false)
+    }
+   
+  }
+} catch (error) {
+  
+}
+
+
+
+}
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
@@ -212,16 +245,20 @@ function Myblogs() {
                     </button>
                   </a>
                 </div>
-                <div className="px-6 py-4 mb-auto bg-blue-50">
+                <div className="px-6 py-4 mb-auto bg-blue-50 h-[18vh] ">
+                
                   <a
                     href="#"
                     className="font-medium text-lg hover:text-indigo-600 transition duration-500 ease-in-out inline-block mb-2"
                   >
-                    {ele.title.split(" ").slice(0, 4).join(" ")}
+                    {ele.title.split(" ").slice(0, 6).join(" ")}
                     {ele.title.split(" ").length > 2 ? "..." : ""}
                   </a>
+            
+             
+            
                   <p className="text-gray-500 text-sm">
-                    {ele.description.split(" ").slice(0, 10).join(" ")}
+                    {ele.description.split(" ").slice(0, 12).join(" ")}
                     {ele.description.split(" ").length > 20 ? "..." : ""}
                   </p>
                 </div>
@@ -237,6 +274,17 @@ function Myblogs() {
                     className="py-1 text-xs font-regular text-gray-900 mr-1 flex flex-row items-center"
                   >
                     <span className="ml-1">{ele.comments.length}comments </span>
+                  </span>
+                  <span>
+                    {ele.visibility?
+                    <span className="cursor-pointer"
+                    onClick={(e)=>pubicOrPrivate (e,ele._id, true)}
+                    ><Visibility/></span>:
+                    <span className="cursor-pointer" 
+                    onClick={(e)=>pubicOrPrivate (e,ele._id, false)}
+                    ><VisibilityOff/></span>}
+                    
+                    
                   </span>
                 </div>
               </Link>
@@ -273,7 +321,7 @@ function Myblogs() {
                 <div className="relative ml-0 h-full md:mr-10">
                   <span className="absolute left-0 top-0 ml-1 mt-1 h-full w-full rounded-lg bg-purple-500"></span>
                   <div className="relative h-full rounded-lg border-2 border-purple-500 bg-white px-3 py-2">
-                    <div className="grid grid-cols-5 gap-4 md:grid-cols-5">
+                    <div className="grid grid-cols-6 gap-4 md:grid-cols-5 h-[14vh]">
                     {imageEdit.map((image, index) => (
                         <div className="relative" key={index}>
                           <img
@@ -303,8 +351,22 @@ function Myblogs() {
                         className="hidden"
                         id="uploadImages"
                       />
-                      <label htmlFor="uploadImages" className="cursor-pointer text-2xl font-bold border border-l-8 border-purple-300 px-1 py-0">
-                        +
+                      <label htmlFor="uploadImages" className="cursor-pointer  ">
+                      <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="text-purple-500"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path>
+                      <circle cx="12" cy="13" r="3"></circle>
+                    </svg>
                       </label>
                     </div>
                   </div>

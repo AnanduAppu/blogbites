@@ -43,6 +43,7 @@ function App() {
   const [savedBlogs, setSavedBlogs] = useState([]);
   const [likeAction, setLikeAction] = useState(false);
   const [cookiedata,setCookiedata]=useState('')
+  const [isVisible,setVisible]=useState(Boolean)
 
   useEffect(() => {
     
@@ -93,7 +94,7 @@ function App() {
     };
     fetchData();
    
-  }, [userDataFromSignup,myBlogs,saveAction,editAction,likeAction]);
+  }, [userDataFromSignup,myBlogs,saveAction,editAction,likeAction,isVisible]);
 
   //it takes email from resetpass1 page and send to resetpass2 page
   const [resetEmail, setResetemail] = useState("");
@@ -108,27 +109,26 @@ function App() {
 
 
   const [activeCategory, setActiveCategory] = useState('all');
-  useEffect(() => {
+  // useEffect(() => {
 
-    console.log("we are here ")
-    const fetchBlogs = async () => {
-      try {
-        const response = await axios.get("http://localhost:3015/user/bloglist",{ params: { id: activeCategory } });
-        const value = response.data.blogs;
+  //   const fetchBlogs = async () => {
+  //     try {
+  //       const response = await axios.get("http://localhost:3015/user/bloglist",{ params: { id: activeCategory } });
+  //       const value = response.data.blogs;
 
-        if (!isEqual(bloglist, value)) {
-          setBloglist(value);
-          setBlogUser(value.author)
-          console.log("blog details are ", value);
+  //       if (!isEqual(bloglist, value)) {
+  //         setBloglist(value);
+  //         setBlogUser(value.author)
+  //         console.log("blog details are ", value);
          
-        }
-      } catch (error) {
-        console.log("we get an error in retriving blog datas", error);
-      }
-    };
+  //       }
+  //     } catch (error) {
+  //       console.log("we get an error in retriving blog datas", error);
+  //     }
+  //   };
 
-    fetchBlogs();
-  }, [bloglist,likeAction, saveAction,activeCategory]);
+  //   fetchBlogs();
+  // }, [bloglist,likeAction, saveAction,activeCategory,isVisible]);
 
 
  
@@ -150,7 +150,8 @@ function App() {
     saveAction, setSaveAction,
     editAction, setEditAction,
     likeBlogs, setLikeBlogs,
-    savedBlogs, setSavedBlogs
+    savedBlogs, setSavedBlogs,
+    isVisible,setVisible
  
   };
 

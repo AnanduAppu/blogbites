@@ -6,18 +6,15 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { fetchContent } from "../ReduxTool/CreateSlice";
-import { gsap } from 'gsap';
-
+import { gsap } from "gsap";
 
 const BlogNavbar = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setSearchOpen] = useState(false);
   const [results, setResults] = useState([]);
-  const { userDataFromSignup }=useContext(UserContext);
-
-
+  const { userDataFromSignup } = useContext(UserContext);
 
   const headerRef = useRef(null);
   const inputRef = useRef(null);
@@ -29,62 +26,70 @@ const BlogNavbar = () => {
   const animationPlayedRef = useRef(false);
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 600) { // Adjust the value to your desired scroll position
+      if (window.scrollY > 600) {
+        // Adjust the value to your desired scroll position
         if (navRef.current && !animationPlayedRef.current) {
           setIsSticky(true);
-          gsap.fromTo(navRef.current, 
-            { y: '-100%', duration: 1.5 }, // Starting state
-            { y: '0%', duration: 1.5, ease: 'bounce', zIndex: 10 } // Ending state
+          gsap.fromTo(
+            navRef.current,
+            { y: "-100%", duration: 1.5 }, // Starting state
+            { y: "0%", duration: 1.5, ease: "bounce", zIndex: 20 } // Ending state
           );
           animationPlayedRef.current = true; // Mark the animation as played
         }
-        
-       
       } else {
         setIsSticky(false);
         animationPlayedRef.current = false;
-      
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
 
   useEffect(() => {
     // Ensure the element is mounted before running the animation
     if (headerRef.current) {
-      gsap.fromTo(headerRef.current, 
-        { y: '-100%', duration: 2 }, // Starting state
-        { y: '0%', duration: 2, ease: 'bounce',zIndex: 10} // Ending state
+      gsap.fromTo(
+        headerRef.current,
+        { y: "-100%", duration: 2 }, // Starting state
+        { y: "0%", duration: 2, ease: "bounce", zIndex: 20 } // Ending state
       );
     }
-    
+
     const tl = gsap.timeline();
-    tl.fromTo(inputRef.current, 
-      { width: '0%' }, 
-      { width: '100%', duration: 1, ease: 'power2.inOut' }
+    tl.fromTo(
+      inputRef.current,
+      { width: "0%" },
+      { width: "100%", duration: 1, ease: "power2.inOut" }
     )
-    .fromTo(buttonRef.current, 
-      { opacity: 0 }, 
-      { opacity: 1, duration: 0.5, ease: 'power2.inOut' }
-    )
-    .fromTo(proButtonRef.current, 
-      { opacity: 0 }, 
-      { opacity: 1, duration: 0.5, ease: 'power2.inOut' }
-    );
-  
+      .fromTo(
+        buttonRef.current,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.5, ease: "power2.inOut" }
+      )
+      .fromTo(
+        proButtonRef.current,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.5, ease: "power2.inOut" }
+      );
   }, []);
 
-  const viewProfile = (event,id) => {
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // This will add smooth scrolling animation
+    });
+  };
+
+  const viewProfile = (event, id) => {
     event.preventDefault();
     dispatch(fetchContent(id));
-    navigate(`/author/${id}`)
-    setSearchOpen(false)
+    navigate(`/author/${id}`);
+    setSearchOpen(false);
   };
 
   const getValue = async (e) => {
@@ -144,25 +149,44 @@ const BlogNavbar = () => {
 
   return (
     <>
-      <nav ref={navRef} className={`bg-white border border-gray-300 relative z-50 dark:bg-gray-900 ${isSticky ? "sticky top-0  bg-gray-600 bg-opacity-30 backdrop-blur-md " : ""}`}>
+      <nav
+        ref={navRef}
+        className={`bg-gray-200 border border-gray-300 relative  dark:bg-gray-900 ${
+          isSticky
+            ? "sticky top-0  bg-gray-600 bg-opacity-30 backdrop-blur-md h-10"
+            : ""
+        }`}
+      >
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 ">
-          <Link
-            to="/"
-            className="flex items-center space-x-3 rtl:space-x-reverse w-[20%]"
-            ref={headerRef}
-          >
-            <img src={logoimg} className="h-8" alt="Flowbite Logo" />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white max-sm:hidden">
-              BLOG <span className="text-blue-500">BITES</span>
-            </span>
-          </Link>
+          {isSticky ? (
+            <button
+              onClick={scrollToTop}
+              className="flex items-center space-x-3 rtl:space-x-reverse w-[20%] bg-transparent border-none p-0 cursor-pointer"
+              ref={headerRef}
+            >
+              <img src={logoimg} className="h-8" alt="Flowbite Logo" />
+              <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white max-sm:hidden">
+                BLOG <span className="text-blue-500">BITES</span>
+              </span>
+            </button>
+          ) : (
+            <Link
+              to="/"
+              className="flex items-center space-x-3 rtl:space-x-reverse w-[20%]"
+              ref={headerRef}
+            >
+              <img src={logoimg} className="h-8" alt="Flowbite Logo" />
+              <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white max-sm:hidden">
+                BLOG <span className="text-blue-500">BITES</span>
+              </span>
+            </Link>
+          )}
 
           <div className="flex justify-end items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse  w-[80%] ">
             {/* Search bar */}
             <form
               action="/search"
               className="max-w-[480px] w-full px-4 dropdown"
-            
               tabIndex={0}
               role="search"
             >
@@ -172,7 +196,7 @@ const BlogNavbar = () => {
                   name="q"
                   onChange={getValue}
                   ref={inputRef}
-                  className="border h-12 border-gray-200 shadow-lg  shadow-blue-200 p-4 rounded-full dark:text-gray-800 dark:border-gray-700 dark:bg-gray-200"
+                  className={`border ${ isSticky?`h-10`:`h-12`} border-gray-200 shadow-lg  shadow-blue-200 p-4 rounded-full dark:text-gray-800 dark:border-gray-700 dark:bg-gray-200`}
                   placeholder="search"
                 />
                 <button type="submit">
@@ -195,7 +219,7 @@ const BlogNavbar = () => {
                 {isSearchOpen && (
                   <ul
                     tabIndex={0}
-                    className="dropdown-content z-10 menu p-2 shadow bg-base-100 rounded-box border border-gray-500 w-[100%] "
+                    className="dropdown-content z-20 menu p-2 shadow bg-base-100 rounded-box border border-gray-500 w-[100%] "
                   >
                     {results.length === 0 ? (
                       <>no result</>
@@ -220,9 +244,9 @@ const BlogNavbar = () => {
                               </div>
                             </div>
                           </div>
-                          <button className="h-8 px-3 text-md font-bold text-blue-400 border border-blue-400 rounded-full hover:bg-blue-100"
-                          
-                          onClick={(e)=>viewProfile(e,user._id)}
+                          <button
+                            className="h-8 px-3 text-md font-bold text-blue-400 border border-blue-400 rounded-full hover:bg-blue-100"
+                            onClick={(e) => viewProfile(e, user._id)}
                           >
                             View
                           </button>
@@ -236,10 +260,11 @@ const BlogNavbar = () => {
 
             <button
               type="button"
-              className="flex text-sm bg-gray-800 shadow-lg rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+              className="lg:hidden flex text-sm bg-gray-800 shadow-lg rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
               id="user-menu-button"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-           ref={proButtonRef}
+              ref={proButtonRef}
+
             >
               <span className="sr-only">Open user menu</span>
               <img
@@ -252,15 +277,15 @@ const BlogNavbar = () => {
             {/* Dropdown menu */}
             {isMenuOpen && (
               <div
-                className="z-10 absolute right-0 mt-64 max-sm:mt-72 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600 duration-700"
+                className="z-20 absolute right-0 mt-64 max-sm:mt-72 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600 duration-700"
                 id="user-dropdown"
               >
                 <div className="px-4 py-3">
                   <span className="block text-sm text-gray-900 dark:text-white">
-                   {userDataFromSignup.username}
+                    {userDataFromSignup.username}
                   </span>
                   <span className="block text-sm text-gray-500 truncate dark:text-gray-400">
-                  {userDataFromSignup.email}
+                    {userDataFromSignup.email}
                   </span>
                 </div>
                 <ul className="py-2" aria-labelledby="user-menu-button">

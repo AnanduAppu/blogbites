@@ -1,29 +1,72 @@
 import UserContext from "../Contex/CreateContex";
 import { Link, useNavigate } from "react-router-dom";
-import { Suspense, useContext, useState,useRef } from "react";
+import { Suspense, useContext, useState,useRef, useEffect } from "react";
 import axios from "axios";
-
-
+import { isEqual } from "lodash";
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import { useDispatch } from "react-redux";
 import { fetchContent } from "../ReduxTool/CreateSlice";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 
 function Blogview() {
   const {
     userDataFromSignup,
-    bloglist,
+
     likeAction,
     setLikeAction,
     saveAction,
-    setSaveAction,
+   activeCategory,isVisible,
+   bloglist, setBloglist,
+   bloguser,setBlogUser,
  
   } = useContext(UserContext);
 
+ 
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
+
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const limit = 4; // Same limit as used in the backend
+
+  const fetchBlogs = async (pageNum) => {
+    try {
+      const response = await axios.get("http://localhost:3015/user/bloglist", {
+        params: { id: activeCategory, page: pageNum, limit: limit }
+      });
+      const value = response.data.blogs;
+
+      if (pageNum === 1) {
+        setBloglist(value);
+      } else {
+        setBloglist((prevBlogs) => [...prevBlogs, ...value]);
+      }
+
+      if (value.length < limit) {
+        setHasMore(false);
+      } else {
+        setHasMore(true);
+      }
+    } catch (error) {
+      console.log("Error retrieving blog data:", error);
+    }
+  };
+
+  useEffect(() => {
+    setPage(1);
+    fetchBlogs(1);
+  }, [likeAction, saveAction, activeCategory, isVisible]);
+
+  useEffect(() => {
+    if (page > 1) {
+      fetchBlogs(page);
+    }
+  }, [page]);
+
 
 
 
@@ -59,6 +102,13 @@ function Blogview() {
   return (
     <div className=" max-w-[85rem] py-10 sm:px-6 lg:px-2 lg:py-5 ">
       {/* Grid */}
+      <InfiniteScroll
+        dataLength={bloglist.length}
+        next={() => setPage((prevPage) => prevPage + 1)}
+        hasMore={hasMore}
+        loader={<h4>Loading...</h4>}
+        endMessage={<p>No more blogs to show</p>}
+      >
       <div className=" grid lg:grid-cols-1 gap-5">
         {/* Card */}
         <Suspense fallback={<loading />}>
@@ -88,7 +138,7 @@ function Blogview() {
                   <div className="grow">
                     <div className="p-4 flex flex-col h-full sm:p-6">
                       <div className="mb-3">
-                        <p className="inline-flex items-center gap-1.5 py-1.5  rounded-md text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200">
+                        <p className="inline-flex items-center gap-1.5 py-1.5 px-1 rounded-md text-xs font-medium border  bg-rose-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200">
                           {ele.topic}
                         </p>
                       </div>
@@ -105,7 +155,7 @@ function Blogview() {
                       <div className="mt-5 sm:mt-auto">
                         {/* Avatar */}
                         <div className=" flex justify-between mt-2 ">
-                          <button className="flex items-center  "  onClick={(e)=>AuthorProfile(e,ele.author._id)}>
+                          <button className="flex items-center border rounded-lg p-2 shadow-md shadow-gray-400 hover:shadow-blue-300 duration-500"  onClick={(e)=>AuthorProfile(e,ele.author._id)}>
                             <div className="flex-shrink-0">
                               <img
                                 className="size-[46px] rounded-full object"
@@ -114,7 +164,7 @@ function Blogview() {
                                 style={{ aspectRatio: "160/160", objectFit: "cover" }}
                               />
                             </div>
-                            <div className="ms-2.5 sm:ms-4">
+                            <div className="ms-2.5 sm:ms-4 ">
                               <h4 className="font-semibold text-gray-800 dark:text-gray-200">
                                 {ele.author.firstName}
                               </h4>
@@ -151,6 +201,7 @@ function Blogview() {
         </Suspense>
       </div>
       {/* End Grid */}
+      </InfiniteScroll>
     </div>
   );
 }
