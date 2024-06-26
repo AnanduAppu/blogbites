@@ -12,14 +12,16 @@ import OtherUserBlogs from "./OtherUserBlogs";
 function OtherUserProfile() {
   const dispatch = useDispatch();
   const { userid } = useParams();
-  const { bloglist, userDataFromSignup } = useContext(UserContext);
+  const {userDataFromSignup } = useContext(UserContext);
   const [updateChange, setUpdateChange] = useState({});
   const [propValue, setPropValue] = useState({data:[]});
   let [info, setInfo] = useState({});
   info = useSelector((state) => state.infoData.info);
 
   console.log(info)
-
+useEffect(()=>{
+  window.scrollTo(0, 0);
+},[])
   useEffect(() => {
     // Fetch data only if info is null or updateChange is not equal to info
     if (!info || !isEqual(updateChange, info)) {
@@ -27,9 +29,7 @@ function OtherUserProfile() {
     }
   }, [dispatch, updateChange]);
 
-  // console.log("this is get from useparams:-", userid);
-  // const blogAuthor = bloglist.find((ele) => ele.author._id == userid)?.author;
-  // console.log("blog author is:- ", blogAuthor);
+
 
   const followAndUnfollow = async (e) => {
     e.preventDefault();
@@ -185,7 +185,7 @@ function OtherUserProfile() {
       </div>
 
 
-{info && <OtherUserBlogs props={info.your_blogs}/>}
+{info && <OtherUserBlogs />}
   <FollowFollowing props={propValue} />
     </>
   );

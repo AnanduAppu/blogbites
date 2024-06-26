@@ -1,19 +1,22 @@
-import React from 'react';
-
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import UserContext from "../Contex/CreateContex";
 const ProfileCard = () => {
+  const { userDataFromSignup } = useContext(UserContext)
+
   return (
 
    
-      <div className="w-full mt-5 bg-white dark:bg-gray-900 rounded-lg overflow-hidden shadow-lg h-[50vh] ">
+      <div className="w-full mt-5 bg-green-50 dark:bg-gray-900 rounded-lg overflow-hidden shadow-lg h-[50vh] sticky top-0">
         <div className="border-b px-4 pb-6">
           <div className="text-center my-4">
             <img
-              className="h-32 w-32 rounded-full border-4 border-white dark:border-gray-800 mx-auto my-4"
-              src="https://randomuser.me/api/portraits/women/21.jpg"
+              className="h-32 w-32 rounded-full border-4 border-white dark:border-gray-800 mx-auto my-4 object-cover"
+              src={userDataFromSignup.profilePicture}
               alt="Profile"
             />
             <div className="py-2">
-              <h3 className="font-bold text-2xl text-gray-800 dark:text-white mb-1">Cait Genevieve</h3>
+              <h3 className="font-bold text-2xl text-gray-800 dark:text-white mb-1">{userDataFromSignup.username}</h3>
               <div className="inline-flex text-gray-700 dark:text-gray-300 items-center">
                 <svg
                   className="h-5 w-5 text-gray-400 dark:text-gray-600 mr-1"
@@ -30,9 +33,9 @@ const ProfileCard = () => {
             </div>
           </div>
           <div className="flex gap-2 px-2">
-            <button className="flex-1 rounded-full bg-blue-600 dark:bg-blue-800 text-white dark:text-white antialiased font-bold hover:bg-blue-800 dark:hover:bg-blue-900 px-4 py-2">
+            <Link  to="/profile" className="flex-1 text-center rounded-full bg-blue-600 dark:bg-blue-800 text-white dark:text-white antialiased font-bold hover:bg-blue-800 dark:hover:bg-blue-900 px-4 py-2">
               View
-            </button>
+            </Link>
           </div>
         </div>
         <div className="px-4 py-4">

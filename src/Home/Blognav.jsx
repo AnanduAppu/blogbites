@@ -50,8 +50,11 @@ const BlogNavbar = () => {
     };
   }, []);
 
+  const bubblesRef = useRef([]);
   useEffect(() => {
     // Ensure the element is mounted before running the animation
+ 
+
     if (headerRef.current) {
       gsap.fromTo(
         headerRef.current,
@@ -170,6 +173,7 @@ const BlogNavbar = () => {
               </span>
             </button>
           ) : (
+            
             <Link
               to="/"
               className="flex items-center space-x-3 rtl:space-x-reverse w-[20%]"
@@ -180,6 +184,8 @@ const BlogNavbar = () => {
                 BLOG <span className="text-blue-500">BITES</span>
               </span>
             </Link>
+           
+         
           )}
 
           <div className="flex justify-end items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse  w-[80%] ">

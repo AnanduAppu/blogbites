@@ -4,6 +4,7 @@ import UserContext from "../Contex/CreateContex";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import FollowFollowing from "../Home/FollowFollowing";
+import CreatePost from "./CreatePost";
 
 function UserProfile() {
   const { userDataFromSignup } = useContext(UserContext);
@@ -128,7 +129,7 @@ function UserProfile() {
     try {
       var toastId = toast.loading("creating post...");
       const responds = await axios.post(
-        "http://localhost:3015/user/blogcreate",
+        "http://localhost:3015/user/blogcreating",
         { headline, blog, photo, email, selectedTopic }
       );
 
@@ -404,131 +405,13 @@ function UserProfile() {
       </div>
 }
       {isOpen ? (
-        <div className="max-w-4xl space-y-4 p-4 mx-auto duration-500">
-          <div className="flex flex-col space-y-4 border border-gray-500 rounded-lg p-2">
-            <input
-              type="text"
-              onChange={(e) => headlingChange(e)}
-              className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex  w-full rounded-lg border p-4 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              placeholder="Headline ...."
-            />
-            <textarea
-              onChange={(e) => BlogChange(e)}
-              className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex min-h-[100px] w-full rounded-lg border p-4 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              placeholder="What's on your mind?"
-            ></textarea>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="text-blue-500"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M2 20h.01"></path>
-                  <path d="M7 20v-4"></path>
-                  <path d="M12 20v-8"></path>
-                </svg>
-                <div>
-                  <input
-                    type="file"
-                    multiple
-                    id="imageInput"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={(e) => handleBlogImage(e)}
-                  />
-                  <label htmlFor="imageInput">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="text-purple-500"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path>
-                      <circle cx="12" cy="13" r="3"></circle>
-                    </svg>
-                    
-                  </label>
-                 
-                </div>
-                <span>fsdfas</span>
-                <button
-                  onClick={handleOpenModal}
-                  className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  type="button"
-                >
-                  Topics
-                </button>
-              </div>
-              <button
-                onClick={(e) => submitTheBlog(e)}
-                className="ring-offset-background focus-visible:ring-ring hover:bg-primary/90 inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-purple-500 px-4 py-2 text-sm font-medium text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-              >
-                Post
-              </button>
-            </div>
-          </div>
-        </div>
+        <div className="duration-500"><CreatePost/></div>
+        
       ) : (
         <div className="duration-500 "></div>
       )}
 
-      {isModalOpen && (
-        <div className="fixed top-0 left-0 flex justify-center items-center w-full h-full bg-black bg-opacity-50">
-          <div className="bg-white rounded-lg p-4 w-full max-w-2xl">
-            <div className="flex items-center justify-between p-2 border-b">
-              <h3 className="text-lg font-semibold text-gray-900">Topics</h3>
-              <button
-                onClick={handleCloseModal}
-                className="text-gray-400 hover:text-gray-800 focus:outline-none"
-              >
-                <svg
-                  className="w-6 h-6"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div className="flex flex-wrap gap-2 p-4 max-w-sm mx-auto my-4 text-sm">
-              {topics.map((topic) => (
-                <button
-                  key={topic}
-                  onClick={() => handleTopicSelection(topic)}
-                  className={`${
-                    selectedTopic === topic
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-200 text-gray-700"
-                  } px-2 py-1 rounded hover:bg-gray-300`}
-                >
-                  {topic}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+      
 <FollowFollowing props={propValue} />
 
     </>

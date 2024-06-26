@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import UserContext from "../Contex/CreateContex";
@@ -15,7 +15,6 @@ function BlogPage() {
   const dispatch = useDispatch();
   const { blogid } = useParams();
   const {
-    bloglist,
     userDataFromSignup,
     likeAction,
     setLikeAction,
@@ -23,10 +22,35 @@ function BlogPage() {
     setSaveAction,
   } = useContext(UserContext);
   const navigate = useNavigate();
+  const [blogShow,setBlogshow]=useState()
 
-  const blogShow = bloglist.find((ele) => ele._id === blogid);
+  useEffect(() => {
+    if (!userDataFromSignup?._id || !blogid) {
+      console.error("User ID or Blog ID is missing.");
+      return;
+    }
+    
+    const selectedBlog = async () => {
+      try {
+        const response = await axios.get("http://localhost:3015/user/selectedBlog", {
+          params: { userId: userDataFromSignup._id, blogId: blogid }
+        });
 
-  //const [blogShow,setBlogshow]=useState()
+        if (response.data.successful) {
+          setBlogshow(response.data.blogdata);
+        } else {
+          console.error("Failed to fetch the blog data.");
+        }
+      } catch (error) {
+        console.error("Error fetching blog data:", error);
+      }
+    };
+    selectedBlog();
+
+  }, [likeAction,saveAction]);
+
+  
+
   console.log(userDataFromSignup);
 
   const saveAndUnsave = async (e, blogid) => {
@@ -91,7 +115,7 @@ function BlogPage() {
             <div className="px-4 lg:px-0">
               <div className="flex justify-between items-center">
                 <h2 className="text-4xl font-semibold text-gray-800 leading-tight">
-                  {blogShow.title}
+                  {blogShow?.title}
                 </h2>
                 <div className="flex items-center gap-4">
                   <button onClick={(e) => likeandUnlike(e, blogShow._id)}>

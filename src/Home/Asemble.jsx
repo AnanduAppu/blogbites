@@ -16,7 +16,7 @@ function Asemble() {
       <div className="   ">
  
         <div className="flex justify-between ">
-          <div className="w-[20%] mx-2 max-sm:hidden">
+          <div className="w-[20%] mx-2 max-sm:hidden relative">
           <ProfileCard/>
           </div>
         

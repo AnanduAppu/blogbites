@@ -6,7 +6,8 @@ import { isEqual } from "lodash";
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import { useDispatch } from "react-redux";
-import { fetchContent } from "../ReduxTool/CreateSlice";
+import { fetchContent,fetchAnotherBlogs } from "../ReduxTool/CreateSlice";
+
 import InfiniteScroll from "react-infinite-scroll-component";
 
 
@@ -93,11 +94,14 @@ function Blogview() {
   };
 
 
- const AuthorProfile = (e,id)=>{
-  e.preventDefault()
-  dispatch(fetchContent(id));
-  navigate(`/author/${id}`)
- }
+  const AuthorProfile = async (e, id) => {
+    e.preventDefault();
+    
+      dispatch(fetchContent(id));
+      dispatch(fetchAnotherBlogs(id));
+      navigate(`/author/${id}`);
+    
+  };
 
   return (
     <div className=" max-w-[85rem] py-10 sm:px-6 lg:px-2 lg:py-5 ">

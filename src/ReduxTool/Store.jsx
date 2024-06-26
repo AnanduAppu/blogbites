@@ -7,7 +7,7 @@ const store = configureStore({
   reducer: {
     infoData: infoReducer
   },
-
+ 
 });
 
 export default store;

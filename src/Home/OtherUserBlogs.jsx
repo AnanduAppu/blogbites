@@ -1,11 +1,38 @@
-import { Link } from 'react-router-dom';
-import React from 'react';
+import { Link, useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import noimage from "../assets/noImg.png";
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAnotherBlogs  } from "../ReduxTool/CreateSlice";
 
 
-const OtherUserBlogs = ({props}) => {
+const OtherUserBlogs = () => {
+  const { userid } = useParams()
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchAnotherBlogs(userid));
+  }, []);
 
-console.log(props)
+  const [imageOrientations, setImageOrientations] = useState({});
+
+  let userBlogs = useSelector((state) => state.infoData.blogs);  
+
+
+  useEffect(() => {
+    if (userBlogs.length > 0) {
+      const orientations = {};
+      userBlogs.forEach((blogs, ind) => {
+        const img = new Image();
+        img.src = blogs.image.length > 0 ? blogs.image[0] : noimage;
+        img.onload = () => {
+          orientations[ind] = img.width < img.height; // true if vertical, false if not
+          setImageOrientations((prev) => ({ ...prev, ...orientations }));
+        };
+      });
+    }
+  }, [userBlogs])
+
+
+  console.log(userBlogs)
 
 //
   return (
@@ -17,7 +44,7 @@ console.log(props)
         <a href="#">See All</a>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-     { props.map((blogs,ind)=>(
+     {userBlogs.length>0? userBlogs.map((blogs,ind)=>(
         <Link className="rounded overflow-hidden shadow-lg flex flex-col cursor-pointer"
         key={ind}
         to={`/blog/${blogs._id}`}
@@ -26,9 +53,9 @@ console.log(props)
           <div className="relative">
             <a>
               <img
-                className="w-full object-contain"
-                src={blogs.image?blogs.image:noimage}
-                alt="Sunset in the mountains"
+               className={`w-full h-[28vh] ${imageOrientations[ind] ? 'object-contain' : 'object-cover'}`}
+               src={blogs.image.length > 0 ? blogs.image[0] : noimage}
+               alt="Sunset in the mountains"
               />
               <div className="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25"></div>
             </a>
@@ -82,7 +109,7 @@ console.log(props)
               <span className="ml-1">{blogs.comments.length} Comments</span>
             </span>
           </div>
-        </Link>))}
+        </Link>)):<>no data</>}
       </div>
     </div>
   );
