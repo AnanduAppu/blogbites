@@ -2,19 +2,21 @@ import UserContext from "../Contex/CreateContex";
 import { Link, useNavigate } from "react-router-dom";
 import { Suspense, useContext, useState,useRef, useEffect } from "react";
 import axios from "axios";
-import { isEqual } from "lodash";
+import CreatePost from "../Profile/CreatePost";
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import { useDispatch } from "react-redux";
 import { fetchContent,fetchAnotherBlogs } from "../ReduxTool/CreateSlice";
+import { gsap } from "gsap";
 
 import InfiniteScroll from "react-infinite-scroll-component";
+
 
 
 function Blogview() {
   const {
     userDataFromSignup,
-
+    isCreateBlogOpen,
     likeAction,
     setLikeAction,
     saveAction,
@@ -32,7 +34,12 @@ function Blogview() {
 
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const limit = 4; // Same limit as used in the backend
+  const limit = 4; // limit as used 
+
+
+
+
+
 
   const fetchBlogs = async (pageNum) => {
     try {
@@ -103,9 +110,25 @@ function Blogview() {
     
   };
 
+  const blogdiv = useRef(null);
+
+  useEffect(() => {
+    if (isCreateBlogOpen) {
+      gsap.fromTo(
+        blogdiv.current,
+        { y: "-100%", duration: 5 }, // Starting state
+        { y: "0%", duration: 2, ease: "power3.out"} // Ending state
+      )
+    }else {
+      gsap.to(blogdiv.current,  { y: "0%", duration: 2 },
+      { y: "-100%", duration: 2, ease: "power3.in"}
+      );
+    } 
+  }, [isCreateBlogOpen]);
   return (
     <div className=" max-w-[85rem] py-10 sm:px-6 lg:px-2 lg:py-5 ">
       {/* Grid */}
+      <CreatePost />
       <InfiniteScroll
         dataLength={bloglist.length}
         next={() => setPage((prevPage) => prevPage + 1)}
@@ -113,8 +136,9 @@ function Blogview() {
         loader={<h4>Loading...</h4>}
         endMessage={<p>No more blogs to show</p>}
       >
-      <div className=" grid lg:grid-cols-1 gap-5">
+      <div ref={blogdiv}  className=" grid lg:grid-cols-1 gap-5 ">
         {/* Card */}
+       
         <Suspense fallback={<loading />}>
           {bloglist.length == 0 ? (
             <>no data</>
@@ -126,6 +150,7 @@ function Blogview() {
                   to={`/blog/${ele._id}`}
                   className="group sm:flex rounded-xl bg-[#f9f9f5] dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 border shadow-lg border-slate-200 hover:border-purple-600 duration-500"
                   key={ind}
+               
                 >
                   {ele.image.length>0 ? (
                     <div className="flex-shrink-0 relative rounded-xl  shadow-lg shadow-gray-400 overflow-hidden w-full lg:h-80 max-sm:w-full max-sm:h-[350px] sm:w-[250px] sm:h-full border border-white ">

@@ -7,6 +7,8 @@ import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { fetchContent } from "../ReduxTool/CreateSlice";
 import { gsap } from "gsap";
+import LogoutIcon from "@mui/icons-material/Logout";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 
 const BlogNavbar = () => {
   const navigate = useNavigate();
@@ -50,10 +52,9 @@ const BlogNavbar = () => {
     };
   }, []);
 
-  const bubblesRef = useRef([]);
+
   useEffect(() => {
     // Ensure the element is mounted before running the animation
- 
 
     if (headerRef.current) {
       gsap.fromTo(
@@ -143,6 +144,7 @@ const BlogNavbar = () => {
       if (responds.data.success) {
         toast.success(responds.data.message);
         window.location.reload();
+
         navigate("/login");
       }
     } catch (error) {
@@ -154,45 +156,43 @@ const BlogNavbar = () => {
     <>
       <nav
         ref={navRef}
-        className={`bg-gray-200 border border-gray-300 relative  dark:bg-gray-900 ${
+        className={`bg-gray-200 border border-gray-300 relative w-full dark:bg-gray-900 ${
           isSticky
-            ? "sticky top-0  bg-gray-600 bg-opacity-30 backdrop-blur-md h-10"
+            ? "sticky top-0 bg-gray-600 bg-opacity-30 backdrop-blur-md h-10"
             : ""
         }`}
       >
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 ">
-          {isSticky ? (
-            <button
-              onClick={scrollToTop}
-              className="flex items-center space-x-3 rtl:space-x-reverse w-[20%] bg-transparent border-none p-0 cursor-pointer"
-              ref={headerRef}
-            >
-              <img src={logoimg} className="h-8" alt="Flowbite Logo" />
-              <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white max-sm:hidden">
-                BLOG <span className="text-blue-500">BITES</span>
-              </span>
-            </button>
-          ) : (
-            
-            <Link
-              to="/"
-              className="flex items-center space-x-3 rtl:space-x-reverse w-[20%]"
-              ref={headerRef}
-            >
-              <img src={logoimg} className="h-8" alt="Flowbite Logo" />
-              <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white max-sm:hidden">
-                BLOG <span className="text-blue-500">BITES</span>
-              </span>
-            </Link>
-           
          
-          )}
-
-          <div className="flex justify-end items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse  w-[80%] ">
-            {/* Search bar */}
-            <form
+        <div className="w-full flex justify-between items-center py-4">
+          <div className="w-[20%] flex justify-center items-center">
+            {isSticky ? (
+              <button
+                onClick={scrollToTop}
+                className="flex items-center space-x-3 rtl:space-x-reverse  bg-transparent border-none p-0 cursor-pointer"
+                ref={headerRef}
+              >
+                <img src={logoimg} className="h-8" alt="Flowbite Logo" />
+                <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white max-sm:hidden">
+                  BLOG <span className="text-blue-500">BITES</span>
+                </span>
+              </button>
+            ) : (
+              <Link
+                to="/"
+                className="flex items-center space-x-3 rtl:space-x-reverse "
+                ref={headerRef}
+              >
+                <img src={logoimg} className="h-8 w-12" alt="BG Logo " />
+                <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white max-sm:hidden">
+                  BLOG <span className="text-blue-500">BITES</span>
+                </span>
+              </Link>
+            )}
+          </div>
+          <div className="flex w-[75%] justify-end m-auto">
+          <form
               action="/search"
-              className="max-w-[480px] w-full px-4 dropdown"
+              className="max-w-[490px] w-full px-2 dropdown"
               tabIndex={0}
               role="search"
             >
@@ -202,7 +202,7 @@ const BlogNavbar = () => {
                   name="q"
                   onChange={getValue}
                   ref={inputRef}
-                  className={`border ${ isSticky?`h-10`:`h-12`} border-gray-200 shadow-lg  shadow-blue-200 p-4 rounded-full dark:text-gray-800 dark:border-gray-700 dark:bg-gray-200`}
+                  className={`border ${ isSticky?`h-10`:`h-12`} border-gray-200 shadow-lg w-ful shadow-blue-200 p-4 rounded-full dark:text-gray-800 dark:border-gray-700 dark:bg-gray-200`}
                   placeholder="search"
                 />
                 <button type="submit">
@@ -264,73 +264,32 @@ const BlogNavbar = () => {
               </div>
             </form>
 
-            <button
+            <Link
               type="button"
-              className="lg:hidden flex text-sm bg-gray-800 shadow-lg rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+              to="/profile"
+              className=" flex text-sm bg-gray-800 shadow-lg rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 hover:shadow-blue-300 duration-500"
               id="user-menu-button"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
+
               ref={proButtonRef}
 
             >
               <span className="sr-only">Open user menu</span>
               <img
-                className="w-10 h-8 rounded-full"
+                className="w-12 h-12  rounded-full object-cover"
                 src={userDataFromSignup.profilePicture}
                 alt="user photo"
               />
-            </button>
+            </Link>
 
-            {/* Dropdown menu */}
-            {isMenuOpen && (
-              <div
-                className="z-20 absolute right-0 mt-64 max-sm:mt-72 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600 duration-700"
-                id="user-dropdown"
-              >
-                <div className="px-4 py-3">
-                  <span className="block text-sm text-gray-900 dark:text-white">
-                    {userDataFromSignup.username}
-                  </span>
-                  <span className="block text-sm text-gray-500 truncate dark:text-gray-400">
-                    {userDataFromSignup.email}
-                  </span>
-                </div>
-                <ul className="py-2" aria-labelledby="user-menu-button">
-                  <li>
-                    <Link
-                      to="/profile"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                    >
-                      Dashboard
-                    </Link>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                    >
-                      Settings
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                    >
-                      Earnings
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      onClick={(e) => handleSignOut(e)}
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                    >
-                      Sign out
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            )}
+           <button className="mx-2">
+            <NotificationsIcon/>
+           </button>
+           <button className="ms-8 max-sm:ms-2 hover:text-red-500 duration-500"
+             onClick={(e) => handleSignOut(e)}
+           >
+            <LogoutIcon/>
+           </button>
+           
           </div>
         </div>
       </nav>

@@ -1,8 +1,11 @@
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import UserContext from "../Contex/CreateContex";
+import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 const ProfileCard = () => {
-  const { userDataFromSignup } = useContext(UserContext)
+  const { userDataFromSignup,isCreateBlogOpen, setIsCreateBlogOpen } = useContext(UserContext)
+ 
 
   return (
 
@@ -10,6 +13,7 @@ const ProfileCard = () => {
       <div className="w-full mt-5 bg-green-50 dark:bg-gray-900 rounded-lg overflow-hidden shadow-lg h-[50vh] sticky top-0">
         <div className="border-b px-4 pb-6">
           <div className="text-center my-4">
+            <h1 className='text-end'>{isCreateBlogOpen?<button onClick={()=> setIsCreateBlogOpen(false)}><ArrowBackIcon /></button>:<button onClick={()=> setIsCreateBlogOpen(true)} >create blog?< DriveFileRenameOutlineIcon/></button> }</h1>
             <img
               className="h-32 w-32 rounded-full border-4 border-white dark:border-gray-800 mx-auto my-4 object-cover"
               src={userDataFromSignup.profilePicture}

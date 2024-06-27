@@ -44,7 +44,7 @@ function App() {
   const [likeAction, setLikeAction] = useState(false);
   const [cookiedata,setCookiedata]=useState('')
   const [isVisible,setVisible]=useState(Boolean)
-
+  const [isCreateBlogOpen, setIsCreateBlogOpen] = useState(false);
   useEffect(() => {
     
     const fetchData = async () => {
@@ -151,7 +151,8 @@ function App() {
     editAction, setEditAction,
     likeBlogs, setLikeBlogs,
     savedBlogs, setSavedBlogs,
-    isVisible,setVisible
+    isVisible,setVisible,
+    isCreateBlogOpen, setIsCreateBlogOpen
  
   };
 

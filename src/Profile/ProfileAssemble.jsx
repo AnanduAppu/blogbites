@@ -1,12 +1,14 @@
 
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
+import UserContext from '../Contex/CreateContex';
 import Aboutpage from './Aboutpage'
 import MyblogsActivities from './MyblogsActivities'
 import UserProfile from './Userprofile'
 
 function ProfileAssemble() {
-
+  const {  setIsCreateBlogOpen } = useContext(UserContext);
   useEffect(()=>{
+    setIsCreateBlogOpen(false)
     window.scrollTo(0, 0);
   },[])
   return (

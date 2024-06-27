@@ -5,14 +5,7 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {
-      animation: {
-        'gradient-motion': 'gradient-animation 15s ease infinite',
-      },
-      backgroundSize: {
-        '200%': '200%',
-      },
-    },
+    extend: {},
   },
   plugins: [
     require('daisyui'),

@@ -7,7 +7,7 @@ import FollowFollowing from "../Home/FollowFollowing";
 import CreatePost from "./CreatePost";
 
 function UserProfile() {
-  const { userDataFromSignup } = useContext(UserContext);
+  const { userDataFromSignup,isCreateBlogOpen, setIsCreateBlogOpen } = useContext(UserContext);
   const [isOpen, setIsOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -17,131 +17,11 @@ function UserProfile() {
   const email = userDataFromSignup.email;
   const togglePostCreation = () => {
     setIsOpen((prevState) => !prevState);
+    setIsCreateBlogOpen((prevState) => !prevState)
   };
 
-  //blog topics
 
-  //blog details taking
-
-  const [headline, setHeadline] = useState("");
-  const [blog, setBlog] = useState("");
-  const [photo, setPhoto] = useState([]);
-
-  const [selectedTopic, setSelectedTopic] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const topics = [
-    "Travel",
-    "Food",
-    "AI",
-    "Art",
-    "Music",
-    "Technology",
-    "Photography",
-    "Sports",
-    "Fashion",
-    "History",
-    "Nature",
-    "Health",
-    "Nutrition",
-    "Education",
-    "Fitness",
-    "Business",
-  ];
-
-  const handleTopicSelection = (topic) => {
-    setSelectedTopic(topic);
-    setIsModalOpen(false); // Close the modal after selecting a topic
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const headlingChange = (e) => {
-    setHeadline(e.target.value);
-    console.log(headline);
-  };
-  const BlogChange = (e) => {
-    setBlog(e.target.value);
-    console.log(blog);
-  };
-
-  const cloudName = import.meta.env.VITE_CLOUDNARY_CLOUDNAME;
-  const apiKey = import.meta.env.VITE_CLOUDNARY_APIKEY;
-  const uploadPreset = "profileimage";
-
-
-
-  const handleBlogImage = async (e) => {
-    e.preventDefault();
-
-    const files = e.target.files;
-
-    if (files.length + photo.length > 6) {
-      toast.error("You can only upload up to 6 photos");
-      return;
-    }
-
-    const toastId = toast.loading("Updating images...");
-
-    try {
-      const uploadedPhotos = [];
-
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("upload_preset", uploadPreset);
-        formData.append("api_key", apiKey);
-
-        const response = await fetch(
-          `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-
-        const data = await response.json();
-
-        if (data.error) {
-          throw new Error(data.error.message);
-        }
-
-        uploadedPhotos.push(data.secure_url);
-      }
-
-      setPhoto((prevPhotos) => [...prevPhotos, ...uploadedPhotos]);
-
-      toast.success("Success", { id: toastId });
-    } catch (error) {
-      console.error("Error uploading image:", error.message);
-      toast.error("Failed");
-    }
-  };
-
-  const submitTheBlog = async (e) => {
-    e.preventDefault();
-    try {
-      var toastId = toast.loading("creating post...");
-      const responds = await axios.post(
-        "http://localhost:3015/user/blogcreating",
-        { headline, blog, photo, email, selectedTopic }
-      );
-
-      if (responds.data.success) {
-        toast.success("blog created", { id: toastId });
-        console.log(responds.data.data);
-      }
-    } catch (error) {
-      toast.error("blog creation failed", { id: toastId });
-    }
-  };
-
+  
   //add profile image
   const handleImageChange = async (e) => {
     e.preventDefault();
