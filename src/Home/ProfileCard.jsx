@@ -10,7 +10,7 @@ const ProfileCard = () => {
   return (
 
    
-      <div className="w-full mt-5 bg-green-50 dark:bg-gray-900 rounded-lg overflow-hidden shadow-lg h-[50vh] sticky top-0">
+      <div className="w-full mt-5 bg-[#fff1d6] bg-opacity-70 backdrop-filter backdrop-blur-lg border border-x-4 border-y-2 border-gray-300 dark:bg-gray-900 rounded-lg overflow-hidden shadow-5xl h-[50vh] sticky top-0">
         <div className="border-b px-4 pb-6">
           <div className="text-center my-4">
             <h1 className='text-end'>{isCreateBlogOpen?<button onClick={()=> setIsCreateBlogOpen(false)}><ArrowBackIcon /></button>:<button onClick={()=> setIsCreateBlogOpen(true)} >create blog?< DriveFileRenameOutlineIcon/></button> }</h1>

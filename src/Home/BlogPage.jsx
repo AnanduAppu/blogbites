@@ -14,6 +14,7 @@ import BlogImages from "./BlogImages";
 function BlogPage() {
   const dispatch = useDispatch();
   const { blogid } = useParams();
+ 
   const {
     userDataFromSignup,
     likeAction,
@@ -23,17 +24,17 @@ function BlogPage() {
   } = useContext(UserContext);
   const navigate = useNavigate();
   const [blogShow,setBlogshow]=useState()
-
+ 
   useEffect(() => {
-    if (!userDataFromSignup?._id || !blogid) {
-      console.error("User ID or Blog ID is missing.");
+    if (!blogid) {
+      console.error("Blog ID is missing.");
       return;
     }
-    
+   
     const selectedBlog = async () => {
       try {
         const response = await axios.get("http://localhost:3015/user/selectedBlog", {
-          params: { userId: userDataFromSignup._id, blogId: blogid }
+          params: { blogId: blogid }
         });
 
         if (response.data.successful) {
@@ -98,13 +99,14 @@ function BlogPage() {
   }
 
   const userId = userDataFromSignup._id;
+  console.log("from blg",blogShow.author)
 
   const checkuser = () => {
-    if (blogShow.author._id == userId) {
+    if (blogShow.author == userId) {
       navigate(`/profile`);
     } else {
-      dispatch(fetchContent(blogShow.author._id));
-      navigate(`/author/${blogShow.author._id}`);
+      dispatch(fetchContent(blogShow.author));
+      navigate(`/author/${blogShow.author}`);
     }
   };
   return (
@@ -168,7 +170,11 @@ function BlogPage() {
           <div className="flex flex-col lg:flex-row lg:space-x-12">
             <div className="px-4 lg:px-0 mt-12 text-gray-700 text-lg leading-relaxed w-full lg:w-3/4">
               {blogShow.description}
+              <div className="my-10">{blogShow.descriptionPara1?blogShow.descriptionPara1:''}</div>
+              <div className="my-10">{blogShow.descriptionPara2?blogShow.descriptionPara2:''}</div>
+             
             </div>
+       
             <div className="w-full lg:w-1/4 m-auto mt-12 max-w-screen-sm">
               <div className="p-4 border-t border-b md:border md:rounded">
                 <div className="flex py-2">

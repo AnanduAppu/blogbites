@@ -19,7 +19,7 @@ const FilterCategories = (e, category) => {
 
   return (
     <div>
-        <div className="bg-yellow-50 border border-gray-400 rounded-xl shadow-2xl shadow-gray-500 mx-2 ">
+        <div className=" bg-[#d3fffc] w-full bg-opacity-70 backdrop-filter backdrop-blur-lg border border-x-4 border-y-2 border-gray-300 dark:bg-gray-900 rounded-lg ">
           <div className="w-full rounded-lg   p-4 max-w-sm ">
             <h2 className="font-os text-lg font-bold">Categories</h2>
             <ul className="flex items-start flex-wrap mt-4">

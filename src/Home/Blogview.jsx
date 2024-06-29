@@ -22,7 +22,7 @@ function Blogview() {
     saveAction,
    activeCategory,isVisible,
    bloglist, setBloglist,
-   bloguser,setBlogUser,
+   setIsCreateBlogOpen 
  
   } = useContext(UserContext);
 
@@ -103,16 +103,22 @@ function Blogview() {
 
   const AuthorProfile = async (e, id) => {
     e.preventDefault();
-    
-      dispatch(fetchContent(id));
-      dispatch(fetchAnotherBlogs(id));
-      navigate(`/author/${id}`);
+   if( userDataFromSignup._id === id){
+    navigate(`/profile`);
+   }else{
+    dispatch(fetchContent(id));
+
+    dispatch(fetchAnotherBlogs(id));
+    navigate(`/author/${id}`);
+   }
+
     
   };
 
   const blogdiv = useRef(null);
 
   useEffect(() => {
+   
     if (isCreateBlogOpen) {
       gsap.fromTo(
         blogdiv.current,

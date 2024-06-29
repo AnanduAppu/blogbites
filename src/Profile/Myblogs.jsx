@@ -12,7 +12,10 @@ import { VisibilityOff } from "@mui/icons-material";
 
 function Myblogs() {
   const { userDataFromSignup, myBlogs, editAction, setEditAction,isVisible,setVisible } =useContext(UserContext);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentTextPage, setCurrentTextPage] = useState(1);
+  const [subParagraph1, setSubParagraph1] = useState("");
+  const [subParagraph2, setSubParagraph2] = useState("");
+
 
   const email = userDataFromSignup.email;
 
@@ -26,6 +29,8 @@ function Myblogs() {
   const [imageEdit, setImageEdit] = useState([]);
   const [headingEdit, setHeadingEdit] = useState("");
   const [descriptionEdit, setDescriptionEdit] = useState("");
+  const [descriptionEdit1, setDescriptionEdit1] = useState("");
+  const [descriptionEdit2, setDescriptionEdit2]= useState("");
   const [blogid, setBlogid] = useState("");
   const userId = userDataFromSignup._id
   const modalRef = useRef(null);
@@ -34,12 +39,20 @@ function Myblogs() {
     setBlogid(blog._id);
     setHeadingEdit(blog.title);
     setDescriptionEdit(blog.description);
+    setDescriptionEdit1(blog.descriptionPara1?blog.descriptionPara1:'')
+    setDescriptionEdit2(blog.descriptionPara2?blog.descriptionPara2:'')
 
     document.getElementById('my_modal_4').showModal()
   };
 
   const closeModal = () => {
     if (modalRef.current) {
+      setBlogid(''),
+      setDescriptionEdit('')
+      setHeadingEdit(''),
+      setImageEdit([]),
+      setDescriptionEdit1(" ")
+      setDescriptionEdit2(" ")
       modalRef.current.close();
     }
   };
@@ -103,22 +116,26 @@ if (imageEdit.length===6) {
     e.preventDefault();
     try {
       console.log(headingEdit);
-
+  
       const response = await axios.put("http://localhost:3015/user/editBlog", {
         imageEdit,
         headingEdit,
         descriptionEdit,
+        descriptionEdit1,
+        descriptionEdit2,
         blogid,
       });
-
+  
       if (response.data.success) {
         setEditAction(!editAction);
+
         toast.success(response.data.message);
       } else {
-        toast.error("not updated");
+        toast.error("Not updated");
       }
     } catch (error) {
-      console.log("the error edit", error);
+      console.log("The error edit", error);
+      toast.error("An error occurred while updating the blog");
     }
   };
 
@@ -306,7 +323,8 @@ try {
                 <div className="relative ml-0 mr-0 h-full sm:mr-10">
                   <span className="absolute left-0 top-0 ml-1 mt-1 h-full w-full rounded-lg bg-indigo-500"></span>
                   <div className="relative h-full rounded-lg border-2 border-indigo-500 bg-white p-1">
-                    <textarea
+               
+                        <textarea
                       id="heading"
                       rows="3"
                       value={headingEdit}
@@ -314,6 +332,8 @@ try {
                       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                       placeholder="Write your thoughts here..."
                     ></textarea>
+               
+              
                   </div>
                 </div>
               </div>
@@ -374,16 +394,55 @@ try {
               </div>
             </div>
             <div className="flex w-[97%] max-md:w-[100%] max-sm:w-[100%] flex-col border border-green-500 sm:flex-row rounded-md">
-              <textarea
-                id="description"
-                rows="15"
-                value={descriptionEdit}
-                onChange={(e) => setDescriptionEdit(e.target.value)}
-                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                placeholder="Write your thoughts here..."
-              ></textarea>
+            {currentTextPage === 1 &&(
+       <textarea
+       id="description"
+       rows="15"
+       value={descriptionEdit}
+       onChange={(e) => setDescriptionEdit(e.target.value)}
+       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+       placeholder="Write your thoughts here..."
+     ></textarea>
+
+            )}
+        {currentTextPage === 2 &&(
+                 <textarea
+                 id="description"
+                 rows="15"
+                 value={descriptionEdit1}
+                 onChange={(e) => setDescriptionEdit1(e.target.value)}
+                 className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                 placeholder="Add  paragraph"
+               ></textarea>
+        )}
+                {currentTextPage === 3 &&(
+                 <textarea
+                 id="description"
+                 rows="15"
+                 value={descriptionEdit2}
+                 onChange={(e) => setDescriptionEdit2(e.target.value)}
+                 className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                 placeholder="Add paragraph"
+               ></textarea>
+        )}
             </div>
             <div className="flex justify-end">
+            {currentTextPage > 1 && (
+                  <button
+                    onClick={() => setCurrentTextPage((prevPage) => prevPage - 1)}
+                    className="ring-offset-background focus-visible:ring-ring hover:bg-primary/90 inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-purple-500 px-4 py-2 text-sm font-medium text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 mr-2"
+                  >
+                    Previous
+                  </button>
+                )}
+                {currentTextPage < 3 && (
+                  <button
+                    onClick={() => setCurrentTextPage((prevPage) => prevPage + 1)}
+                    className="ring-offset-background focus-visible:ring-ring hover:bg-primary/90 inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-purple-500 px-4 py-2 text-sm font-medium text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+                  >
+                    Next
+                  </button>
+                )}
               <button
                 onClick={onEditUpdate}
                 className="lg:me-10 rounded-md mt-4 px-4 py-2 border border-gray-700 bg-blue-400 font-semibold hover:bg-blue-700 hover:text-white duration-500 self-center lg:self-end mb-2"

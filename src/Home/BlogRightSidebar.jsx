@@ -28,9 +28,9 @@ function BlogRightSidebar() {
 
         {/* Trending News Section */}
        
-        <div className="bg-white p-4 rounded-lg m-2 border-2 border-gray-400 shadow-lg shadow-blue-200 ">
+        <div className="bg-[#d3e6ff] p-4 bg-opacity-70 backdrop-filter backdrop-blur-lg border border-x-4 border-y-2 border-gray-300 dark:bg-gray-900 rounded-lg">
           <h2 className="text-lg font-semibold mb-4">Trending News</h2>
-          <div className="grid grid-cols-1 gap-4">
+          <div className="grid grid-cols-1 gap-2">
             {/* Trending News Cards */}
 
             {news.slice(0, 3).map((article, index) => (
@@ -39,7 +39,7 @@ function BlogRightSidebar() {
                 href={article.url}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center border border-gray-400 rounded-md mb-4 cursor-pointer"
+                className="flex items-center border bg-white p-1 border-gray-400 rounded-md mb-4 cursor-pointer"
               >
                 <img
                   src={article.urlToImage?article.urlToImage:noimgnews}
@@ -56,37 +56,7 @@ function BlogRightSidebar() {
         </div>
 
         {/* Online Friend List Section */}
-        <div className="bg-white p-2 rounded-lg shadow-lg shadow-green-200 border-2 border-gray-400 m-2 ">
-          <h2 className="text-lg font-semibold mb-4">Online Friends</h2>
-          <ul className="space-y-2">
-            <li className="flex items-center">
-              <img
-                src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg"
-                alt="Friend Avatar"
-                className="w-10 h-10 object-cover rounded-full mr-2 border-2 border-green-500"
-              />
-              <span className="text-sm">Friend Name</span>
-            </li>
-            <li className="flex items-center">
-              <img
-                src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg"
-                alt="Friend Avatar"
-                className="w-10 h-10 object-cover rounded-full mr-2 border-2 border-green-500"
-              />
-              <span className="text-sm">Friend Name</span>
-            </li>
-            <li className="flex items-center">
-              <img
-                src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg"
-                alt="Friend Avatar"
-                className="w-10 h-10 object-cover rounded-full mr-2 border-2 border-green-500"
-              />
-              <span className="text-sm">Friend Name</span>
-            </li>
-            {/* Add more online friends here */}
-          </ul>
        
-        </div>
       </div>
     </div>
   );

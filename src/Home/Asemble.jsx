@@ -24,7 +24,7 @@ function Asemble() {
             <Blogview />
           </div>
           <div className="w-[25%] py-3.5 max-md:hidden relative">
-            <div className="sticky top-0">
+            <div className="sticky top-0 mt-1">
               <BlogRightSidebar />
             </div>
           </div>
