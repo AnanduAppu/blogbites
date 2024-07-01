@@ -2,7 +2,7 @@ import React from 'react';
 
 const ChatComponent = () => {
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full flex-col ms-32">
       <div className="flex-1 overflow-y-scroll bg-gray-200">
         <div className="px-4 py-2">
           <div className="mb-2 flex items-center bg-white p-2 rounded-sm">

@@ -28,8 +28,8 @@ function BlogRightSidebar() {
 
         {/* Trending News Section */}
        
-        <div className="bg-[#d3e6ff] p-4 bg-opacity-70 backdrop-filter backdrop-blur-lg border border-x-4 border-y-2 border-gray-300 dark:bg-gray-900 rounded-lg">
-          <h2 className="text-lg font-semibold mb-4">Trending News</h2>
+        <div className="bg-[#d3e6ff] px-3 py-2 bg-opacity-70 backdrop-filter backdrop-blur-lg border border-x-4 border-y-2 border-gray-300 dark:bg-gray-900 rounded-lg">
+          <h2 className="text-lg font-semibold mb-2">Trending News</h2>
           <div className="grid grid-cols-1 gap-2">
             {/* Trending News Cards */}
 
@@ -39,7 +39,7 @@ function BlogRightSidebar() {
                 href={article.url}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center border bg-white p-1 border-gray-400 rounded-md mb-4 cursor-pointer"
+                className="flex items-center border bg-white p-1.4 border-gray-400 rounded-md mb-1 cursor-pointer"
               >
                 <img
                   src={article.urlToImage?article.urlToImage:noimgnews}
@@ -51,7 +51,7 @@ function BlogRightSidebar() {
                 </div>
               </a>
             ))}
-            <Link to="/news">view all</Link>
+            <h1 className="text-center"> <Link to="/news"> view all</Link></h1>
           </div>
         </div>
 

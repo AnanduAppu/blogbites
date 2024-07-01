@@ -1,6 +1,34 @@
-import React, { useState } from 'react';
+
+import axios from 'axios';
+import React, { useContext, useEffect, useState } from 'react';
+import UserContext from '../Contex/CreateContex';
 
 const FriendsListing = () => {
+
+  const { userDataFromSignup } = useContext(UserContext);
+  const [followers, setfollowers] = useState([]);
+
+  useEffect(() => {
+    if (!userDataFromSignup?._id) return;
+
+    const fetchFollowers = async () => {
+      try {
+        const response = await axios.get("http://localhost:3015/chat/Chatfriends", {
+          params: { id: userDataFromSignup._id }
+        });
+        if (response.data.success) {
+          console.log(response.data.Data);
+          setfollowers(response.data.Data);
+        }
+      } catch (error) {
+        console.error('Error fetching followers:', error);
+      }
+    };
+
+    fetchFollowers();
+  }, [userDataFromSignup]);
+
+
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -33,69 +61,32 @@ const FriendsListing = () => {
         </svg>
       </button>
 
-      <aside
+     {userDataFromSignup._id && <aside
         id="default-sidebar"
-        className={`fixed top-25 left-0 z-40 w-64 h-screen transition-transform ${
+        className={`fixed top-25 left-0 z-40 w-96 h-screen transition-transform ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         } sm:translate-x-0`}
         aria-label="Sidebar"
       >
         <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
           <ul className="space-y-2 font-medium">
+
+          {followers.length>0? followers.map((ele)=>(
             <li className="flex items-center py-4 px-6">
               <img
                 className="w-12 h-12 rounded-full object-cover mr-4"
-                src="https://randomuser.me/api/portraits/women/72.jpg"
+                src={ele.profilePicture}
                 alt="User avatar"
               />
               <div className="flex-1">
-                <h3 className="text-lg font-medium text-gray-800">Emily Jones</h3>
-                <p className="text-gray-600 text-base">1234 points</p>
+                <h3 className="text-lg font-medium text-gray-800">{ele.username}</h3>
               </div>
-            </li>
-            <li className="flex items-center py-4 px-6">
-              <img
-                className="w-12 h-12 rounded-full object-cover mr-4"
-                src="https://randomuser.me/api/portraits/men/40.jpg"
-                alt="User avatar"
-              />
-              <div className="flex-1">
-                <h3 className="text-lg font-medium text-gray-800">David Lee</h3>
-              </div>
-            </li>
-            <li className="flex items-center py-4 px-6">
-              <img
-                className="w-12 h-12 rounded-full object-cover mr-4"
-                src="https://randomuser.me/api/portraits/women/54.jpg"
-                alt="User avatar"
-              />
-              <div className="flex-1">
-                <h3 className="text-lg font-medium text-gray-800">Sophia Williams</h3>
-              </div>
-            </li>
-            <li className="flex items-center py-4 px-6">
-              <img
-                className="w-12 h-12 rounded-full object-cover mr-4"
-                src="https://randomuser.me/api/portraits/men/83.jpg"
-                alt="User avatar"
-              />
-              <div className="flex-1">
-                <h3 className="text-lg font-medium text-gray-800">Michael Chen</h3>
-              </div>
-            </li>
-            <li className="flex items-center py-4 px-6">
-              <img
-                className="w-12 h-12 rounded-full object-cover mr-4"
-                src="https://randomuser.me/api/portraits/women/17.jpg"
-                alt="User avatar"
-              />
-              <div className="flex-1">
-                <h3 className="text-lg font-medium text-gray-800">Mia Davis</h3>
-              </div>
-            </li>
+            </li>)) :<>no friends</>}
+
+          
           </ul>
         </div>
-      </aside>
+      </aside>}
     </div>
   );
 };

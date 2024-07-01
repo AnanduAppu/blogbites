@@ -37,7 +37,7 @@ const BlogNavbar = () => {
           gsap.fromTo(
             navRef.current,
             { y: "-100%", duration: 1.5 }, // Starting state
-            { y: "0%", duration: 1.5, ease: "bounce", zIndex: 20 } // Ending state
+            { y: "0%", duration: 1.5, ease: "back", zIndex: 20 } // Ending state
           );
           animationPlayedRef.current = true; // Mark the animation as played
         }
@@ -156,7 +156,7 @@ const BlogNavbar = () => {
     <>
       <nav
         ref={navRef}
-        className={`bg-[#daffe5] border border-gray-300 relative w-full dark:bg-gray-900 ${
+        className={`bg-gray-200 border border-gray-300 relative w-full dark:bg-gray-900 ${
           isSticky
             ? "sticky top-0 bg-gray-600 bg-opacity-30 backdrop-blur-md h-5"
             : ""

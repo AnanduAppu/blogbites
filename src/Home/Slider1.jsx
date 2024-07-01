@@ -57,7 +57,7 @@ const Slider1 = () => {
   };
 
   return (
-    <div className="relative overflow-hidden rounded-lg border border-gray-400 shadow-lg shadow-gray-200" ref={slideDiv}>
+    <div className="relative overflow-hidden rounded-lg border border-gray-400 border-x-2 border-y-2 shadow-lg shadow-gray-200" ref={slideDiv}>
       <section className="relative flex lg:justify-between max-sm:justify-center items-center min-h-[500px] max-sm:min-h-[300px] bg-[radial-gradient(50%_50%_at_50%_50%,#C7F6D0_0%,#7CB686_92.19%)] overflow-hidden z-10">
         <div className="relative w-1/2 max-w-[525px] px-8 max-sm:px-0 max-sm:py-0 py-16 left-24 max-sm:left-3 max-sm:w-full ">
           <div className="logo">
