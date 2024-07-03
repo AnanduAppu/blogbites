@@ -47,7 +47,7 @@ function BlogRightSidebar() {
                   className="w-24 h-24 object-cover rounded-md mr-4"
                 />
                 <div>
-                  <h3 className="text-base font-semibold ">{article.title}</h3>
+                  <h3 className="text-base font-semibold px-5 py-3">{article.title}</h3>
                 </div>
               </a>
             ))}

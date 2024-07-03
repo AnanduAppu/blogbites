@@ -1,24 +1,27 @@
-
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import UserContext from '../Contex/CreateContex';
+import { fetchContent } from '../ReduxTool/CreateSlice';
 
 const FriendsListing = () => {
-
+  const dispatch = useDispatch();
   const { userDataFromSignup } = useContext(UserContext);
-  const [followers, setfollowers] = useState([]);
+  const [followers, setFollowers] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+
 
   useEffect(() => {
     if (!userDataFromSignup?._id) return;
 
     const fetchFollowers = async () => {
       try {
-        const response = await axios.get("http://localhost:3015/chat/Chatfriends", {
-          params: { id: userDataFromSignup._id }
+        const response = await axios.get('http://localhost:3015/chat/Chatfriends', {
+          params: { id: userDataFromSignup._id },
         });
         if (response.data.success) {
           console.log(response.data.Data);
-          setfollowers(response.data.Data);
+          setFollowers(response.data.Data);
         }
       } catch (error) {
         console.error('Error fetching followers:', error);
@@ -28,13 +31,27 @@ const FriendsListing = () => {
     fetchFollowers();
   }, [userDataFromSignup]);
 
-
-  const [isOpen, setIsOpen] = useState(false);
-
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
 
+
+  const AccessChatRoom = async (e,userid, anotherUserId) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:3015/chat/ChatRoom', {
+        userid,
+        anotherUserId
+      },{withCredentials:true});
+
+      if (response.data.success) {
+       console.log(response.data.chatRoom)
+       dispatch(fetchContent(anotherUserId));
+      }
+    } catch (error) {
+      console.error('Error creating chat room:', error);
+    }
+  };
   return (
     <div>
       <button
@@ -61,32 +78,40 @@ const FriendsListing = () => {
         </svg>
       </button>
 
-     {userDataFromSignup._id && <aside
-        id="default-sidebar"
-        className={`fixed top-25 left-0 z-40 w-96 h-screen transition-transform ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
-        } sm:translate-x-0`}
-        aria-label="Sidebar"
-      >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-          <ul className="space-y-2 font-medium">
-
-          {followers.length>0? followers.map((ele)=>(
-            <li className="flex items-center py-4 px-6">
-              <img
-                className="w-12 h-12 rounded-full object-cover mr-4"
-                src={ele.profilePicture}
-                alt="User avatar"
-              />
-              <div className="flex-1">
-                <h3 className="text-lg font-medium text-gray-800">{ele.username}</h3>
-              </div>
-            </li>)) :<>no friends</>}
-
-          
-          </ul>
-        </div>
-      </aside>}
+      {userDataFromSignup._id && (
+        <aside
+          id="default-sidebar"
+          className={`fixed top-25 left-0 z-40 w-96 h-screen border border-b-amber-400 transition-transform ${
+            isOpen ? 'translate-x-0' : '-translate-x-full'
+          } sm:translate-x-0`}
+          aria-label="Sidebar"
+        >
+          <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+            <ul className="space-y-2 font-medium">
+              {followers.length > 0 ? (
+                followers.map((ele) => (
+                  <li
+                    key={ele._id}
+                    onClick={(e)=>AccessChatRoom(e,userDataFromSignup?._id, ele._id)}
+                    className="flex items-center py-4 px-6 cursor-pointer border border-gray-300 shadow-lg"
+                  >
+                    <img
+                      className="w-12 h-12 rounded-full object-cover mr-4"
+                      src={ele.profilePicture}
+                      alt="User avatar"
+                    />
+                    <div className="flex-1">
+                      <h3 className="text-lg font-medium text-gray-800">{ele.username}</h3>
+                    </div>
+                  </li>
+                ))
+              ) : (
+                <li>No friends</li>
+              )}
+            </ul>
+          </div>
+        </aside>
+      )}
     </div>
   );
 };

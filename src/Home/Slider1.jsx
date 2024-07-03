@@ -11,8 +11,8 @@ const Slider1 = () => {
 
   useEffect(() => {
     gsap.fromTo(slideDiv.current,
-      { opacity: 0 },
-      { opacity: 1, duration: 3, ease: 'power2.inOut' }
+      { y: "-10%", duration: 3,ease: "power1.out", },
+      { y: "0%", duration: 1.5, ease: "back" }
     );
   }, []);
 

@@ -10,6 +10,7 @@ import { fetchContent,fetchAnotherBlogs } from "../ReduxTool/CreateSlice";
 import { gsap } from "gsap";
 
 import InfiniteScroll from "react-infinite-scroll-component";
+import { CircularProgress } from "@mui/material";
 
 
 
@@ -139,7 +140,9 @@ function Blogview() {
         dataLength={bloglist.length}
         next={() => setPage((prevPage) => prevPage + 1)}
         hasMore={hasMore}
-        loader={<h4>Loading...</h4>}
+        loader={    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '200px' }}>
+        <CircularProgress />
+      </div>}
         endMessage={<p>No more blogs to show</p>}
       >
       <div ref={blogdiv}  className=" grid lg:grid-cols-1 gap-5 ">
@@ -182,7 +185,7 @@ function Blogview() {
                         <h1 className="block mt-1 text-lg leading-tight font-medium text-black hover:underline">
                           {ele.title}
                         </h1>
-                        <p className="mt-2 text-slate-500 text-lg">
+                        <p className="mt-2 text-slate-500 text-lg ">
                           {ele.description.split(" ").slice(0, 30).join(" ")}
                           {ele.description.split(" ").length > 20 ? "..." : ""}
                         </p>

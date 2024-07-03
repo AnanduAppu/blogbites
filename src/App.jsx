@@ -109,26 +109,7 @@ function App() {
 
 
   const [activeCategory, setActiveCategory] = useState('all');
-  // useEffect(() => {
-
-  //   const fetchBlogs = async () => {
-  //     try {
-  //       const response = await axios.get("http://localhost:3015/user/bloglist",{ params: { id: activeCategory } });
-  //       const value = response.data.blogs;
-
-  //       if (!isEqual(bloglist, value)) {
-  //         setBloglist(value);
-  //         setBlogUser(value.author)
-  //         console.log("blog details are ", value);
-         
-  //       }
-  //     } catch (error) {
-  //       console.log("we get an error in retriving blog datas", error);
-  //     }
-  //   };
-
-  //   fetchBlogs();
-  // }, [bloglist,likeAction, saveAction,activeCategory,isVisible]);
+ 
 
 
  

@@ -26,23 +26,24 @@ function Loginpage() {
       });
     });
   }, []);
-  // <img src={svgImage3} alt="SVG 3" className="floating-svg absolute w-20 h-20  bottom-50 top-30  right-40" />
-  // <img src={svgImage4} alt="SVG 4" className="floating-svg absolute w-20 h-20  bottom-70 top-30 right-20" />
-  // <img src={svgImage5} alt="SVG 5" className="floating-svg absolute w-20 h-20 bottom-50 left-30" />
-  // 
+
   return (
     <section className="flex flex-col md:flex-row h-screen items-center"  >
       <div className="relative bg-blue-600 hidden lg:block w-full md:w-1/2 xl:w-2/3 h-screen" style={{ backgroundColor: "rgb(167, 254, 235)" }}>
-      
+      <img src={logwall}alt="" />
         <div
           ref={svgContainerRef}
           className="absolute inset-0 w-full h-full"
         >
           <img src={svgImage1} alt="SVG 1" className="floating-svg absolute w-10 h-10 shadow-2xl  bottom-80 top-20 left-40" />
           <img src={svgImage2} alt="SVG 2" className="floating-svg absolute w-20 h-20 shadow-2xl bottom-60 top-40 left-80" />
-          <img src={svgImage3} alt="SVG 3" className="floating-svg absolute w-10 h-20 shadow-2xl bottom-50 top-10  right-40" />
+          <img src={svgImage3} alt="SVG 3" className="floating-svg absolute w-10 h-20 shadow-2xl  top-10  right-40" />
           <img src={svgImage4} alt="SVG 4" className="floating-svg absolute w-20 h-20 shadow-2xl  top-60 right-60" />
+          <img src={svgImage6} alt="SVG 6" className="floating-svg absolute w-20 h-20 top-96 b0ttom-0 right-10 " />
+          <img src={svgImage4} alt="SVG 4" className="floating-svg absolute w-20 h-20 shadow-2xl bottom-40 top-90 right-60" />
           <img src={svgImage6} alt="SVG 6" className="floating-svg absolute w-20 h-20 top-90 b0ttom-0 right-60 " />
+          <img src={svgImage4} alt="SVG 4" className="floating-svg absolute w-20 h-20 shadow-2xl bottom-40 top-90 right-50 left-40" />
+          <img src={svgImage6} alt="SVG 6" className="floating-svg absolute w-20 h-20 top-60 b0ttom-40 right-60  left-52" />
     
         </div>
       </div>
