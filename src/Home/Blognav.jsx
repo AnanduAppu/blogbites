@@ -17,6 +17,7 @@ const BlogNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setSearchOpen] = useState(false);
   const [results, setResults] = useState([]);
+  
   const { userDataFromSignup } = useContext(UserContext);
 
   const headerRef = useRef(null);
@@ -78,8 +79,9 @@ const BlogNavbar = () => {
       .fromTo(
         proButtonRef.current,
         { opacity: 0 },
-        { opacity: 1, duration: 0.5, ease: "power2.inOut" }
-      );
+        { opacity: 1, duration: 0.5, ease: "power2.inOut" },
+        
+      )
   }, []);
 
   const scrollToTop = () => {

@@ -15,7 +15,7 @@ const OtherUserBlogs = () => {
   const [imageOrientations, setImageOrientations] = useState({});
 
   let userBlogs = useSelector((state) => state.infoData.blogs);  
-
+ 
 
   useEffect(() => {
     if (userBlogs.length > 0) {
@@ -31,8 +31,20 @@ const OtherUserBlogs = () => {
     }
   }, [userBlogs])
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
-  console.log(userBlogs)
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentTasks = userBlogs.slice(startIndex, endIndex);
+
+  const goToPreviousPage = () => {
+    setCurrentPage((prevPage) => prevPage - 1);
+  };
+
+  const goToNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
 
 //
   return (
@@ -44,7 +56,7 @@ const OtherUserBlogs = () => {
         <a href="#">See All</a>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-     {userBlogs.length>0? userBlogs.map((blogs,ind)=>(
+     {userBlogs.length>0? currentTasks.map((blogs,ind)=>(
         <Link className="rounded overflow-hidden shadow-lg flex flex-col cursor-pointer"
         key={ind}
         to={`/blog/${blogs._id}`}
@@ -111,6 +123,55 @@ const OtherUserBlogs = () => {
           </div>
         </Link>)):<>no data</>}
       </div>
+      {userBlogs.length > 6 ? (
+  <div className="flex justify-center mt-5">
+    <button
+      onClick={goToPreviousPage}
+      disabled={currentPage === 1}
+      className="flex items-center justify-center px-3 h-8 me-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+    >
+      <svg
+        className="w-3.5 h-3.5 me-2 rtl:rotate-180"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 14 10"
+      >
+        <path
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M13 5H1m0 0 4 4M1 5l4-4"
+        />
+      </svg>
+      Previous
+    </button>
+
+    <button
+      onClick={goToNextPage}
+      disabled={currentTasks.length < itemsPerPage}
+      className="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+    >
+      Next
+      <svg
+        className="w-3.5 h-3.5 ms-2 rtl:rotate-180"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 14 10"
+      >
+        <path
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M1 5h12m0 0L9 1m4 4L9 9"
+        />
+      </svg>
+    </button>
+  </div>
+) : null}
     </div>
   );
 };

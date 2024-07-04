@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import UserContext from "../Contex/CreateContex";
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
+
 const ProfileCard = () => {
   const { userDataFromSignup,isCreateBlogOpen, setIsCreateBlogOpen } = useContext(UserContext)
  
@@ -10,12 +11,12 @@ const ProfileCard = () => {
   return (
 
    
-      <div className="w-full mt-5 bg-[#fff1d6] bg-opacity-70 backdrop-filter backdrop-blur-lg border border-x-4 border-y-2 border-gray-300 dark:bg-gray-900 rounded-lg overflow-hidden shadow-5xl h-[50vh] sticky top-0">
+      <div className=" w-full mt-5 bg-[#fff1d6] bg-opacity-70 backdrop-filter backdrop-blur-lg border border-x-4 border-y-2 border-gray-300 dark:bg-gray-900 rounded-lg overflow-hidden shadow-5xl h-[50vh] sticky top-0">
         <div className="border-b px-4 pb-6">
-          <div className="text-center my-4">
+          <div className="text-center my-1">
             <h1 className='text-end'>{isCreateBlogOpen?<button onClick={()=> setIsCreateBlogOpen(false)}><ArrowBackIcon /></button>:<button onClick={()=> setIsCreateBlogOpen(true)} >create blog?< DriveFileRenameOutlineIcon/></button> }</h1>
             <img
-              className="h-32 w-32 rounded-full border-4 border-white dark:border-gray-800 mx-auto my-4 object-cover"
+              className="h-32 w-32 rounded-full border-4 border-white dark:border-gray-800 mx-auto my-1 object-cover"
               src={userDataFromSignup.profilePicture}
               alt="Profile"
             />
@@ -32,7 +33,8 @@ const ProfileCard = () => {
                 >
                   <path d="M5.64 16.36a9 9 0 1 1 12.72 0l-5.65 5.66a1 1 0 0 1-1.42 0l-5.65-5.66zm11.31-1.41a7 7 0 1 0-9.9 0L12 19.9l4.95-4.95zM12 14a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" />
                 </svg>
-                New York, NY
+                {userDataFromSignup?.region}
+             
               </div>
             </div>
           </div>
@@ -41,9 +43,11 @@ const ProfileCard = () => {
               View
             </Link>
           </div>
+
+        
         </div>
-        <div className="px-4 py-4">
-          <div className="flex gap-2 items-center text-gray-800 dark:text-gray-300 mb-4">
+        <div className=" flex justify-center">
+          <div className="flex gap-2 items-center text-gray-800 dark:text-gray-300">
             <svg
               className="h-6 w-6 text-gray-600 dark:text-gray-400"
               fill="currentColor"
@@ -55,7 +59,7 @@ const ProfileCard = () => {
               <path d="M12 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm9 11a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3H8a3 3 0 0 0-3 3v2a1 1 0 0 1-2 0v-2a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5v2z" />
             </svg>
             <span>
-              <strong className="text-black dark:text-white">12</strong> Followers you know
+              <strong className="text-black dark:text-white">{userDataFromSignup?.followed?.length}</strong> Followes 
             </span>
           </div>
           <div className="flex">

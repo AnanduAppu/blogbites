@@ -109,7 +109,7 @@ function App() {
 
 
   const [activeCategory, setActiveCategory] = useState('all');
- 
+
 
 
  
@@ -133,7 +133,8 @@ function App() {
     likeBlogs, setLikeBlogs,
     savedBlogs, setSavedBlogs,
     isVisible,setVisible,
-    isCreateBlogOpen, setIsCreateBlogOpen
+    isCreateBlogOpen, setIsCreateBlogOpen,
+   
  
   };
 

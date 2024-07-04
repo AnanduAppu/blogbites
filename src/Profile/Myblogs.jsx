@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import UserContext from "../Contex/CreateContex";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
@@ -13,11 +13,22 @@ import { VisibilityOff } from "@mui/icons-material";
 function Myblogs() {
   const { userDataFromSignup, myBlogs, editAction, setEditAction,isVisible,setVisible } =useContext(UserContext);
   const [currentTextPage, setCurrentTextPage] = useState(1);
-  const [subParagraph1, setSubParagraph1] = useState("");
-  const [subParagraph2, setSubParagraph2] = useState("");
+  const [imageOrientations, setImageOrientations] = useState({});
 
+  useEffect(() => {
+    if (myBlogs.length > 0) {
+      const orientations = {};
+      myBlogs.forEach((blogs, ind) => {
+        const img = new Image();
+        img.src = blogs.image.length > 0 ? blogs.image[0] : noimage;
+        img.onload = () => {
+          orientations[ind] = img.width < img.height; // true if vertical, false if not
+          setImageOrientations((prev) => ({ ...prev, ...orientations }));
+        };
+      });
+    }
+  }, [myBlogs])
 
-  const email = userDataFromSignup.email;
 
   const cloudName = import.meta.env.VITE_CLOUDNARY_CLOUDNAME;
   const apiKey = import.meta.env.VITE_CLOUDNARY_APIKEY;
@@ -233,7 +244,7 @@ try {
                 <div className="relative">
                   <div className=" h-[250px] border  object-cover">
                     <img
-                      className="w-full h-[250px]"
+                      className={`w-full h-[34vh] ${imageOrientations[ind] ? 'object-contain' : 'object-cover'}`}
                       src={ele.image.length>0 ? ele.image[0] : noimage}
                       alt="Sunset in the mountains"
                     />

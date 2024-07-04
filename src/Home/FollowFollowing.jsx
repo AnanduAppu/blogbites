@@ -54,7 +54,7 @@ function FollowFollowing({ props }) {
               >
                 <img
                   src={ele.profilePicture}
-                  className="w-16 rounded-full object-fill"
+                  className="w-16 h-16 rounded-full object-cover"
                   alt="Profile"
                 />
                 <p className="mt-1 text-center text-sm font-bold">

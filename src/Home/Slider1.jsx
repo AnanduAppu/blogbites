@@ -4,16 +4,24 @@ import img2 from "../assets/slides/img1.png";
 import img3 from "../assets/slides/img2.png";
 import { gsap } from 'gsap';
 import "./slider1.css";
+import DigitalClock from "./DigitalClock";
+
 const Slider1 = () => {
   const [imageIndex, setImageIndex] = useState(0);
 
-  const slideDiv = useRef();
 
+  const slideDiv = useRef();
   useEffect(() => {
-    gsap.fromTo(slideDiv.current,
-      { y: "-10%", duration: 3,ease: "power1.out", },
-      { y: "0%", duration: 1.5, ease: "back" }
-    );
+    const timer = setTimeout(() => {
+      gsap.fromTo(slideDiv.current,
+        { visibility: 'visible', opacity: 0, y: "-10%" },
+        { opacity: 1, y: "0%", duration: 1.5, ease: "back" }
+       
+      );
+      
+    }, 1000); // Delay of 2000 milliseconds (2 seconds)
+
+    return () => clearTimeout(timer); // Cleanup the timer on component unmount
   }, []);
 
   useEffect(() => {
@@ -57,7 +65,7 @@ const Slider1 = () => {
   };
 
   return (
-    <div className="relative overflow-hidden rounded-lg border border-gray-400 border-x-2 border-y-2 shadow-lg shadow-gray-200" ref={slideDiv}>
+    <div className={`invisible relative overflow-hidden rounded-lg border border-gray-400 border-x-2 border-y-2 shadow-lg shadow-gray-200`} ref={slideDiv}>
       <section className="relative flex lg:justify-between max-sm:justify-center items-center min-h-[500px] max-sm:min-h-[300px] bg-[radial-gradient(50%_50%_at_50%_50%,#C7F6D0_0%,#7CB686_92.19%)] overflow-hidden z-10">
         <div className="relative w-1/2 max-w-[525px] px-8 max-sm:px-0 max-sm:py-0 py-16 left-24 max-sm:left-3 max-sm:w-full ">
           <div className="logo">
@@ -73,9 +81,13 @@ const Slider1 = () => {
               <p className="text-white text-lg font-normal mb-7">
                 Where every post is a flavorful treat for the mind and soul
               </p>
+              
             </div>
+           
           </div>
+   
         </div>
+       
         <div className="slider-images max-sm:hidden relative w-1/2 h-full top-0 ">
           <img
             className="slider-image slImg absolute top-0 left-0 filter blur-0 transition-all duration-1000 ease-in-out opacity-0"

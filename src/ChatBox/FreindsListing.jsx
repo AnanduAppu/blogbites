@@ -1,8 +1,8 @@
-import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import UserContext from '../Contex/CreateContex';
-import { fetchContent } from '../ReduxTool/CreateSlice';
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import UserContext from "../Contex/CreateContex";
+import { fetchContent } from "../ReduxTool/CreateSlice";
 
 const FriendsListing = () => {
   const dispatch = useDispatch();
@@ -10,21 +10,23 @@ const FriendsListing = () => {
   const [followers, setFollowers] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
 
-
   useEffect(() => {
     if (!userDataFromSignup?._id) return;
 
     const fetchFollowers = async () => {
       try {
-        const response = await axios.get('http://localhost:3015/chat/Chatfriends', {
-          params: { id: userDataFromSignup._id },
-        });
+        const response = await axios.get(
+          "http://localhost:3015/chat/Chatfriends",
+          {
+            params: { id: userDataFromSignup._id },
+          }
+        );
         if (response.data.success) {
           console.log(response.data.Data);
           setFollowers(response.data.Data);
         }
       } catch (error) {
-        console.error('Error fetching followers:', error);
+        console.error("Error fetching followers:", error);
       }
     };
 
@@ -35,73 +37,88 @@ const FriendsListing = () => {
     setIsOpen(!isOpen);
   };
 
-
-  const AccessChatRoom = async (e,userid, anotherUserId) => {
+  const AccessChatRoom = async (e, userid, anotherUserId) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3015/chat/ChatRoom', {
-        userid,
-        anotherUserId
-      },{withCredentials:true});
+      const response = await axios.post(
+        "http://localhost:3015/chat/ChatRoom",
+        {
+          userid,
+          anotherUserId,
+        },
+        { withCredentials: true }
+      );
 
       if (response.data.success) {
-       console.log(response.data.chatRoom)
-       dispatch(fetchContent(anotherUserId));
+        console.log(response.data.chatRoom);
+        dispatch(fetchContent(anotherUserId));
       }
     } catch (error) {
-      console.error('Error creating chat room:', error);
+      console.error("Error creating chat room:", error);
     }
   };
   return (
     <div>
-      <button
-        data-drawer-target="default-sidebar"
-        data-drawer-toggle="default-sidebar"
-        aria-controls="default-sidebar"
-        type="button"
-        className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-        onClick={toggleSidebar}
-      >
-        <span className="sr-only">Open sidebar</span>
-        <svg
-          className="w-6 h-6"
-          aria-hidden="true"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            clipRule="evenodd"
-            fillRule="evenodd"
-            d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
-          ></path>
-        </svg>
-      </button>
-
       {userDataFromSignup._id && (
         <aside
           id="default-sidebar"
-          className={`fixed top-25 left-0 z-40 w-96 h-screen border border-b-amber-400 transition-transform ${
-            isOpen ? 'translate-x-0' : '-translate-x-full'
-          } sm:translate-x-0`}
+          className={`fixed top-25 left-0 z-40 w-[25%] h-screen  border border-b-amber-400 `}
           aria-label="Sidebar"
         >
-          <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+          <div className="flex w-[100%] justify-center border border-fuchsia-100 shadow-lg border-x-4 border-y-4 rounded-lg py-1 me-2">
+            <div className="flex items-center">
+              <img
+                className="w-10 h-10 rounded-full  object-cover"
+                src={userDataFromSignup?.profilePicture}
+                alt="jane"
+              />
+            </div>
+            <form action="/search" className="max-w-[325px] w-full px-2 ">
+              <div className="relative">
+                <input
+                  type="text"
+                  name="q"
+                  className="w-full border h-10 shadow p-4 rounded-full dark:text-gray-800 dark:border-gray-700 dark:bg-gray-200"
+                  placeholder="search"
+                />
+                <button type="submit" className="absolute top-3 right-3">
+                  <svg
+                    className="text-teal-400 h-5 w-5 fill-current dark:text-teal-300"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlnsXlink="http://www.w3.org/1999/xlink"
+                    version="1.1"
+                    x="0px"
+                    y="0px"
+                    viewBox="0 0 56.966 56.966"
+                    style={{ enableBackground: "new 0 0 56.966 56.966" }}
+                    xmlSpace="preserve"
+                  >
+                    <path d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
+                  </svg>
+                </button>
+              </div>
+            </form>
+          </div>
+          <div className="h-[78vh] px-3 py-4 overflow-y-auto bg-emerald-300 dark:bg-gray-800 m-2 rounded-md">
             <ul className="space-y-2 font-medium">
               {followers.length > 0 ? (
                 followers.map((ele) => (
                   <li
                     key={ele._id}
-                    onClick={(e)=>AccessChatRoom(e,userDataFromSignup?._id, ele._id)}
-                    className="flex items-center py-4 px-6 cursor-pointer border border-gray-300 shadow-lg"
+                    onClick={(e) =>
+                      AccessChatRoom(e, userDataFromSignup?._id, ele._id)
+                    }
+                    className="flex items-center py-4 px-6 cursor-pointer border border-gray-300 shadow-lg bg-gray-200 rounded-lg border-x-2 border-y-2 "
                   >
                     <img
-                      className="w-12 h-12 rounded-full object-cover mr-4"
+                      className="w-12 h-12 rounded-full object-cover mr-4 border border-sky-200 border-x-4 border-y-4"
                       src={ele.profilePicture}
                       alt="User avatar"
                     />
                     <div className="flex-1">
-                      <h3 className="text-lg font-medium text-gray-800">{ele.username}</h3>
+                      <h3 className="text-lg font-medium text-gray-800">
+                        {ele.username}
+                      </h3>
                     </div>
                   </li>
                 ))
