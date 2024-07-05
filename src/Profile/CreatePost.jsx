@@ -1,13 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import UserContext from "../Contex/CreateContex";
 import { gsap } from "gsap";
-import { useRef } from "react";
 
 const CreatePost = () => {
-  const { userDataFromSignup, isCreateBlogOpen} =
-    useContext(UserContext);
+  const { userDataFromSignup, isCreateBlogOpen } = useContext(UserContext);
   const [headline, setHeadline] = useState("");
   const [blog, setBlog] = useState("");
   const [photo, setPhoto] = useState([]);
@@ -16,49 +14,46 @@ const CreatePost = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [subParagraph1, setSubParagraph1] = useState("");
   const [subParagraph2, setSubParagraph2] = useState("");
+  const [imagesSelected, setImagesSelected] = useState(false); // Track if images are selected
 
   const email = userDataFromSignup.email;
-  const topics = [
-    "Travel",
-    "Food",
-    "AI",
-    "Art",
-    "Music",
-    "Technology",
-    "Photography",
-    "Sports",
-    "Fashion",
-    "History",
-    "Nature",
-    "Health",
-    "Nutrition",
-    "Education",
-    "Fitness",
-    "Business",
-  ];
-  const parentDivRef = useRef(null);
-  const headlingChange = (e) => setHeadline(e.target.value);
-  const BlogChange = (e) => setBlog(e.target.value);
 
+  const topics = [
+    "Travel", "Food", "AI", "Art", "Music", "Technology", "Photography",
+    "Sports", "Fashion", "History", "Nature", "Health", "Nutrition",
+    "Education", "Fitness", "Business",
+  ];
+
+  const parentDivRef = useRef(null);
   const cloudName = import.meta.env.VITE_CLOUDNARY_CLOUDNAME;
   const apiKey = import.meta.env.VITE_CLOUDNARY_APIKEY;
   const uploadPreset = "profileimage";
 
-  const handleBlogImage = async (e) => {
-    e.preventDefault();
-    const files = e.target.files;
-
-    if (files.length + photo.length > 6) {
-      toast.error("You can only upload up to 6 photos");
+  const handleBlogImage = (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length + photo.length > 5) {
+      toast.error("You can only upload up to 5 photos");
       return;
     }
+    setPhoto((prevPhotos) => [...prevPhotos, ...files]);
+    setImagesSelected(true); // Set images selected
+  };
+
+  const removeImage = (index) => {
+    setPhoto((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
+    if (photo.length - 1 === 0) {
+      setImagesSelected(false); // Update images selected status
+    }
+  };
+
+  const uploadImages = async () => {
+    if (photo.length > 5) return [];
 
     const toastId = toast.loading("Updating images...");
-
     try {
       const uploadedPhotos = [];
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
+      for (let i = 0; i < photo.length; i++) {
+        const file = photo[i];
         const formData = new FormData();
         formData.append("file", file);
         formData.append("upload_preset", uploadPreset);
@@ -77,25 +72,32 @@ const CreatePost = () => {
         uploadedPhotos.push(data.secure_url);
       }
 
-      setPhoto((prevPhotos) => [...prevPhotos, ...uploadedPhotos]);
-      toast.success("Success", { id: toastId });
+      toast.success("Images updated successfully", { id: toastId });
+      return uploadedPhotos;
     } catch (error) {
       console.error("Error uploading image:", error.message);
-      toast.error("Failed");
+      toast.error("Failed to update images", { id: toastId });
+      return [];
     }
   };
 
   const submitTheBlog = async (e) => {
     e.preventDefault();
-    console.log(headline, blog, photo, email, selectedTopic);
+
+    let uploadedPhotos = [];
+  if (photo.length > 0) {
+    uploadedPhotos = await uploadImages();
+    if (uploadedPhotos.length === 0) return; // Stop submission if images failed to upload
+  }
+
     try {
-      var toastId = toast.loading("creating post...");
+      var toastId = toast.loading("Creating post...");
       const responds = await axios.post(
         "http://localhost:3015/user/blogcreating",
         {
           headline,
           blog,
-          photo,
+          photo: uploadedPhotos,
           email,
           selectedTopic,
           subParagraph1,
@@ -105,10 +107,20 @@ const CreatePost = () => {
 
       if (responds.data.success) {
         console.log(responds.data.data);
-        toast.success("blog created", { id: toastId });
+        toast.success("Blog created", { id: toastId });
+
+        // Clear inputs after successful submission
+        setHeadline("");
+        setBlog("");
+        setPhoto([]);
+        setSelectedTopic("");
+        setSubParagraph1("");
+        setSubParagraph2("");
+        setCurrentPage(1);
+        setImagesSelected(false);
       }
     } catch (error) {
-      toast.error("blog creation failed", { id: toastId });
+      toast.error("Blog creation failed", { id: toastId });
       console.log(error);
     }
   };
@@ -149,8 +161,9 @@ const CreatePost = () => {
           <div className="flex flex-col space-y-4 border border-gray-500 rounded-lg p-2">
             <input
               type="text"
-              onChange={headlingChange}
-              className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex  w-full rounded-lg border p-4 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              onChange={(e) => setHeadline(e.target.value)}
+              value={headline}
+              className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex w-full rounded-lg border p-4 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               placeholder="Headline ...."
             />
 
@@ -181,58 +194,47 @@ const CreatePost = () => {
                 placeholder="Write your third paragraph..."
               ></textarea>
             )}
+
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="text-blue-500"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M2 20h.01"></path>
-                  <path d="M7 20v-4"></path>
-                  <path d="M12 20v-8"></path>
-                </svg>
-                <div>
-                  <input
-                    type="file"
-                    multiple
-                    id="imageInput"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={handleBlogImage}
-                  />
-                  <label htmlFor="imageInput">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="text-purple-500"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path>
-                      <circle cx="12" cy="13" r="3"></circle>
-                    </svg>
-                  </label>
-                </div>
+                <input
+                  type="file"
+                  multiple
+                  id="imageInput"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleBlogImage}
+                />
+                <label htmlFor="imageInput">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="text-purple-500"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path>
+                    <circle cx="12" cy="13" r="3"></circle>
+                  </svg>
+                </label>
                 <button
                   onClick={() => setIsModalOpen(true)}
-                  className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   type="button"
                 >
                   Topics
                 </button>
+                
+            {selectedTopic && (
+              <div className="mt-2 text-sm font-medium text-blue-700">
+                Selected Topic: {selectedTopic}
+              </div>
+            )}
               </div>
 
               <div className="flex space-x-2">
@@ -260,6 +262,25 @@ const CreatePost = () => {
                 Post
               </button>
             </div>
+
+            <div className="flex flex-wrap mt-1 border border-gray-100 w-[50%] bg-white rounded-lg ">
+              {photo.map((img, index) => (
+                <div key={index} className="relative m-2 ">
+                  <img
+                    src={URL.createObjectURL(img)}
+                    alt="Selected"
+                    className="w-14 h-14 object-cover rounded-lg  border border-gray-300"
+                  />
+                  <button
+                    onClick={() => removeImage(index)}
+                    className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1"
+                  >
+                    &times;
+                  </button>
+                </div>
+              ))}
+            </div>
+
           </div>
 
           {isModalOpen && (

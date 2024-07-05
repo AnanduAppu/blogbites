@@ -33,9 +33,6 @@ const FriendsListing = () => {
     fetchFollowers();
   }, [userDataFromSignup]);
 
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
-  };
 
   const AccessChatRoom = async (e, userid, anotherUserId) => {
     e.preventDefault();
