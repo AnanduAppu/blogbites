@@ -61,7 +61,7 @@ function Interests() {
       
       setSelectedInterests([]);
       setSkipDisabled(true);
-     // navigate("/Login");
+    
      navigate('addpics');
     }
     

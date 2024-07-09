@@ -53,7 +53,7 @@ const OtherUserBlogs = () => {
         <div className="text-indigo-600 flex items-center pb-2 pr-2 border-b-2 border-indigo-600 uppercase">
           <a href="#" className="font-semibold inline-block">Blogs</a>
         </div>
-        <a href="#">See All</a>
+ 
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
      {userBlogs.length>0? currentTasks.map((blogs,ind)=>(

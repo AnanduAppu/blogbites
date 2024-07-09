@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import UserContext from "../Contex/CreateContex";
 import { gsap } from "gsap";
+import { KeyboardDoubleArrowLeftOutlined, KeyboardDoubleArrowRightOutlined } from "@mui/icons-material";
 
 const CreatePost = () => {
   const { userDataFromSignup, isCreateBlogOpen } = useContext(UserContext);
@@ -241,17 +242,17 @@ const CreatePost = () => {
                 {currentPage > 1 && (
                   <button
                     onClick={() => setCurrentPage((prevPage) => prevPage - 1)}
-                    className="ring-offset-background focus-visible:ring-ring hover:bg-primary/90 inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-purple-500 px-4 py-2 text-sm font-medium text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 mr-2"
+                    className=" mr-2 hover:text-purple-600"
                   >
-                    Previous
+                   <KeyboardDoubleArrowLeftOutlined/> Previous Para 
                   </button>
                 )}
                 {currentPage < 3 && (
                   <button
                     onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
-                    className="ring-offset-background focus-visible:ring-ring hover:bg-primary/90 inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-purple-500 px-4 py-2 text-sm font-medium text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+                    className="hover:text-purple-600"
                   >
-                    Next
+                    Next Para <KeyboardDoubleArrowRightOutlined/>
                   </button>
                 )}
               </div>

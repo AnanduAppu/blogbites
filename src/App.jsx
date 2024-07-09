@@ -42,7 +42,6 @@ function App() {
   const [likeBlogs, setLikeBlogs] = useState([]);
   const [savedBlogs, setSavedBlogs] = useState([]);
   const [likeAction, setLikeAction] = useState(false);
-  const [cookiedata,setCookiedata]=useState('')
   const [isVisible,setVisible]=useState(Boolean)
   const [isCreateBlogOpen, setIsCreateBlogOpen] = useState(false);
   useEffect(() => {
@@ -57,17 +56,11 @@ function App() {
         
         return;
       }
-
-      console.log(cookieToken);
-      const cookieData = jwtDecode(cookieToken);
-      const id = cookieData.id;
-      setCookiedata(id)
-
       try {
         const [response1, response2, response3] = await Promise.all([
-          axios.post("http://localhost:3015/user/useraccess", { email: id }, { withCredentials: true }),
-          axios.post("http://localhost:3015/user/userblogs", { email: id }),
-          axios.get("http://localhost:3015/user/likedblog", { params: { q: id } })
+          axios.get("http://localhost:3015/user/useraccess",  { withCredentials: true }),
+          axios.get("http://localhost:3015/user/userblogs", { withCredentials: true }),
+          axios.get("http://localhost:3015/user/likedblog", { withCredentials: true })
         ]);
 
        

@@ -52,7 +52,6 @@ function BlogPage() {
 
   
 
-  console.log(userDataFromSignup);
 
   const saveAndUnsave = async (e, blogid) => {
     e.preventDefault();
@@ -85,7 +84,7 @@ function BlogPage() {
       });
 
       if (response.data.success) {
-        console.log("liked");
+      
         setLikeAction(!likeAction);
         return;
       }
@@ -106,7 +105,7 @@ function BlogPage() {
       navigate(`/profile`);
     } else {
       dispatch(fetchContent(blogShow.author));
-      navigate(`/author/${blogShow.author}`);
+      navigate(`/author/${blogShow.author._id}`);
     }
   };
   return (
@@ -179,14 +178,14 @@ function BlogPage() {
               <div className="p-4 border-t border-b md:border md:rounded">
                 <div className="flex py-2">
                   <img
-                    src={blogShow.author.profilePicture}
+                    src={blogShow?.author.profilePicture}
                     className="h-10 w-10 rounded-full mr-2 object-cover"
                     alt="User"
                   />
                   <div>
                     <p className="font-semibold text-gray-700 text-sm">
                       {" "}
-                      {blogShow.author.firstName}{" "}
+                      {blogShow?.author.firstName}{" "}
                     </p>
                     <p className="font-semibold text-gray-600 text-xs">
                       {" "}
