@@ -67,7 +67,7 @@ function BlogImages({ props }) {
                     alt=""
                   />
                 {props.length > 1 && (
-                <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+                <div className="absolute left-0 right-0 top-1/2 flex -translate-y-1/2 transform justify-between">
                   <button onClick={prevSlide} className="btn btn-circle">
                     ❮
                   </button>

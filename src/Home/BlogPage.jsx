@@ -101,7 +101,7 @@ function BlogPage() {
   console.log("from blg",blogShow.author)
 
   const checkuser = () => {
-    if (blogShow.author == userId) {
+    if (blogShow.author._id == userId) {
       navigate(`/profile`);
     } else {
       dispatch(fetchContent(blogShow.author));

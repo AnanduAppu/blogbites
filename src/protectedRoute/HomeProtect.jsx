@@ -1,37 +1,38 @@
-import React from 'react'
-import { useContext } from 'react'
+import axios from 'axios';
+import { useContext, useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import UserContext from '../Contex/CreateContex'
+import UserContext from '../Contex/CreateContex';
 
+function HomeProtect({ element }) {
+  const { userDataFromSignup } = useContext(UserContext);
+  const [userTokenCookie, setUserTokenCookie] = useState(false);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get("http://localhost:3015/user/userAuth", { withCredentials: true });
+        if (response.data.success) {
+          setUserTokenCookie(true);
+        }
+      } catch (error) {
+        console.error('Error fetching user authentication:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUserData();
+  }, []);
 
-function HomeProtect({element}) {
-const {userDataFromSignup}=useContext(UserContext )
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-const allCookies = document.cookie;
-
-    
-    const cookiesArray = allCookies.split('; ');
-
-
-    const userTokenCookie = cookiesArray.find(cookie => cookie.startsWith('userToken='));
-
-
-    if (userDataFromSignup && userTokenCookie) {
-
-        return(
-          
-              element
-         
-        )
-        
-    }else{
-        return(
-            <Navigate to='/login' replace/>
-        )
-    }
-
-
+  if (userDataFromSignup && userTokenCookie) {
+    return element;
+  } else {
+    return <Navigate to='/login' replace />;
+  }
 }
 
-export default HomeProtect
+export default HomeProtect;

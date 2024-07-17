@@ -19,8 +19,7 @@ import store from './ReduxTool/Store';
 import BlogNavbar from "./Home/Blognav";
 import Newtrending from "./Home/Newtrending";
 import BlogPage from "./Home/BlogPage";
-import ProfileAssemble from "./Profile/ProfileAssemble";
-import { jwtDecode } from "jwt-decode";
+
 import { isEqual } from "lodash";
 import axios from "axios";
 import HomeProtect from "./protectedRoute/HomeProtect";
@@ -29,6 +28,7 @@ import LikedBlogs from "./Profile/LikedBlogs";
 import OtherUserProfile from "./Home/OtherUserProfile";
 import ChatAssemble from "./ChatBox/ChatAssemble";
 import SavedBlogs from "./Profile/SavedBlogs";
+import ProfileAssemble from "./Profile/ProfileAssemble";
 
 function App() {
   // this state controll open page templates
@@ -43,6 +43,7 @@ function App() {
   const [savedBlogs, setSavedBlogs] = useState([]);
   const [likeAction, setLikeAction] = useState(false);
   const [isVisible,setVisible]=useState(Boolean)
+  const [userTokenCookie,setUserTokenCookie]=useState(false)
   const [isCreateBlogOpen, setIsCreateBlogOpen] = useState(false);
   useEffect(() => {
     
@@ -62,7 +63,10 @@ function App() {
           axios.get("http://localhost:3015/user/userblogs", { withCredentials: true }),
           axios.get("http://localhost:3015/user/likedblog", { withCredentials: true })
         ]);
-
+        if (response1.data.successful) {
+          setUserTokenCookie(true)
+        }
+       
        
       if (!response1.data.successful || !response2.data.successful || !response3.data.success) {
         console.log(response1.data.error , response2.data.error, "error");
@@ -127,6 +131,7 @@ function App() {
     savedBlogs, setSavedBlogs,
     isVisible,setVisible,
     isCreateBlogOpen, setIsCreateBlogOpen,
+    userTokenCookie,setUserTokenCookie
    
  
   };
@@ -161,7 +166,7 @@ function App() {
             <Route path="/news" element={<Newtrending />} />
             <Route path="/blog/:blogid" element={<BlogPage />} />
             <Route path="/author/:userid" element={<OtherUserProfile />} />
-            <Route path="/profile" element={<ProfileAssemble />}>
+            <Route path="/profile" element={<ProfileAssemble/>}>
               <Route index element={<Myblogs/>} />
               <Route path="likedblogs" element={<LikedBlogs props={userDataFromSignup} />} />
               <Route path="savedblogs" element={<SavedBlogs  props={userDataFromSignup} />} />

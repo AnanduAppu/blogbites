@@ -29,7 +29,7 @@ function Loginform() {
             
         toast.success("successfully loged");
         navigate('/')
-        window.location.reload();
+       window.location.reload();
         
       }else{
         toast.error("something happened")
