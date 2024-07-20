@@ -32,6 +32,10 @@ import ProfileAssemble from "./Profile/ProfileAssemble";
 
 function App() {
   // this state controll open page templates
+  axios.defaults.baseURL='https://api.blogbites.online/';
+  axios.defaults.withCredentials = true;
+//axios.defaults.baseURL='http://localhost:3015/'
+  
   const [showSignup, setShowSignup] = useState(true);
  
   //user state which take user details from sign up page
@@ -43,30 +47,19 @@ function App() {
   const [savedBlogs, setSavedBlogs] = useState([]);
   const [likeAction, setLikeAction] = useState(false);
   const [isVisible,setVisible]=useState(Boolean)
-  const [userTokenCookie,setUserTokenCookie]=useState(false)
+
   const [isCreateBlogOpen, setIsCreateBlogOpen] = useState(false);
   useEffect(() => {
     
     const fetchData = async () => {
-      const cookieToken = document.cookie.replace(
-        /(?:(?:^|.*;\s*)userToken\s*\=\s*([^;]*).*$)|^.*$/,
-        "$1"
-      );
 
-      if (!cookieToken) {
-        
-        return;
-      }
       try {
         const [response1, response2, response3] = await Promise.all([
-          axios.get("http://localhost:3015/user/useraccess",  { withCredentials: true }),
-          axios.get("http://localhost:3015/user/userblogs", { withCredentials: true }),
-          axios.get("http://localhost:3015/user/likedblog", { withCredentials: true })
+          axios.get("user/useraccess"),
+          axios.get("user/userblogs"),
+          axios.get("user/likedblog")
         ]);
-        if (response1.data.successful) {
-          setUserTokenCookie(true)
-        }
-       
+    
        
       if (!response1.data.successful || !response2.data.successful || !response3.data.success) {
         console.log(response1.data.error , response2.data.error, "error");
@@ -131,7 +124,7 @@ function App() {
     savedBlogs, setSavedBlogs,
     isVisible,setVisible,
     isCreateBlogOpen, setIsCreateBlogOpen,
-    userTokenCookie,setUserTokenCookie
+ 
    
  
   };

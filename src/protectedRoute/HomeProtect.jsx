@@ -11,8 +11,9 @@ function HomeProtect({ element }) {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get("http://localhost:3015/user/userAuth", { withCredentials: true });
+        const response = await axios.get("user/userAuth", { withCredentials: true });
         if (response.data.success) {
+          console.log("the response",response.data)
           setUserTokenCookie(true);
         }
       } catch (error) {

@@ -140,7 +140,7 @@ const BlogNavbar = () => {
   const handleSignOut = async (e) => {
     e.preventDefault();
     try {
-      const responds = await axios.delete("http://localhost:3015/user/logout", {
+      const responds = await axios.delete("user/logout", {
         withCredentials: true,
       });
       if (responds.data.success) {
@@ -271,10 +271,15 @@ const BlogNavbar = () => {
                   alt="user photo"
                 />
               </Link>
+              <div className="dropdown dropdown-end ">
+                <div tabIndex={0} role="button" className="btn mx-2 "> <NotificationsIcon /></div>
+                <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow mt-2">
+                  <li><a>Item 1</a></li>
+                  <li><a>Item 2</a></li>
+                </ul>
+              </div>
 
-              <button className="mx-2">
-                <NotificationsIcon />
-              </button>
+         
               <button
                 className="ms-8 max-sm:ms-2 hover:text-red-500 duration-500"
                 onClick={(e) => handleSignOut(e)}

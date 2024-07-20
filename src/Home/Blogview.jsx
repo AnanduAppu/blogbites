@@ -44,7 +44,7 @@ function Blogview() {
 
   const fetchBlogs = async (pageNum) => {
     try {
-      const response = await axios.get("http://localhost:3015/user/bloglist", {
+      const response = await axios.get("user/bloglist", {
         params: { id: activeCategory, page: pageNum, limit: limit }
       });
       const value = response.data.blogs;
