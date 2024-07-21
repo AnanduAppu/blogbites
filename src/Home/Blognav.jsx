@@ -9,7 +9,7 @@ import { fetchContent } from "../ReduxTool/CreateSlice";
 import { gsap } from "gsap";
 import LogoutIcon from "@mui/icons-material/Logout";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
+import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 
 const BlogNavbar = () => {
   const navigate = useNavigate();
@@ -17,7 +17,8 @@ const BlogNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setSearchOpen] = useState(false);
   const [results, setResults] = useState([]);
-  
+  const [notifications, setNotifications] = useState([]);
+
   const { userDataFromSignup } = useContext(UserContext);
 
   const headerRef = useRef(null);
@@ -28,6 +29,25 @@ const BlogNavbar = () => {
 
   const [isSticky, setIsSticky] = useState(false);
   const animationPlayedRef = useRef(false);
+
+  useEffect(() => {
+    const fetchNotification = async () => {
+      try {
+        if (userDataFromSignup._id) {
+          const response = await axios.get(`/actvity/display_notification`, {
+            params: { id: userDataFromSignup._id },
+          });
+
+          console.log("dthi", response.data.Data);
+          setNotifications(response.data.Data);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchNotification();
+  }, [userDataFromSignup]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -79,9 +99,8 @@ const BlogNavbar = () => {
       .fromTo(
         proButtonRef.current,
         { opacity: 0 },
-        { opacity: 1, duration: 0.5, ease: "power2.inOut" },
-        
-      )
+        { opacity: 1, duration: 0.5, ease: "power2.inOut" }
+      );
   }, []);
 
   const scrollToTop = () => {
@@ -111,10 +130,9 @@ const BlogNavbar = () => {
     setSearchOpen(true);
 
     try {
-      const response = await axios.get(
-        "http://localhost:3015/user/searchFriends",
-        { params: { q: value } }
-      );
+      const response = await axios.get("user/searchFriends", {
+        params: { q: value },
+      });
       console.log(response.data.friends);
       setResults(response.data.friends);
     } catch (error) {}
@@ -165,22 +183,25 @@ const BlogNavbar = () => {
         }`}
       >
         {isSticky ? (
-          <div className="text-center font-bold cursor-pointer text-lg " onClick={scrollToTop}><KeyboardDoubleArrowUpIcon/></div>
+          <div
+            className="text-center font-bold cursor-pointer text-lg "
+            onClick={scrollToTop}
+          >
+            <KeyboardDoubleArrowUpIcon />
+          </div>
         ) : (
           <div className="w-full flex justify-between items-center py-4">
             <div className="w-[20%] flex justify-center items-center">
-              
-                <Link
-                  to="/"
-                  className="flex items-center space-x-3 rtl:space-x-reverse"
-                  ref={headerRef}
-                >
-                  <img src={logoimg} className="h-8 w-12" alt="BG Logo " />
-                  <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white max-sm:hidden">
-                    BLOG <span className="text-blue-500">BITES</span>
-                  </span>
-                </Link>
-             
+              <Link
+                to="/"
+                className="flex items-center space-x-3 rtl:space-x-reverse"
+                ref={headerRef}
+              >
+                <img src={logoimg} className="h-8 w-12" alt="BG Logo " />
+                <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white max-sm:hidden">
+                  BLOG <span className="text-blue-500">BITES</span>
+                </span>
+              </Link>
             </div>
             <div className="flex w-[75%] justify-end m-auto">
               <form
@@ -272,14 +293,49 @@ const BlogNavbar = () => {
                 />
               </Link>
               <div className="dropdown dropdown-end ">
-                <div tabIndex={0} role="button" className="btn mx-2 "> <NotificationsIcon /></div>
-                <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow mt-2">
-                  <li><a>Item 1</a></li>
-                  <li><a>Item 2</a></li>
-                </ul>
+                <div tabIndex={0} role="button" className="btn mx-2 ">
+                  {" "}
+                  <NotificationsIcon />
+                </div>
+                <div
+                  tabIndex={0}
+                  className="dropdown-content card bg-gray-300 rounded-box z-[1] w-96 p-1 shadow mt-2 h-[64vh] flex flex-col gap-2 overflow-auto scrollbar-hide "
+                >
+                  {notifications.length > 0 ? (
+                    notifications.map((notification) => (
+                      <div
+                        key={notification._id}
+                        className="relative rounded-lg border border-gray-200 shadow-lg bg-white"
+                      >
+                        <div className="flex items-center p-4">
+                          <img
+                            className="h-12 w-12 rounded-lg object-cover"
+                            src={notification.fromUser.profilePicture}
+                            alt=""
+                          />
+                          <div className="ml-3 overflow-hidden">
+                            <p className="font-medium text-gray-900">
+                              {notification.fromUser.username}{" "}
+                              {new Date(
+                                notification.createdAt
+                              ).toLocaleString()}
+                            </p>
+                            <p className="max-w-xs truncate text-sm text-gray-500">
+                              {notification.message}{" "}
+                              {!notification.isRead && (
+                                <span className="text-green-600">New</span>
+                              )}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <>loading...</>
+                  )}
+                </div>
               </div>
 
-         
               <button
                 className="ms-8 max-sm:ms-2 hover:text-red-500 duration-500"
                 onClick={(e) => handleSignOut(e)}

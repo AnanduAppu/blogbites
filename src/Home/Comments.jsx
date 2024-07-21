@@ -15,7 +15,7 @@ function Comments({ blogid }) {
     const fetchComments = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:3015/user/showComment",
+          "user/showComment",
           { blogid }
         );
         if (response.data.success) {
@@ -37,7 +37,7 @@ function Comments({ blogid }) {
 
     try {
       const response = await axios.post(
-        "http://localhost:3015/user/postcomment",
+        "actvity/postcomment",
         { userId, blogid, comment }
       );
 

@@ -12,7 +12,7 @@ export const fetchContent = createAsyncThunk(
   'content/fetchContent',
   async (userid) => {
 
-    const res = await axios('http://localhost:3015/user/anotherUserProfile', { params: { id: userid } });
+    const res = await axios('user/anotherUserProfile', { params: { id: userid } });
     const data = res.data.Data;
     return data;
   }
@@ -23,7 +23,7 @@ export const fetchAnotherBlogs = createAsyncThunk(
   'content/fetchAnotherBlogs', // Use a different action type
   async (userid) => {
     console.log("hellow blogers")
-    const res = await axios('http://localhost:3015/user/anotherUserBlogs', { params: { id: userid } });
+    const res = await axios('user/anotherUserBlogs', { params: { id: userid } });
     const data = res.data.Data;
     return data;
   }

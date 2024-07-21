@@ -33,7 +33,7 @@ function BlogPage() {
    
     const selectedBlog = async () => {
       try {
-        const response = await axios.get("http://localhost:3015/user/selectedBlog", {
+        const response = await axios.get("user/selectedBlog", {
           params: { blogId: blogid }
         });
 
@@ -58,7 +58,7 @@ function BlogPage() {
 
     const userId = userDataFromSignup._id;
     try {
-      const response = await axios.put("http://localhost:3015/user/saveBlog", {
+      const response = await axios.put("actvity/saveBlog", {
         userId,
         blogid,
       });
@@ -78,7 +78,7 @@ function BlogPage() {
     const userId = userDataFromSignup._id;
 
     try {
-      const response = await axios.put("http://localhost:3015/user/like", {
+      const response = await axios.put("actvity/like", {
         userId,
         blogid,
       });

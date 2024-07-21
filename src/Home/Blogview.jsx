@@ -8,7 +8,7 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import { useDispatch } from "react-redux";
 import { fetchContent,fetchAnotherBlogs } from "../ReduxTool/CreateSlice";
 import { gsap } from "gsap";
-
+import FollowFollowing from "./FollowFollowing";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { CircularProgress } from "@mui/material";
 
@@ -23,11 +23,11 @@ function Blogview() {
     saveAction,
    activeCategory,isVisible,
    bloglist, setBloglist,
-   setIsCreateBlogOpen 
+    
  
   } = useContext(UserContext);
 
- 
+  const [propValue, setPropValue] = useState({data:[]});
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -47,6 +47,7 @@ function Blogview() {
       const response = await axios.get("user/bloglist", {
         params: { id: activeCategory, page: pageNum, limit: limit }
       });
+      console.log(response.data.blogs)
       const value = response.data.blogs;
 
       if (pageNum === 1) {
@@ -86,7 +87,7 @@ function Blogview() {
     console.log("userid is :-", userId + " and blogid is:-", blogid);
 
     try {
-      const response = await axios.put("http://localhost:3015/user/like", {
+      const response = await axios.put("actvity/like", {
         userId,
         blogid,
       });
@@ -132,6 +133,14 @@ function Blogview() {
       );
     } 
   }, [isCreateBlogOpen]);
+
+
+  const showModal = (e,data,field) => {
+    e.preventDefault()
+    setPropValue({data,field}); // Set the parameter value
+    document.getElementById('my_modal_3').showModal(); // Show the modal
+  };
+
   return (
     <div className=" max-w-[85rem] py-10 sm:px-6 lg:px-2 lg:py-5 ">
       {/* Grid */}
@@ -212,7 +221,12 @@ function Blogview() {
                             </div>
                           </button>
                           <div className="flex gap-9 pt-7">
-                            <button onClick={(e) => likeandUnlike(e, ele._id)}>
+                          <button 
+                           className="py-2.5 px-2.5 rounded-lg text-sm font-medium bg-teal-200 text-teal-800 shadow-lg"
+                           onClick={(e) => showModal(e,ele.likes,"Liked users")}
+                          >
+                            <button onClick={(e) => {e.stopPropagation()
+                                likeandUnlike(e, ele._id)}} >
                               {ele.likes &&
                               userDataFromSignup._id &&
                               ele.likes.find(
@@ -225,6 +239,7 @@ function Blogview() {
                               {ele.likes.length}
                               
                             </button>
+                           </button>
                         
                           </div>
                         </div>
@@ -240,6 +255,7 @@ function Blogview() {
       </div>
       {/* End Grid */}
       </InfiniteScroll>
+      <FollowFollowing props={propValue} />
     </div>
   );
 }

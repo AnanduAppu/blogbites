@@ -32,9 +32,9 @@ import ProfileAssemble from "./Profile/ProfileAssemble";
 
 function App() {
   // this state controll open page templates
-  axios.defaults.baseURL='https://api.blogbites.online/';
+ // axios.defaults.baseURL='https://api.blogbites.online/';
   axios.defaults.withCredentials = true;
-//axios.defaults.baseURL='http://localhost:3015/'
+  axios.defaults.baseURL='http://localhost:3015/'
   
   const [showSignup, setShowSignup] = useState(true);
  

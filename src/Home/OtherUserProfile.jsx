@@ -38,7 +38,7 @@ useEffect(()=>{
 
     try {
       const responds = await axios.put(
-        "http://localhost:3015/user/followAndunfollow",
+        "actvity/followAndunfollow",
         { logeduserId, anotheruserId }
       );
       if (responds.data.success) {
