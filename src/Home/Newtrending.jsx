@@ -1,22 +1,27 @@
 import React, { useEffect, useState } from "react";
 
 function Newtrending() {
-    const [news, setNews] = useState([]);
+  const [news, setNews] = useState([]);
 
-    useEffect(() => {
-      fetch(
-        "https://newsapi.org/v2/everything?q=tesla&from=2024-06-22&sortBy=publishedAt&apiKey=b569e7535bfc43bc9fd029b7bc69cdc0"
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          setNews(data.articles);
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
-    }, []);
-
-
+  useEffect(() => {
+    fetch(
+      "https://newsapi.org/v2/everything?q=tesla&from=2024-06-22&sortBy=publishedAt&apiKey=b569e7535bfc43bc9fd029b7bc69cdc0",
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setNews(data.articles);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
 
   return (
     <div className="lg:px-10 ">
@@ -29,7 +34,7 @@ function Newtrending() {
 
           <div className="grid grid-cols-1 gap-8 mt-8 md:mt-16 md:grid-cols-2">
             {news.map((article, index) => (
-              <a href={article.url} key={index} className="lg:flex"  >
+              <a href={article.url} key={index} className="lg:flex">
                 <img
                   className="object-cover w-full h-56 rounded-lg lg:w-64"
                   src={article?.urlToImage}
@@ -38,12 +43,12 @@ function Newtrending() {
                 <div className="flex flex-col justify-between py-6 lg:mx-6">
                   <a
                     href="#"
-                    className="text-xl font-semibold text-gray-800 hover:underline dark:text-white "
+                    className="text-xl font-semibold text-gray-800 hover:underline dark:text-white"
                   >
                     {article?.title}
                   </a>
                   <span className="text-sm text-gray-500 dark:text-gray-300">
-                    On: {article?.publishedAt.slice(0, 7)}
+                    On: {article?.publishedAt ? article.publishedAt.slice(0, 7) : 'Unknown'}
                   </span>
                 </div>
               </a>
