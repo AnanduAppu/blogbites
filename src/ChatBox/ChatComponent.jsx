@@ -6,7 +6,7 @@ import axios from 'axios';
 import landimg from '../assets/chatlan.png';
 import gsap from 'gsap';
 
-const socket = io('http://localhost:3500', { withCredentials: true });
+const socket = io('https://api.blogbites.online', { withCredentials: true });
 
 const ChatComponent = () => {
   const info = useSelector((state) => state.infoData.info);
