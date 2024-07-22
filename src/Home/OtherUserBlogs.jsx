@@ -14,7 +14,8 @@ const OtherUserBlogs = () => {
 
   const [imageOrientations, setImageOrientations] = useState({});
 
-  let userBlogs = useSelector((state) => state.infoData.blogs);  
+  let userBlogs = useSelector((state) => state.infoData.blogs || []);
+
  
 
   useEffect(() => {
