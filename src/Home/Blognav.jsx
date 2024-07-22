@@ -331,7 +331,7 @@ const BlogNavbar = () => {
                 </div>
                 <div
                   tabIndex={0}
-                  className="dropdown-content card bg-gray-300 rounded-box z-[1] w-96 p-1 shadow mt-2 h-[64vh] flex flex-col gap-2 overflow-auto scrollbar-hide "
+                  className="dropdown-content card bg-gray-300 rounded-box z-[1] w-96 p-1 shadow mt-2 max-h-[64vh] flex flex-col gap-2 overflow-auto scrollbar-hide "
                 >
                   {notifications.length > 0 ? (
                     notifications.map((notification) => (
