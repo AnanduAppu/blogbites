@@ -59,7 +59,7 @@ function UserProfile() {
       }
 
       const backendResponse = await axios.post(
-        "http://localhost:3015/user/userimage",
+        "user/userimage",
         {
           imageUrl: data.secure_url,
           email: email,
