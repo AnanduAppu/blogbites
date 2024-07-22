@@ -11,6 +11,9 @@ function UserProfile() {
   const [isOpen, setIsOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
+  const cloudName = import.meta.env.VITE_CLOUDNARY_CLOUDNAME;
+  const apiKey = import.meta.env.VITE_CLOUDNARY_APIKEY;
+  const uploadPreset = "profileimage";
 
   const [propValue, setPropValue] = useState({data:[]});
 
