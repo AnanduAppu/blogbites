@@ -39,7 +39,7 @@ function ResetPass2() {
       try {
         if (newPassword===confirmPassword) {
         
-          const response= axios.post('http://localhost:3015/user/setnewpassword',{userEmail:resetEmail,newPassword})
+          const response= axios.post('user/setnewpassword',{userEmail:resetEmail,newPassword})
 
           if ((await response).data.success) {
             

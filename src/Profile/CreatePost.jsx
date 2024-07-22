@@ -94,7 +94,7 @@ const CreatePost = () => {
     try {
       var toastId = toast.loading("Creating post...");
       const responds = await axios.post(
-        "http://localhost:3015/user/blogcreating",
+        "user/blogcreating",
         {
           headline,
           blog,

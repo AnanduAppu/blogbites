@@ -83,7 +83,7 @@ function SignupPage() {
       try {
         console.log('Form submitted:', formData);
         const email = formData.email
-       const response = await axios.post("http://localhost:3015/user/signupOtp",
+       const response = await axios.post("user/signupOtp",
        {email},
        {withCredentials:true});
 

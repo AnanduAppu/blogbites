@@ -112,15 +112,8 @@ function AddPhoto() {
     try {
       const toastId = toast.loading("Updating image...");
 
-      const email = userDataFromSignup.email || jwtDecode(cookieToken).mail;
-
-      if(!email){
-        console.log("no mail")
-        return 
-      }
-      const backendResponse = await axios.post('http://localhost:3015/user/userimage',{
+      const backendResponse = await axios.post('/user/userimage',{
         imageUrl: ProfileImage,
-        email: email
       });
       if (!backendResponse.data.success) {
         toast.error(backendResponse.data.error, "error");

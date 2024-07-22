@@ -16,7 +16,7 @@ const FriendsListing = () => {
     const fetchFollowers = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3015/chat/Chatfriends",
+          "chat/Chatfriends",
           {
             params: { id: userDataFromSignup._id },
           }
@@ -38,7 +38,7 @@ const FriendsListing = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3015/chat/ChatRoom",
+        "chat/ChatRoom",
         {
           userid,
           anotherUserId,

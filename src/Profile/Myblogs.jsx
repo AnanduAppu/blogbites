@@ -163,7 +163,7 @@ if (imageEdit.length===6) {
     e.preventDefault();
    
     try {
-      const response = await axios.delete("http://localhost:3015/user/deleteBlog", {
+      const response = await axios.delete("user/deleteBlog", {
         data: { blogid, userId }
       });
       if (response.data.success) {

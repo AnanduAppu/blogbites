@@ -21,36 +21,24 @@ console.log(userDataFromSignup)
 
   const submitOtp = async(e)=>{
     e.preventDefault();
-    const cookieToken = document.cookie.replace(/(?:(?:^|.*;\s*)Otptoken\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+   
        
-        if (!cookieToken) {
-          toast.error("Token not found");
-          return;
-        } 
-        const otptoken = jwtDecode(cookieToken);
-
-          console.log(otptoken)
-       
-       
-        try {
-
-          if (otptoken==otp) {
-            document.cookie = `Otptoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-            const response = await axios.post("http://localhost:3015/user/usercreate",userDataFromSignup,{withCredentials:true})
-
-            if(response.data.success){
-              toast.success("profile created successful")
-              navigate('interest');
-            }else{
-              toast.error("profile not created ")
-            }
-          } else {
-            toast.error("Invalid OTP");
-          }
-          
-        } catch (error) {
-          toast.error(`the error: ${error}`)
-        }
+    try {
+      const response = await axios.post(
+        "/user/usercreate",
+        { userDataFromSignup, otp }, // Include otp in the request body
+        { withCredentials: true } // This ensures cookies are sent with the request
+      );
+  
+      if (response.data.success) {
+        toast.success("Profile created successfully");
+        navigate('interest');
+      } else {
+        toast.error("Profile not created");
+      }
+    } catch (error) {
+      toast.error(`The error: ${error.message}`); // Improved error message handling
+    }
        
   }
   return (

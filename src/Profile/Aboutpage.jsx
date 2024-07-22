@@ -30,7 +30,7 @@ function Aboutpage() {
 
   const handleSave = async (e) => {
     try {
-      const response = await axios.put("http://localhost:3015/user/edituser", {
+      const response = await axios.put("user/edituser", {
         fullName,
         username,
         birthday,

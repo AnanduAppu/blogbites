@@ -71,38 +71,18 @@ function Interests() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const Useremail = userDataFromSignup.email
-   
-    
-    const cookieToken = document.cookie.replace(/(?:(?:^|.*;\s*)emailToken\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-       
-    if (!cookieToken) {
-      toast.error("Token not found");
-      return;
-    }
-  
-
-    console.log(cookieToken)
-    const otpEmail = jwtDecode(cookieToken);
-    console.log(otpEmail.mail)
-    
-    const email = Useremail?Useremail:otpEmail.mail
     try {
    
-  
-
       const response = await axios.post(
-        "http://localhost:3015/user/userinterst",
+        "/user/userinterst",
         {
           selectedInterests,
-          email,
         }
       );
      
       if(response.data.success){
        
-        toast.success("successfull")
-        //navigate("/Login");
+        toast.success("successfull");
         navigate('addpics');
       };
       

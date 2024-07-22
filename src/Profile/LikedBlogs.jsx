@@ -20,7 +20,7 @@ function LikedBlogs() {
     console.log("userid is :-", userId + " and blogid is:-", blogid);
 
     try {
-      const response = await axios.put("http://localhost:3015/user/like", {
+      const response = await axios.put("user/like", {
         userId,
         blogid,
       });

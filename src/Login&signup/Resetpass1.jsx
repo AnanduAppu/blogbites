@@ -18,7 +18,7 @@ function Resetpass1() {
     try {
       console.log(email,'we are in handle email function')
       
-      const response = await axios.post("http://localhost:3015/user/varifyemail", {email},
+      const response = await axios.post("user/varifyemail", {email},
       {withCredentials:true});
       
       if (response.data.success) {

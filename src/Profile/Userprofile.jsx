@@ -108,7 +108,7 @@ function UserProfile() {
       }
 
       const backendResponse = await axios.put(
-        "http://localhost:3015/user//updateWalimg",
+        "user/updateWalimg",
         {
           imageUrl: data.secure_url,
           email: email,

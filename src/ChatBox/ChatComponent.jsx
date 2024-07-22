@@ -6,7 +6,7 @@ import axios from 'axios';
 import landimg from '../assets/chatlan.png';
 import gsap from 'gsap';
 
-const socket = io('http://localhost:3000', { withCredentials: true });
+const socket = io('http://localhost:3500', { withCredentials: true });
 
 const ChatComponent = () => {
   const info = useSelector((state) => state.infoData.info);
@@ -64,7 +64,7 @@ const ChatComponent = () => {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const response = await axios.get('http://localhost:3015/chat/showAllMessages', {
+        const response = await axios.get('chat/showAllMessages', {
           withCredentials: true,
         });
         setMessages(response.data.messages);
@@ -94,7 +94,7 @@ const ChatComponent = () => {
     e.preventDefault();
     try {
       await axios.post(
-        'http://localhost:3015/chat/sendMessage',
+        'chat/sendMessage',
         {
           senderId: userDataFromSignup._id,
           messageText,

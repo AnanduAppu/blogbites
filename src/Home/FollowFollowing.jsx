@@ -65,11 +65,6 @@ function FollowFollowing({ props }) {
                 </p>
               </a>
             ))}
-           
-
-
-
-
 
 
         </div>

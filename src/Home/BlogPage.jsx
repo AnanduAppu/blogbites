@@ -10,6 +10,7 @@ import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import axios from "axios";
 import BlogImages from "./BlogImages";
+import FollowFollowing from "./FollowFollowing";
 
 function BlogPage() {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ function BlogPage() {
   } = useContext(UserContext);
   const navigate = useNavigate();
   const [blogShow,setBlogshow]=useState()
+  const [propValue, setPropValue] = useState({data:[]});
  
   useEffect(() => {
     if (!blogid) {
@@ -48,7 +50,7 @@ function BlogPage() {
     };
     selectedBlog();
 
-  }, [likeAction,saveAction]);
+  }, [likeAction,saveAction,blogid]);
 
   
 
@@ -108,6 +110,15 @@ function BlogPage() {
       navigate(`/author/${blogShow.author._id}`);
     }
   };
+
+
+
+  const showModal = (e,data,field) => {
+    e.preventDefault()
+    setPropValue({data,field}); // Set the parameter value
+    document.getElementById('my_modal_3').showModal(); // Show the modal
+  };
+
   return (
     <>
       <div className=" lg:px-40 md:px-20 max-md:px-10 max-sm:px-10">
@@ -119,7 +130,12 @@ function BlogPage() {
                   {blogShow?.title}
                 </h2>
                 <div className="flex items-center gap-4">
-                  <button onClick={(e) => likeandUnlike(e, blogShow._id)}>
+                <button 
+                           className="py-2.5 px-2.5 rounded-lg text-sm font-medium bg-teal-200 text-teal-800 shadow-lg"
+                           onClick={(e) => showModal(e,blogShow.likes,"Liked users")}
+                          >
+                  <button onClick={(e) =>{ e.stopPropagation() 
+                    likeandUnlike(e, blogShow._id)}}>
                     {blogShow.likes &&
                     userDataFromSignup._id &&
                     blogShow.likes.find(
@@ -135,6 +151,7 @@ function BlogPage() {
                     )}{" "}
                     {blogShow.likes.length}
                   </button>
+                </button>
                   <button onClick={(e) => saveAndUnsave(e, blogShow._id)}>
                     {userDataFromSignup._id &&
                     userDataFromSignup.saved_blogs.find(
@@ -208,8 +225,10 @@ function BlogPage() {
             </div>
           </div>
         </main>
+     
         <Comments blogid={blogid} />
       </div>
+      <FollowFollowing props={propValue} />
     </>
   );
 }

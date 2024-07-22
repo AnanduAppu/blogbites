@@ -7,9 +7,12 @@ import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { fetchContent } from "../ReduxTool/CreateSlice";
 import { gsap } from "gsap";
+
 import LogoutIcon from "@mui/icons-material/Logout";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
+
+
 
 const BlogNavbar = () => {
   const navigate = useNavigate();
@@ -18,7 +21,8 @@ const BlogNavbar = () => {
   const [isSearchOpen, setSearchOpen] = useState(false);
   const [results, setResults] = useState([]);
   const [notifications, setNotifications] = useState([]);
-
+  const [notiSeen,setnotiSeen]=useState()
+  const [notiCount,setNotiCount]=useState(Number)
   const { userDataFromSignup } = useContext(UserContext);
 
   const headerRef = useRef(null);
@@ -38,8 +42,9 @@ const BlogNavbar = () => {
             params: { id: userDataFromSignup._id },
           });
 
-          console.log("dthi", response.data.Data);
           setNotifications(response.data.Data);
+          const countUnread = response.data.Data.filter(notification => !notification.isRead).length;
+          setNotiCount(countUnread)
         }
       } catch (err) {
         console.error(err);
@@ -47,7 +52,7 @@ const BlogNavbar = () => {
     };
 
     fetchNotification();
-  }, [userDataFromSignup]);
+  }, [userDataFromSignup,notiSeen]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -147,6 +152,30 @@ const BlogNavbar = () => {
     }
   };
 
+
+
+  const notificationSeen = async (e,notificationId,blog) => {
+    e.preventDefault();
+
+
+    
+    try {
+      navigate(`/blog/${blog._id}`)
+      const response = await axios.post('/actvity/notificationSeen', {
+        userId: userDataFromSignup._id,
+        notificationId: notificationId
+      });
+
+      if (response.data.success) {
+        setnotiSeen(response.data.message); // Update state or display success message
+       
+      }
+    } catch (error) {
+      console.error('Error marking notifications as seen:', error);
+    
+    }
+  };
+
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
 
@@ -171,6 +200,9 @@ const BlogNavbar = () => {
       console.log("the error is", error);
     }
   };
+
+
+
 
   return (
     <>
@@ -293,9 +325,9 @@ const BlogNavbar = () => {
                 />
               </Link>
               <div className="dropdown dropdown-end ">
-                <div tabIndex={0} role="button" className="btn mx-2 ">
-                  {" "}
-                  <NotificationsIcon />
+                <div tabIndex={0} role="button" className="btn mx-2 border border-gray-300 ">
+                 
+                  <NotificationsIcon /> {notiCount>0?<span className="text-red-400 font-bold">{notiCount}</span>:''}
                 </div>
                 <div
                   tabIndex={0}
@@ -305,7 +337,8 @@ const BlogNavbar = () => {
                     notifications.map((notification) => (
                       <div
                         key={notification._id}
-                        className="relative rounded-lg border border-gray-200 shadow-lg bg-white"
+                        onClick={(e)=>notificationSeen(e,notification._id,notification.blog)}
+                        className="relative rounded-lg border border-gray-200 shadow-lg bg-white cursor-pointer"
                       >
                         <div className="flex items-center p-4">
                           <img

@@ -17,7 +17,7 @@ function SavedBlogs() {
 
     const userId = userDataFromSignup._id;
     try {
-      const response = await axios.put("http://localhost:3015/user/saveBlog", {
+      const response = await axios.put("user/saveBlog", {
         userId,
         blogid,
       });
