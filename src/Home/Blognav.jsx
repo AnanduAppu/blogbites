@@ -374,7 +374,7 @@ if(notification.type==="follow"){
                       </div>
                     ))
                   ) : (
-                    <>loading...</>
+                    ''
                   )}
                 </div>
               </div>
