@@ -121,6 +121,7 @@ width="500px"
         if (res.data.success) {
           toast.success("login successfull")
           navigate("/");
+          window.location.reload();
         } else {
           toast.error("no account exist")
           navigate("/open");
