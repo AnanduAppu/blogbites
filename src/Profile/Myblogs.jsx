@@ -8,7 +8,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 import Visibility from "@mui/icons-material/Visibility";
-import { VisibilityOff } from "@mui/icons-material";
+import { KeyboardDoubleArrowLeftOutlined, KeyboardDoubleArrowRightOutlined, VisibilityOff } from "@mui/icons-material";
 
 function Myblogs() {
   const { userDataFromSignup, myBlogs, editAction, setEditAction,isVisible,setVisible } =useContext(UserContext);
@@ -437,21 +437,22 @@ try {
                ></textarea>
         )}
             </div>
-            <div className="flex justify-end">
+            <div className="flex space-x-2">
             {currentTextPage > 1 && (
                   <button
                     onClick={() => setCurrentTextPage((prevPage) => prevPage - 1)}
-                    className="ring-offset-background focus-visible:ring-ring hover:bg-primary/90 inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-purple-500 px-4 py-2 text-sm font-medium text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 mr-2"
+                    className=" mr-2 hover:text-purple-600"
                   >
-                    Previous
+                    <KeyboardDoubleArrowLeftOutlined/> Previous Para 
                   </button>
                 )}
                 {currentTextPage < 3 && (
                   <button
                     onClick={() => setCurrentTextPage((prevPage) => prevPage + 1)}
-                    className="ring-offset-background focus-visible:ring-ring hover:bg-primary/90 inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-purple-500 px-4 py-2 text-sm font-medium text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+                    className="hover:text-purple-600"
                   >
-                    Next
+                    Next Para <KeyboardDoubleArrowRightOutlined/>
+
                   </button>
                 )}
               <button
