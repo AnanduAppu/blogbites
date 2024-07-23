@@ -8,7 +8,7 @@ function BlogRightSidebar() {
 
   useEffect(() => {
     fetch(
-      "https://newsapi.org/v2/everything?q=tesla&from=2024-06-22&sortBy=publishedAt&apiKey=b569e7535bfc43bc9fd029b7bc69cdc0"
+    "https://newsapi.org/v2/everything?q=tesla&from=2024-06-23&sortBy=publishedAt&apiKey=b569e7535bfc43bc9fd029b7bc69cdc0"
     )
       .then((response) => response.json())
       .then((data) => {
