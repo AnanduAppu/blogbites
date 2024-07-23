@@ -11,5 +11,8 @@ export default {
     require('daisyui'),
     require('tailwind-scrollbar-hide'),
   ],
+  daisyui: {
+    themes: ["light", "dark", "cupcake"], // You can add custom themes here
+  },
 }
 
