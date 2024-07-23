@@ -218,7 +218,7 @@ if(notification.type==="follow"){
     <>
       <nav
         ref={navRef}
-        className={`bg-gray-200 border border-gray-300 relative w-full dark:bg-gray-900 ${
+        className={`bg-gray-200 border border-gray-300 relative w-full  ${
           isSticky
             ? "sticky top-0 bg-gray-600 bg-opacity-30 backdrop-blur-md h-5"
             : ""

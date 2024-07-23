@@ -18,13 +18,13 @@ function OpenNavbar() {
     navigate('contact')
   }
   return (
-    <nav className="bg-white border-gray-200 dark:bg-gray-900">
+    <nav className="bg-white border-gray-200 ">
     <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-      <a href="https://flowbite.com/" className="flex items-center space-x-3 rtl:space-x-reverse">
+      
         <img src={imagelogo} className="w-32 " alt="Flowbite Logo" />
         <span class="self-center text-3x1 font-bold whitespace-nowrap dark:text-white">BLOG <span className='text-blue-700'>BITES</span> </span>
        
-      </a>
+  
       <button
         data-collapse-toggle="navbar-default"
         type="button"
