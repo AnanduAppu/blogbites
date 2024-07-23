@@ -138,7 +138,7 @@ const BlogNavbar = () => {
       const response = await axios.get("user/searchFriends", {
         params: { q: value },
       });
-      console.log(response.data.friends);
+      
       setResults(response.data.friends);
     } catch (error) {}
   };
@@ -154,13 +154,18 @@ const BlogNavbar = () => {
 
 
 
-  const notificationSeen = async (e,notificationId,blog) => {
+  const notificationSeen = async (e,notificationId,notification) => {
     e.preventDefault();
 
-
+if(notification.type==="follow"){
+  dispatch(fetchContent(notification.fromUser._id));
+  navigate(`/author/${notification.fromUser._id}`);
+}else{
+  navigate(`/blog/${notification.blog._id}`)
+}
     
     try {
-      navigate(`/blog/${blog._id}`)
+      
       const response = await axios.post('/actvity/notificationSeen', {
         userId: userDataFromSignup._id,
         notificationId: notificationId
@@ -183,6 +188,11 @@ const BlogNavbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isMenuOpen]);
+
+
+
+
+
 
   const handleSignOut = async (e) => {
     e.preventDefault();
@@ -337,7 +347,7 @@ const BlogNavbar = () => {
                     notifications.map((notification) => (
                       <div
                         key={notification._id}
-                        onClick={(e)=>notificationSeen(e,notification._id,notification.blog)}
+                        onClick={(e)=>notificationSeen(e,notification._id,notification)}
                         className="relative rounded-lg border border-gray-200 shadow-lg bg-white cursor-pointer"
                       >
                         <div className="flex items-center p-4">
