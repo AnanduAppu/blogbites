@@ -128,7 +128,7 @@ if (imageEdit.length===6) {
     try {
       console.log(headingEdit);
   
-      const response = await axios.put("http://localhost:3015/user/editBlog", {
+      const response = await axios.put("user/editBlog", {
         imageEdit,
         headingEdit,
         descriptionEdit,
@@ -189,7 +189,7 @@ const pubicOrPrivate = async(e,blogid,isPublic)=>{
   e.preventDefault();
 
 try {
-  const response = await axios.post("http://localhost:3015/user/publicOrPrivate", {
+  const response = await axios.post("user/publicOrPrivate", {
     userId,
     blogid,
     isPublic

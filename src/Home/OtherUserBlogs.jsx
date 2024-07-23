@@ -10,7 +10,7 @@ const OtherUserBlogs = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchAnotherBlogs(userid));
-  }, []);
+  }, [userid]);
 
   const [imageOrientations, setImageOrientations] = useState({});
 
