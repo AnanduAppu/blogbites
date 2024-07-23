@@ -23,10 +23,10 @@ function AddPhoto() {
     const fetchDefaultImg = async()=>{
   
       try {
-        const response = await axios.get("http://localhost:3015/user/defaultimg")
+        const response = await axios.get("user/defaultimg")
         console.log("hellow")
         if (response.data.success) {
-       console.log(response.data.Data.images)
+      
           const imagesfiles= response.data.Data.images
           const randomIndex = Math.floor(Math.random() * imagesfiles.length);
           setProfileImage(imagesfiles[randomIndex])
