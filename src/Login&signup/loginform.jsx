@@ -100,40 +100,39 @@ function Loginform() {
         </form>
 
         <hr className="my-6 border-gray-300 w-full" />
-      <div className="lg:w-[45%] max-sm:w-[30%]">
+        <div className="w-full lg:w-[45%] sm:w-[60%] max-sm:w-[90%] mx-auto">
       <GoogleLogin
-          
-          onSuccess={(credentialResponse) => {
-            var value = jwtDecode(credentialResponse.credential);
-            console.log(value);
-            const Enteredemail = value.email;
-            console.log(Enteredemail);
+        onSuccess={(credentialResponse) => {
+          var value = jwtDecode(credentialResponse.credential);
+          console.log(value);
+          const Enteredemail = value.email;
+          console.log(Enteredemail);
 
-            axios
-              .post(
-                "user/authlogin",
-                { Enteredemail },
-                { withCredentials: true }
-              )
-              .then((res) => {
-                if (res.data.success) {
-                  toast.success("login successfull");
-                  navigate("/");
-                  window.location.reload();
-                } else {
-                  toast.error("no account exist");
-                  navigate("/open");
-                }
-              })
-              .catch((err) => {
-                alert(err);
-              });
-          }}
-          onError={() => {
-            console.log("Login Failed");
-          }}
-        />
-      </div>
+          axios
+            .post(
+              "user/authlogin",
+              { Enteredemail },
+              { withCredentials: true }
+            )
+            .then((res) => {
+              if (res.data.success) {
+                toast.success("login successful");
+                navigate("/");
+                window.location.reload();
+              } else {
+                toast.error("no account exists");
+                navigate("/open");
+              }
+            })
+            .catch((err) => {
+              alert(err);
+            });
+        }}
+        onError={() => {
+          console.log("Login Failed");
+        }}
+      />
+    </div>
         
 
         <p className="mt-8">
