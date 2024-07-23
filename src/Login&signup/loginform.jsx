@@ -116,7 +116,7 @@ width="500px"
     const Enteredemail=value.email
     console.log(Enteredemail)
    
-    axios.post("http://localhost:3015/user/authlogin",{Enteredemail},{withCredentials:true})
+    axios.post("user/authlogin",{Enteredemail},{withCredentials:true})
       .then((res) => {
         if (res.data.success) {
           toast.success("login successfull")
