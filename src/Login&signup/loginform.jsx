@@ -120,6 +120,7 @@ width="500px"
       .then((res) => {
         if (res.data.success) {
           toast.success("login successfull")
+          navigate("/");
         } else {
           toast.error("no account exist")
           navigate("/open");
