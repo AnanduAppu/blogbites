@@ -16,22 +16,28 @@ function ResetPass2() {
     const [confirmPassword, setConfirmPassword] = useState("");
   
  
-    const handleOtpVerification = (e) => {
+    const handleOtpVerification = async (e) => {
       e.preventDefault();
-      const cookieToken = document.cookie.replace(/(?:(?:^|.*;\s*)OtpPass\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-       
-      if (!cookieToken) {
-        toast.error("Token not found");
-        return;
-      }
-      const otptoken = jwtDecode(cookieToken);
+  
+
+      try {
+        const response = await axios.post('user/passotpverify', {otpinput});
+
+        if (response.data.success) {
+          toast.success(response.data.message);
      
-        if (otptoken==otpinput) {
-          document.cookie = `OtpPass=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;e
-            setOtpVerified(true);
+          setOtpVerified(true);
+        
         }else{
-          toast.error("invalid otp")
+          toast.error(response.data.message);
         }
+          
+
+      } catch (error) {
+        console.error("Error verifying OTP:", error);
+        toast.error("Failed to verify OTP. Please try again.");
+      }
+
     };
   
     const handlePasswordReset =async (e) => {
