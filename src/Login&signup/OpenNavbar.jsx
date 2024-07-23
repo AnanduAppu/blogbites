@@ -28,7 +28,7 @@ function OpenNavbar() {
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <span className="flex items-center space-x-3 rtl:space-x-reverse">
           <img src={imagelogo} className="w-32" alt="Flowbite Logo" />
-          <span className="self-center text-3xl font-bold whitespace-nowrap dark:text-white">
+          <span className="self-center text-3xl font-bold whitespace-nowrap text-black">
             BLOG <span className="text-blue-700">BITES</span>
           </span>
         </span>
@@ -50,14 +50,14 @@ function OpenNavbar() {
               <Link to="/open" className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Home</Link>
             </li>
             <li>
-              <a  className="block py-2 px-3 text-gray-900 rounded  md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white cursor-pointer  "
+              <a  className="block py-2 px-3 text-gray-900 rounded  hover:text-blue-700 md:p-0  md:dark:hover:text-blue-500 dark:hover:bg-gray-700 e cursor-pointer  "
                 onClick={handleAboutpage}
               >
                 About
               </a>
             </li>
             <li>
-              <a  className="block py-2 px-3 text-gray-900 rounded  md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white cursor-pointer"
+              <a  className="block py-2 px-3 text-gray-900 rounded  hover:text-blue-700 md:p-0  md:dark:hover:text-blue-500 dark:hover:bg-gray-700  cursor-pointer"
                 onClick={handleContactpage}
               >
                 Contact
