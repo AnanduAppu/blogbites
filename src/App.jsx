@@ -47,6 +47,7 @@ function App() {
   const [savedBlogs, setSavedBlogs] = useState([]);
   const [likeAction, setLikeAction] = useState(false);
   const [isVisible,setVisible]=useState(Boolean)
+const [imgProfile,setImgProfile]=useState(Boolean);
 
   const [isCreateBlogOpen, setIsCreateBlogOpen] = useState(false);
   useEffect(() => {
@@ -84,7 +85,7 @@ function App() {
     };
     fetchData();
    
-  }, [userDataFromSignup,myBlogs,saveAction,editAction,likeAction,isVisible]);
+  }, [userDataFromSignup,myBlogs,saveAction,editAction,likeAction,isVisible,imgProfile]);
 
   //it takes email from resetpass1 page and send to resetpass2 page
   const [resetEmail, setResetemail] = useState("");
@@ -124,6 +125,7 @@ function App() {
     savedBlogs, setSavedBlogs,
     isVisible,setVisible,
     isCreateBlogOpen, setIsCreateBlogOpen,
+    imgProfile,setImgProfile
  
    
  

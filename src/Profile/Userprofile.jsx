@@ -7,7 +7,7 @@ import FollowFollowing from "../Home/FollowFollowing";
 import CreatePost from "./CreatePost";
 
 function UserProfile() {
-  const { userDataFromSignup,isCreateBlogOpen, setIsCreateBlogOpen } = useContext(UserContext);
+  const { userDataFromSignup,isCreateBlogOpen, setIsCreateBlogOpen, imgProfile,setImgProfile } = useContext(UserContext);
   const [isOpen, setIsOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -70,7 +70,7 @@ function UserProfile() {
         toast.error(backendResponse.data.error, "error");
         return;
       }
-
+      setImgProfile(true)
       toast.success("Success", { id: toastId });
     } catch (error) {
       console.log("we get an error", error);
@@ -122,7 +122,7 @@ function UserProfile() {
         toast.error(backendResponse.data.error, "error");
         return;
       }
-
+      setImgProfile(true)
       toast.success("Success", { id: toastId });
     } catch (error) {
       console.log("we get an error", error);

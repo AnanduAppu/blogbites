@@ -6,7 +6,7 @@ import { gsap } from "gsap";
 import { KeyboardDoubleArrowLeftOutlined, KeyboardDoubleArrowRightOutlined } from "@mui/icons-material";
 
 const CreatePost = () => {
-  const { userDataFromSignup, isCreateBlogOpen } = useContext(UserContext);
+  const { userDataFromSignup, isCreateBlogOpen ,setVisible} = useContext(UserContext);
   const [headline, setHeadline] = useState("");
   const [blog, setBlog] = useState("");
   const [photo, setPhoto] = useState([]);
@@ -107,7 +107,7 @@ const CreatePost = () => {
       );
 
       if (responds.data.success) {
-        console.log(responds.data.data);
+        setVisible(true)
         toast.success("Blog created", { id: toastId });
 
         // Clear inputs after successful submission
