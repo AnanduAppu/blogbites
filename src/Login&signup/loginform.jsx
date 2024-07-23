@@ -102,6 +102,7 @@ function Loginform() {
         <hr className="my-6 border-gray-300 w-full" />
         <div className="w-full lg:w-[45%] sm:w-[60%] max-sm:w-[90%] mx-auto">
       <GoogleLogin
+      width='400px'
         onSuccess={(credentialResponse) => {
           var value = jwtDecode(credentialResponse.credential);
           console.log(value);
