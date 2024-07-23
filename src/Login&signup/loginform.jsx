@@ -100,7 +100,7 @@ function Loginform() {
         </form>
 
         <hr className="my-6 border-gray-300 w-full" />
-      <div className="w-[45%] max-sm:w-[37%]">
+      <div className="w-[45%] sm:w-[37%]">
       <GoogleLogin
           width="500px"
           onSuccess={(credentialResponse) => {
